@@ -356,6 +356,9 @@ export namespace qbychat {
 
                 /** ClientHandshake aesKeyLength */
                 aesKeyLength?: (number|null);
+
+                /** ClientHandshake aesKeyInfo */
+                aesKeyInfo?: (Uint8Array|null);
             }
 
             /** Represents a ClientHandshake. */
@@ -378,6 +381,9 @@ export namespace qbychat {
 
                 /** ClientHandshake aesKeyLength. */
                 public aesKeyLength?: (number|null);
+
+                /** ClientHandshake aesKeyInfo. */
+                public aesKeyInfo?: (Uint8Array|null);
 
                 /**
                  * Creates a new ClientHandshake instance using the specified properties.
@@ -560,6 +566,9 @@ export namespace qbychat {
                 /** ClientInfo name */
                 name?: (string|null);
 
+                /** ClientInfo platform */
+                platform?: (qbychat.websocket.protocol.Platform|null);
+
                 /** ClientInfo version */
                 version?: (string|null);
             }
@@ -575,6 +584,9 @@ export namespace qbychat {
 
                 /** ClientInfo name. */
                 public name: string;
+
+                /** ClientInfo platform. */
+                public platform: qbychat.websocket.protocol.Platform;
 
                 /** ClientInfo version. */
                 public version: string;
@@ -655,6 +667,16 @@ export namespace qbychat {
                  * @returns The default type url
                  */
                 public static getTypeUrl(typeUrlPrefix?: string): string;
+            }
+
+            /** Platform enum. */
+            enum Platform {
+                LINUX = 0,
+                WINDOWS = 1,
+                OSX = 2,
+                ANDROID = 3,
+                IOS = 4,
+                UNKNOWN = 5
             }
 
             /** Properties of a Request. */
@@ -770,6 +792,223 @@ export namespace qbychat {
                  * @returns The default type url
                  */
                 public static getTypeUrl(typeUrlPrefix?: string): string;
+            }
+        }
+
+        /** Namespace user. */
+        namespace user {
+
+            /** Properties of a RegisterRequest. */
+            interface IRegisterRequest {
+
+                /** RegisterRequest username */
+                username?: (string|null);
+
+                /** RegisterRequest password */
+                password?: (string|null);
+            }
+
+            /** Represents a RegisterRequest. */
+            class RegisterRequest implements IRegisterRequest {
+
+                /**
+                 * Constructs a new RegisterRequest.
+                 * @param [properties] Properties to set
+                 */
+                constructor(properties?: qbychat.websocket.user.IRegisterRequest);
+
+                /** RegisterRequest username. */
+                public username: string;
+
+                /** RegisterRequest password. */
+                public password: string;
+
+                /**
+                 * Creates a new RegisterRequest instance using the specified properties.
+                 * @param [properties] Properties to set
+                 * @returns RegisterRequest instance
+                 */
+                public static create(properties?: qbychat.websocket.user.IRegisterRequest): qbychat.websocket.user.RegisterRequest;
+
+                /**
+                 * Encodes the specified RegisterRequest message. Does not implicitly {@link qbychat.websocket.user.RegisterRequest.verify|verify} messages.
+                 * @param message RegisterRequest message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encode(message: qbychat.websocket.user.IRegisterRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Encodes the specified RegisterRequest message, length delimited. Does not implicitly {@link qbychat.websocket.user.RegisterRequest.verify|verify} messages.
+                 * @param message RegisterRequest message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encodeDelimited(message: qbychat.websocket.user.IRegisterRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Decodes a RegisterRequest message from the specified reader or buffer.
+                 * @param reader Reader or buffer to decode from
+                 * @param [length] Message length if known beforehand
+                 * @returns RegisterRequest
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): qbychat.websocket.user.RegisterRequest;
+
+                /**
+                 * Decodes a RegisterRequest message from the specified reader or buffer, length delimited.
+                 * @param reader Reader or buffer to decode from
+                 * @returns RegisterRequest
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): qbychat.websocket.user.RegisterRequest;
+
+                /**
+                 * Verifies a RegisterRequest message.
+                 * @param message Plain object to verify
+                 * @returns `null` if valid, otherwise the reason why it is not
+                 */
+                public static verify(message: { [k: string]: any }): (string|null);
+
+                /**
+                 * Creates a RegisterRequest message from a plain object. Also converts values to their respective internal types.
+                 * @param object Plain object
+                 * @returns RegisterRequest
+                 */
+                public static fromObject(object: { [k: string]: any }): qbychat.websocket.user.RegisterRequest;
+
+                /**
+                 * Creates a plain object from a RegisterRequest message. Also converts values to other types if specified.
+                 * @param message RegisterRequest
+                 * @param [options] Conversion options
+                 * @returns Plain object
+                 */
+                public static toObject(message: qbychat.websocket.user.RegisterRequest, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                /**
+                 * Converts this RegisterRequest to JSON.
+                 * @returns JSON object
+                 */
+                public toJSON(): { [k: string]: any };
+
+                /**
+                 * Gets the default type url for RegisterRequest
+                 * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns The default type url
+                 */
+                public static getTypeUrl(typeUrlPrefix?: string): string;
+            }
+
+            /** Properties of a RegisterResponse. */
+            interface IRegisterResponse {
+
+                /** RegisterResponse status */
+                status?: (qbychat.websocket.user.RegisterStatus|null);
+
+                /** RegisterResponse message */
+                message?: (string|null);
+            }
+
+            /** Represents a RegisterResponse. */
+            class RegisterResponse implements IRegisterResponse {
+
+                /**
+                 * Constructs a new RegisterResponse.
+                 * @param [properties] Properties to set
+                 */
+                constructor(properties?: qbychat.websocket.user.IRegisterResponse);
+
+                /** RegisterResponse status. */
+                public status: qbychat.websocket.user.RegisterStatus;
+
+                /** RegisterResponse message. */
+                public message?: (string|null);
+
+                /**
+                 * Creates a new RegisterResponse instance using the specified properties.
+                 * @param [properties] Properties to set
+                 * @returns RegisterResponse instance
+                 */
+                public static create(properties?: qbychat.websocket.user.IRegisterResponse): qbychat.websocket.user.RegisterResponse;
+
+                /**
+                 * Encodes the specified RegisterResponse message. Does not implicitly {@link qbychat.websocket.user.RegisterResponse.verify|verify} messages.
+                 * @param message RegisterResponse message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encode(message: qbychat.websocket.user.IRegisterResponse, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Encodes the specified RegisterResponse message, length delimited. Does not implicitly {@link qbychat.websocket.user.RegisterResponse.verify|verify} messages.
+                 * @param message RegisterResponse message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encodeDelimited(message: qbychat.websocket.user.IRegisterResponse, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Decodes a RegisterResponse message from the specified reader or buffer.
+                 * @param reader Reader or buffer to decode from
+                 * @param [length] Message length if known beforehand
+                 * @returns RegisterResponse
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): qbychat.websocket.user.RegisterResponse;
+
+                /**
+                 * Decodes a RegisterResponse message from the specified reader or buffer, length delimited.
+                 * @param reader Reader or buffer to decode from
+                 * @returns RegisterResponse
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): qbychat.websocket.user.RegisterResponse;
+
+                /**
+                 * Verifies a RegisterResponse message.
+                 * @param message Plain object to verify
+                 * @returns `null` if valid, otherwise the reason why it is not
+                 */
+                public static verify(message: { [k: string]: any }): (string|null);
+
+                /**
+                 * Creates a RegisterResponse message from a plain object. Also converts values to their respective internal types.
+                 * @param object Plain object
+                 * @returns RegisterResponse
+                 */
+                public static fromObject(object: { [k: string]: any }): qbychat.websocket.user.RegisterResponse;
+
+                /**
+                 * Creates a plain object from a RegisterResponse message. Also converts values to other types if specified.
+                 * @param message RegisterResponse
+                 * @param [options] Conversion options
+                 * @returns Plain object
+                 */
+                public static toObject(message: qbychat.websocket.user.RegisterResponse, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                /**
+                 * Converts this RegisterResponse to JSON.
+                 * @returns JSON object
+                 */
+                public toJSON(): { [k: string]: any };
+
+                /**
+                 * Gets the default type url for RegisterResponse
+                 * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns The default type url
+                 */
+                public static getTypeUrl(typeUrlPrefix?: string): string;
+            }
+
+            /** RegisterStatus enum. */
+            enum RegisterStatus {
+                SUCCESS = 0,
+                USERNAME_EXISTS = 1,
+                BAD_USERNAME = 2
             }
         }
     }

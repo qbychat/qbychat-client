@@ -1,4 +1,5 @@
 import {useEffect, useState} from 'react';
+import {v4 as uuidv4} from 'uuid';
 import axios from 'axios';
 import {qbychat} from '../proto/proto';
 import {
@@ -12,6 +13,10 @@ import {
     getECDHPublicKeyFromBytes,
     hkdfSha256
 } from "../utils/crypto-utils.ts";
+import ClientboundMessage = qbychat.websocket.protocol.ClientboundMessage;
+import ServerboundMessage = qbychat.websocket.protocol.ServerboundMessage;
+import Request = qbychat.websocket.protocol.Request;
+import protocol = qbychat.websocket.protocol;
 
 interface QbyChatConfig {
     websocketPath: string;
@@ -28,11 +33,15 @@ class ConnectionManager {
     private url: string = '';
     private ecdhKeyPair: CryptoKeyPair | null = null;
     private ecdhSalt: Uint8Array | null = null;
+    private aesKeyInfo: Uint8Array = new TextEncoder().encode("QBYCHATAES")
     private aesKeyLength: number = 32;
     private aesKey: CryptoKey | null = null;
     private reconnectAttempts: number = 0;
     private reconnectDelay: number = 3000;
     private reconnectTimer: NodeJS.Timeout | null = null;
+    private messageQueue: Uint8Array[] = [];
+
+    private responseHandlers: Map<string, (response: protocol.IResponse) => void> = new Map();
 
     constructor() {
     }
@@ -44,7 +53,7 @@ class ConnectionManager {
     async receiveConfigAndConnect(baseUrl: string) {
         // request the config endpoint
         try {
-            const response = await axios.get<QbyChatConfig>(`${baseUrl}/.well-known/qbychat-config`);
+            const response = await axios.get<QbyChatConfig>(`${baseUrl}/.well-known/qbychat/conn-config`);
             const websocketUrl = baseUrl + response.data.websocketPath
             console.log("Connecting to " + websocketUrl);
             this.connect(websocketUrl);
@@ -88,7 +97,7 @@ class ConnectionManager {
             } else {
                 console.log("Received message (unencrypted)");
             }
-            const message = qbychat.websocket.protocol.ClientboundMessage.decode(uint8Array);
+            const message = ClientboundMessage.decode(uint8Array);
             await this.process(message);
         }
 
@@ -118,7 +127,8 @@ class ConnectionManager {
             }),
             publicKey: await exportPublicKey(this.ecdhKeyPair.publicKey),
             aesKeySalt: this.ecdhSalt,
-            aesKeyLength: this.aesKeyLength
+            aesKeyLength: this.aesKeyLength,
+            aesKeyInfo: this.aesKeyInfo
         })
         const message = qbychat.websocket.protocol.ServerboundMessage.create({
             clientHandshake: clientHandshake
@@ -127,7 +137,7 @@ class ConnectionManager {
         await this.sendMessage(qbychat.websocket.protocol.ServerboundMessage.encode(message).finish())
     }
 
-    private async process(message: qbychat.websocket.protocol.ClientboundMessage) {
+    private async process(message: ClientboundMessage) {
         if (message.serverHandshake) {
             // handshake packet
             this.status = 'connected';
@@ -135,14 +145,26 @@ class ConnectionManager {
             // calc aes key
             const parsedPublicKey = await getECDHPublicKeyFromBytes(message.serverHandshake.publicKey!)
             const secret = await computeSharedSecret(this.ecdhKeyPair!.privateKey, parsedPublicKey)
-            const utf8Encode = new TextEncoder();
-            const info = utf8Encode.encode("Clientside AES Key");
-            const sharedAESKey = await hkdfSha256(secret, this.ecdhSalt!, info, this.aesKeyLength)
+            const sharedAESKey = await hkdfSha256(secret, this.ecdhSalt!, this.aesKeyInfo, this.aesKeyLength)
             console.log("AES Key received.")
             // save
             this.aesKey = await bytesToAESKey(sharedAESKey);
+            // send queued messages
+            this.messageQueue.forEach(message => this.sendMessage(message));
             return;
         }
+        // process response packet
+        if (message.response) {
+            const response = message.response;
+            console.log(`Response! Ticket is ${response.ticket}`)
+            const requestHandler = this.responseHandlers.get(response.ticket!);
+            if (requestHandler) {
+                // handle
+                requestHandler(response);
+                this.responseHandlers.delete(response.ticket!); // Clean up the handler after it has been called
+            }
+        }
+        // todo handle events
     }
 
     private attemptReconnect(): void {
@@ -166,8 +188,43 @@ class ConnectionManager {
                 this.ws.send(message);
             }
         } else {
-            // todo add to queue
+            console.log("Stage message to queue (websocket offline)")
+            this.messageQueue.push(message);
         }
+    }
+
+    async request(account: string | null, service: string, method: string, payload: Uint8Array, timeout: number = 5000): Promise<protocol.IResponse> {
+        // send request packet
+        const ticket = uuidv4();
+        const request = Request.create({
+            ticket: ticket,
+            method: method,
+            service: service,
+            payload: payload,
+        });
+        const message = ServerboundMessage.create({
+            account: account,
+            request: request
+        });
+        console.log(`Send request ${service}:${method} to backend`)
+        await this.sendMessage(ServerboundMessage.encode(message).finish()); // send request
+        return new Promise<protocol.IResponse>((resolve, reject) => {
+            // Set a timeout to reject the promise after the specified time
+            const timeoutId = setTimeout(() => {
+                // If the timeout occurs, reject the promise
+                console.error(`Request with ticket ${ticket} timed out after ${timeout}ms`);
+                this.responseHandlers.delete(ticket); // Clean up the ticket from the map
+                reject(new Error(`Request timed out after ${timeout}ms`));
+            }, timeout);
+
+            const callback = (response: protocol.IResponse) => {
+                // clean timeout
+                clearTimeout(timeoutId);
+                resolve(response);
+            }
+            // add to response handlers
+            this.responseHandlers.set(ticket, callback);
+        });
     }
 
     disconnect(): void {

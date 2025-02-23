@@ -905,6 +905,7 @@ export const qbychat = $root.qbychat = (() => {
                  * @property {Uint8Array|null} [publicKey] ClientHandshake publicKey
                  * @property {Uint8Array|null} [aesKeySalt] ClientHandshake aesKeySalt
                  * @property {number|null} [aesKeyLength] ClientHandshake aesKeyLength
+                 * @property {Uint8Array|null} [aesKeyInfo] ClientHandshake aesKeyInfo
                  */
 
                 /**
@@ -954,6 +955,14 @@ export const qbychat = $root.qbychat = (() => {
                  */
                 ClientHandshake.prototype.aesKeyLength = null;
 
+                /**
+                 * ClientHandshake aesKeyInfo.
+                 * @member {Uint8Array|null|undefined} aesKeyInfo
+                 * @memberof qbychat.websocket.protocol.ClientHandshake
+                 * @instance
+                 */
+                ClientHandshake.prototype.aesKeyInfo = null;
+
                 // OneOf field names bound to virtual getters and setters
                 let $oneOfFields;
 
@@ -972,6 +981,12 @@ export const qbychat = $root.qbychat = (() => {
                 // Virtual OneOf for proto3 optional field
                 Object.defineProperty(ClientHandshake.prototype, "_aesKeyLength", {
                     get: $util.oneOfGetter($oneOfFields = ["aesKeyLength"]),
+                    set: $util.oneOfSetter($oneOfFields)
+                });
+
+                // Virtual OneOf for proto3 optional field
+                Object.defineProperty(ClientHandshake.prototype, "_aesKeyInfo", {
+                    get: $util.oneOfGetter($oneOfFields = ["aesKeyInfo"]),
                     set: $util.oneOfSetter($oneOfFields)
                 });
 
@@ -1007,6 +1022,8 @@ export const qbychat = $root.qbychat = (() => {
                         writer.uint32(/* id 3, wireType 2 =*/26).bytes(message.aesKeySalt);
                     if (message.aesKeyLength != null && Object.hasOwnProperty.call(message, "aesKeyLength"))
                         writer.uint32(/* id 4, wireType 5 =*/37).fixed32(message.aesKeyLength);
+                    if (message.aesKeyInfo != null && Object.hasOwnProperty.call(message, "aesKeyInfo"))
+                        writer.uint32(/* id 5, wireType 2 =*/42).bytes(message.aesKeyInfo);
                     return writer;
                 };
 
@@ -1055,6 +1072,10 @@ export const qbychat = $root.qbychat = (() => {
                             }
                         case 4: {
                                 message.aesKeyLength = reader.fixed32();
+                                break;
+                            }
+                        case 5: {
+                                message.aesKeyInfo = reader.bytes();
                                 break;
                             }
                         default:
@@ -1113,6 +1134,11 @@ export const qbychat = $root.qbychat = (() => {
                         if (!$util.isInteger(message.aesKeyLength))
                             return "aesKeyLength: integer expected";
                     }
+                    if (message.aesKeyInfo != null && message.hasOwnProperty("aesKeyInfo")) {
+                        properties._aesKeyInfo = 1;
+                        if (!(message.aesKeyInfo && typeof message.aesKeyInfo.length === "number" || $util.isString(message.aesKeyInfo)))
+                            return "aesKeyInfo: buffer expected";
+                    }
                     return null;
                 };
 
@@ -1145,6 +1171,11 @@ export const qbychat = $root.qbychat = (() => {
                             message.aesKeySalt = object.aesKeySalt;
                     if (object.aesKeyLength != null)
                         message.aesKeyLength = object.aesKeyLength >>> 0;
+                    if (object.aesKeyInfo != null)
+                        if (typeof object.aesKeyInfo === "string")
+                            $util.base64.decode(object.aesKeyInfo, message.aesKeyInfo = $util.newBuffer($util.base64.length(object.aesKeyInfo)), 0);
+                        else if (object.aesKeyInfo.length >= 0)
+                            message.aesKeyInfo = object.aesKeyInfo;
                     return message;
                 };
 
@@ -1179,6 +1210,11 @@ export const qbychat = $root.qbychat = (() => {
                         object.aesKeyLength = message.aesKeyLength;
                         if (options.oneofs)
                             object._aesKeyLength = "aesKeyLength";
+                    }
+                    if (message.aesKeyInfo != null && message.hasOwnProperty("aesKeyInfo")) {
+                        object.aesKeyInfo = options.bytes === String ? $util.base64.encode(message.aesKeyInfo, 0, message.aesKeyInfo.length) : options.bytes === Array ? Array.prototype.slice.call(message.aesKeyInfo) : message.aesKeyInfo;
+                        if (options.oneofs)
+                            object._aesKeyInfo = "aesKeyInfo";
                     }
                     return object;
                 };
@@ -1438,6 +1474,7 @@ export const qbychat = $root.qbychat = (() => {
                  * @memberof qbychat.websocket.protocol
                  * @interface IClientInfo
                  * @property {string|null} [name] ClientInfo name
+                 * @property {qbychat.websocket.protocol.Platform|null} [platform] ClientInfo platform
                  * @property {string|null} [version] ClientInfo version
                  */
 
@@ -1463,6 +1500,14 @@ export const qbychat = $root.qbychat = (() => {
                  * @instance
                  */
                 ClientInfo.prototype.name = "";
+
+                /**
+                 * ClientInfo platform.
+                 * @member {qbychat.websocket.protocol.Platform} platform
+                 * @memberof qbychat.websocket.protocol.ClientInfo
+                 * @instance
+                 */
+                ClientInfo.prototype.platform = 0;
 
                 /**
                  * ClientInfo version.
@@ -1498,8 +1543,10 @@ export const qbychat = $root.qbychat = (() => {
                         writer = $Writer.create();
                     if (message.name != null && Object.hasOwnProperty.call(message, "name"))
                         writer.uint32(/* id 1, wireType 2 =*/10).string(message.name);
+                    if (message.platform != null && Object.hasOwnProperty.call(message, "platform"))
+                        writer.uint32(/* id 2, wireType 0 =*/16).int32(message.platform);
                     if (message.version != null && Object.hasOwnProperty.call(message, "version"))
-                        writer.uint32(/* id 2, wireType 2 =*/18).string(message.version);
+                        writer.uint32(/* id 3, wireType 2 =*/26).string(message.version);
                     return writer;
                 };
 
@@ -1539,6 +1586,10 @@ export const qbychat = $root.qbychat = (() => {
                                 break;
                             }
                         case 2: {
+                                message.platform = reader.int32();
+                                break;
+                            }
+                        case 3: {
                                 message.version = reader.string();
                                 break;
                             }
@@ -1580,6 +1631,18 @@ export const qbychat = $root.qbychat = (() => {
                     if (message.name != null && message.hasOwnProperty("name"))
                         if (!$util.isString(message.name))
                             return "name: string expected";
+                    if (message.platform != null && message.hasOwnProperty("platform"))
+                        switch (message.platform) {
+                        default:
+                            return "platform: enum value expected";
+                        case 0:
+                        case 1:
+                        case 2:
+                        case 3:
+                        case 4:
+                        case 5:
+                            break;
+                        }
                     if (message.version != null && message.hasOwnProperty("version"))
                         if (!$util.isString(message.version))
                             return "version: string expected";
@@ -1600,6 +1663,38 @@ export const qbychat = $root.qbychat = (() => {
                     let message = new $root.qbychat.websocket.protocol.ClientInfo();
                     if (object.name != null)
                         message.name = String(object.name);
+                    switch (object.platform) {
+                    default:
+                        if (typeof object.platform === "number") {
+                            message.platform = object.platform;
+                            break;
+                        }
+                        break;
+                    case "LINUX":
+                    case 0:
+                        message.platform = 0;
+                        break;
+                    case "WINDOWS":
+                    case 1:
+                        message.platform = 1;
+                        break;
+                    case "OSX":
+                    case 2:
+                        message.platform = 2;
+                        break;
+                    case "ANDROID":
+                    case 3:
+                        message.platform = 3;
+                        break;
+                    case "IOS":
+                    case 4:
+                        message.platform = 4;
+                        break;
+                    case "UNKNOWN":
+                    case 5:
+                        message.platform = 5;
+                        break;
+                    }
                     if (object.version != null)
                         message.version = String(object.version);
                     return message;
@@ -1620,10 +1715,13 @@ export const qbychat = $root.qbychat = (() => {
                     let object = {};
                     if (options.defaults) {
                         object.name = "";
+                        object.platform = options.enums === String ? "LINUX" : 0;
                         object.version = "";
                     }
                     if (message.name != null && message.hasOwnProperty("name"))
                         object.name = message.name;
+                    if (message.platform != null && message.hasOwnProperty("platform"))
+                        object.platform = options.enums === String ? $root.qbychat.websocket.protocol.Platform[message.platform] === undefined ? message.platform : $root.qbychat.websocket.protocol.Platform[message.platform] : message.platform;
                     if (message.version != null && message.hasOwnProperty("version"))
                         object.version = message.version;
                     return object;
@@ -1656,6 +1754,28 @@ export const qbychat = $root.qbychat = (() => {
                 };
 
                 return ClientInfo;
+            })();
+
+            /**
+             * Platform enum.
+             * @name qbychat.websocket.protocol.Platform
+             * @enum {number}
+             * @property {number} LINUX=0 LINUX value
+             * @property {number} WINDOWS=1 WINDOWS value
+             * @property {number} OSX=2 OSX value
+             * @property {number} ANDROID=3 ANDROID value
+             * @property {number} IOS=4 IOS value
+             * @property {number} UNKNOWN=5 UNKNOWN value
+             */
+            protocol.Platform = (function() {
+                const valuesById = {}, values = Object.create(valuesById);
+                values[valuesById[0] = "LINUX"] = 0;
+                values[valuesById[1] = "WINDOWS"] = 1;
+                values[valuesById[2] = "OSX"] = 2;
+                values[valuesById[3] = "ANDROID"] = 3;
+                values[valuesById[4] = "IOS"] = 4;
+                values[valuesById[5] = "UNKNOWN"] = 5;
+                return values;
             })();
 
             protocol.Request = (function() {
@@ -1941,6 +2061,525 @@ export const qbychat = $root.qbychat = (() => {
             })();
 
             return protocol;
+        })();
+
+        websocket.user = (function() {
+
+            /**
+             * Namespace user.
+             * @memberof qbychat.websocket
+             * @namespace
+             */
+            const user = {};
+
+            user.RegisterRequest = (function() {
+
+                /**
+                 * Properties of a RegisterRequest.
+                 * @memberof qbychat.websocket.user
+                 * @interface IRegisterRequest
+                 * @property {string|null} [username] RegisterRequest username
+                 * @property {string|null} [password] RegisterRequest password
+                 */
+
+                /**
+                 * Constructs a new RegisterRequest.
+                 * @memberof qbychat.websocket.user
+                 * @classdesc Represents a RegisterRequest.
+                 * @implements IRegisterRequest
+                 * @constructor
+                 * @param {qbychat.websocket.user.IRegisterRequest=} [properties] Properties to set
+                 */
+                function RegisterRequest(properties) {
+                    if (properties)
+                        for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                            if (properties[keys[i]] != null)
+                                this[keys[i]] = properties[keys[i]];
+                }
+
+                /**
+                 * RegisterRequest username.
+                 * @member {string} username
+                 * @memberof qbychat.websocket.user.RegisterRequest
+                 * @instance
+                 */
+                RegisterRequest.prototype.username = "";
+
+                /**
+                 * RegisterRequest password.
+                 * @member {string} password
+                 * @memberof qbychat.websocket.user.RegisterRequest
+                 * @instance
+                 */
+                RegisterRequest.prototype.password = "";
+
+                /**
+                 * Creates a new RegisterRequest instance using the specified properties.
+                 * @function create
+                 * @memberof qbychat.websocket.user.RegisterRequest
+                 * @static
+                 * @param {qbychat.websocket.user.IRegisterRequest=} [properties] Properties to set
+                 * @returns {qbychat.websocket.user.RegisterRequest} RegisterRequest instance
+                 */
+                RegisterRequest.create = function create(properties) {
+                    return new RegisterRequest(properties);
+                };
+
+                /**
+                 * Encodes the specified RegisterRequest message. Does not implicitly {@link qbychat.websocket.user.RegisterRequest.verify|verify} messages.
+                 * @function encode
+                 * @memberof qbychat.websocket.user.RegisterRequest
+                 * @static
+                 * @param {qbychat.websocket.user.IRegisterRequest} message RegisterRequest message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                RegisterRequest.encode = function encode(message, writer) {
+                    if (!writer)
+                        writer = $Writer.create();
+                    if (message.username != null && Object.hasOwnProperty.call(message, "username"))
+                        writer.uint32(/* id 1, wireType 2 =*/10).string(message.username);
+                    if (message.password != null && Object.hasOwnProperty.call(message, "password"))
+                        writer.uint32(/* id 2, wireType 2 =*/18).string(message.password);
+                    return writer;
+                };
+
+                /**
+                 * Encodes the specified RegisterRequest message, length delimited. Does not implicitly {@link qbychat.websocket.user.RegisterRequest.verify|verify} messages.
+                 * @function encodeDelimited
+                 * @memberof qbychat.websocket.user.RegisterRequest
+                 * @static
+                 * @param {qbychat.websocket.user.IRegisterRequest} message RegisterRequest message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                RegisterRequest.encodeDelimited = function encodeDelimited(message, writer) {
+                    return this.encode(message, writer).ldelim();
+                };
+
+                /**
+                 * Decodes a RegisterRequest message from the specified reader or buffer.
+                 * @function decode
+                 * @memberof qbychat.websocket.user.RegisterRequest
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @param {number} [length] Message length if known beforehand
+                 * @returns {qbychat.websocket.user.RegisterRequest} RegisterRequest
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                RegisterRequest.decode = function decode(reader, length) {
+                    if (!(reader instanceof $Reader))
+                        reader = $Reader.create(reader);
+                    let end = length === undefined ? reader.len : reader.pos + length, message = new $root.qbychat.websocket.user.RegisterRequest();
+                    while (reader.pos < end) {
+                        let tag = reader.uint32();
+                        switch (tag >>> 3) {
+                        case 1: {
+                                message.username = reader.string();
+                                break;
+                            }
+                        case 2: {
+                                message.password = reader.string();
+                                break;
+                            }
+                        default:
+                            reader.skipType(tag & 7);
+                            break;
+                        }
+                    }
+                    return message;
+                };
+
+                /**
+                 * Decodes a RegisterRequest message from the specified reader or buffer, length delimited.
+                 * @function decodeDelimited
+                 * @memberof qbychat.websocket.user.RegisterRequest
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @returns {qbychat.websocket.user.RegisterRequest} RegisterRequest
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                RegisterRequest.decodeDelimited = function decodeDelimited(reader) {
+                    if (!(reader instanceof $Reader))
+                        reader = new $Reader(reader);
+                    return this.decode(reader, reader.uint32());
+                };
+
+                /**
+                 * Verifies a RegisterRequest message.
+                 * @function verify
+                 * @memberof qbychat.websocket.user.RegisterRequest
+                 * @static
+                 * @param {Object.<string,*>} message Plain object to verify
+                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                 */
+                RegisterRequest.verify = function verify(message) {
+                    if (typeof message !== "object" || message === null)
+                        return "object expected";
+                    if (message.username != null && message.hasOwnProperty("username"))
+                        if (!$util.isString(message.username))
+                            return "username: string expected";
+                    if (message.password != null && message.hasOwnProperty("password"))
+                        if (!$util.isString(message.password))
+                            return "password: string expected";
+                    return null;
+                };
+
+                /**
+                 * Creates a RegisterRequest message from a plain object. Also converts values to their respective internal types.
+                 * @function fromObject
+                 * @memberof qbychat.websocket.user.RegisterRequest
+                 * @static
+                 * @param {Object.<string,*>} object Plain object
+                 * @returns {qbychat.websocket.user.RegisterRequest} RegisterRequest
+                 */
+                RegisterRequest.fromObject = function fromObject(object) {
+                    if (object instanceof $root.qbychat.websocket.user.RegisterRequest)
+                        return object;
+                    let message = new $root.qbychat.websocket.user.RegisterRequest();
+                    if (object.username != null)
+                        message.username = String(object.username);
+                    if (object.password != null)
+                        message.password = String(object.password);
+                    return message;
+                };
+
+                /**
+                 * Creates a plain object from a RegisterRequest message. Also converts values to other types if specified.
+                 * @function toObject
+                 * @memberof qbychat.websocket.user.RegisterRequest
+                 * @static
+                 * @param {qbychat.websocket.user.RegisterRequest} message RegisterRequest
+                 * @param {$protobuf.IConversionOptions} [options] Conversion options
+                 * @returns {Object.<string,*>} Plain object
+                 */
+                RegisterRequest.toObject = function toObject(message, options) {
+                    if (!options)
+                        options = {};
+                    let object = {};
+                    if (options.defaults) {
+                        object.username = "";
+                        object.password = "";
+                    }
+                    if (message.username != null && message.hasOwnProperty("username"))
+                        object.username = message.username;
+                    if (message.password != null && message.hasOwnProperty("password"))
+                        object.password = message.password;
+                    return object;
+                };
+
+                /**
+                 * Converts this RegisterRequest to JSON.
+                 * @function toJSON
+                 * @memberof qbychat.websocket.user.RegisterRequest
+                 * @instance
+                 * @returns {Object.<string,*>} JSON object
+                 */
+                RegisterRequest.prototype.toJSON = function toJSON() {
+                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                };
+
+                /**
+                 * Gets the default type url for RegisterRequest
+                 * @function getTypeUrl
+                 * @memberof qbychat.websocket.user.RegisterRequest
+                 * @static
+                 * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns {string} The default type url
+                 */
+                RegisterRequest.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                    if (typeUrlPrefix === undefined) {
+                        typeUrlPrefix = "type.googleapis.com";
+                    }
+                    return typeUrlPrefix + "/qbychat.websocket.user.RegisterRequest";
+                };
+
+                return RegisterRequest;
+            })();
+
+            user.RegisterResponse = (function() {
+
+                /**
+                 * Properties of a RegisterResponse.
+                 * @memberof qbychat.websocket.user
+                 * @interface IRegisterResponse
+                 * @property {qbychat.websocket.user.RegisterStatus|null} [status] RegisterResponse status
+                 * @property {string|null} [message] RegisterResponse message
+                 */
+
+                /**
+                 * Constructs a new RegisterResponse.
+                 * @memberof qbychat.websocket.user
+                 * @classdesc Represents a RegisterResponse.
+                 * @implements IRegisterResponse
+                 * @constructor
+                 * @param {qbychat.websocket.user.IRegisterResponse=} [properties] Properties to set
+                 */
+                function RegisterResponse(properties) {
+                    if (properties)
+                        for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                            if (properties[keys[i]] != null)
+                                this[keys[i]] = properties[keys[i]];
+                }
+
+                /**
+                 * RegisterResponse status.
+                 * @member {qbychat.websocket.user.RegisterStatus} status
+                 * @memberof qbychat.websocket.user.RegisterResponse
+                 * @instance
+                 */
+                RegisterResponse.prototype.status = 0;
+
+                /**
+                 * RegisterResponse message.
+                 * @member {string|null|undefined} message
+                 * @memberof qbychat.websocket.user.RegisterResponse
+                 * @instance
+                 */
+                RegisterResponse.prototype.message = null;
+
+                // OneOf field names bound to virtual getters and setters
+                let $oneOfFields;
+
+                // Virtual OneOf for proto3 optional field
+                Object.defineProperty(RegisterResponse.prototype, "_message", {
+                    get: $util.oneOfGetter($oneOfFields = ["message"]),
+                    set: $util.oneOfSetter($oneOfFields)
+                });
+
+                /**
+                 * Creates a new RegisterResponse instance using the specified properties.
+                 * @function create
+                 * @memberof qbychat.websocket.user.RegisterResponse
+                 * @static
+                 * @param {qbychat.websocket.user.IRegisterResponse=} [properties] Properties to set
+                 * @returns {qbychat.websocket.user.RegisterResponse} RegisterResponse instance
+                 */
+                RegisterResponse.create = function create(properties) {
+                    return new RegisterResponse(properties);
+                };
+
+                /**
+                 * Encodes the specified RegisterResponse message. Does not implicitly {@link qbychat.websocket.user.RegisterResponse.verify|verify} messages.
+                 * @function encode
+                 * @memberof qbychat.websocket.user.RegisterResponse
+                 * @static
+                 * @param {qbychat.websocket.user.IRegisterResponse} message RegisterResponse message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                RegisterResponse.encode = function encode(message, writer) {
+                    if (!writer)
+                        writer = $Writer.create();
+                    if (message.status != null && Object.hasOwnProperty.call(message, "status"))
+                        writer.uint32(/* id 1, wireType 0 =*/8).int32(message.status);
+                    if (message.message != null && Object.hasOwnProperty.call(message, "message"))
+                        writer.uint32(/* id 2, wireType 2 =*/18).string(message.message);
+                    return writer;
+                };
+
+                /**
+                 * Encodes the specified RegisterResponse message, length delimited. Does not implicitly {@link qbychat.websocket.user.RegisterResponse.verify|verify} messages.
+                 * @function encodeDelimited
+                 * @memberof qbychat.websocket.user.RegisterResponse
+                 * @static
+                 * @param {qbychat.websocket.user.IRegisterResponse} message RegisterResponse message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                RegisterResponse.encodeDelimited = function encodeDelimited(message, writer) {
+                    return this.encode(message, writer).ldelim();
+                };
+
+                /**
+                 * Decodes a RegisterResponse message from the specified reader or buffer.
+                 * @function decode
+                 * @memberof qbychat.websocket.user.RegisterResponse
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @param {number} [length] Message length if known beforehand
+                 * @returns {qbychat.websocket.user.RegisterResponse} RegisterResponse
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                RegisterResponse.decode = function decode(reader, length) {
+                    if (!(reader instanceof $Reader))
+                        reader = $Reader.create(reader);
+                    let end = length === undefined ? reader.len : reader.pos + length, message = new $root.qbychat.websocket.user.RegisterResponse();
+                    while (reader.pos < end) {
+                        let tag = reader.uint32();
+                        switch (tag >>> 3) {
+                        case 1: {
+                                message.status = reader.int32();
+                                break;
+                            }
+                        case 2: {
+                                message.message = reader.string();
+                                break;
+                            }
+                        default:
+                            reader.skipType(tag & 7);
+                            break;
+                        }
+                    }
+                    return message;
+                };
+
+                /**
+                 * Decodes a RegisterResponse message from the specified reader or buffer, length delimited.
+                 * @function decodeDelimited
+                 * @memberof qbychat.websocket.user.RegisterResponse
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @returns {qbychat.websocket.user.RegisterResponse} RegisterResponse
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                RegisterResponse.decodeDelimited = function decodeDelimited(reader) {
+                    if (!(reader instanceof $Reader))
+                        reader = new $Reader(reader);
+                    return this.decode(reader, reader.uint32());
+                };
+
+                /**
+                 * Verifies a RegisterResponse message.
+                 * @function verify
+                 * @memberof qbychat.websocket.user.RegisterResponse
+                 * @static
+                 * @param {Object.<string,*>} message Plain object to verify
+                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                 */
+                RegisterResponse.verify = function verify(message) {
+                    if (typeof message !== "object" || message === null)
+                        return "object expected";
+                    let properties = {};
+                    if (message.status != null && message.hasOwnProperty("status"))
+                        switch (message.status) {
+                        default:
+                            return "status: enum value expected";
+                        case 0:
+                        case 1:
+                        case 2:
+                            break;
+                        }
+                    if (message.message != null && message.hasOwnProperty("message")) {
+                        properties._message = 1;
+                        if (!$util.isString(message.message))
+                            return "message: string expected";
+                    }
+                    return null;
+                };
+
+                /**
+                 * Creates a RegisterResponse message from a plain object. Also converts values to their respective internal types.
+                 * @function fromObject
+                 * @memberof qbychat.websocket.user.RegisterResponse
+                 * @static
+                 * @param {Object.<string,*>} object Plain object
+                 * @returns {qbychat.websocket.user.RegisterResponse} RegisterResponse
+                 */
+                RegisterResponse.fromObject = function fromObject(object) {
+                    if (object instanceof $root.qbychat.websocket.user.RegisterResponse)
+                        return object;
+                    let message = new $root.qbychat.websocket.user.RegisterResponse();
+                    switch (object.status) {
+                    default:
+                        if (typeof object.status === "number") {
+                            message.status = object.status;
+                            break;
+                        }
+                        break;
+                    case "SUCCESS":
+                    case 0:
+                        message.status = 0;
+                        break;
+                    case "USERNAME_EXISTS":
+                    case 1:
+                        message.status = 1;
+                        break;
+                    case "BAD_USERNAME":
+                    case 2:
+                        message.status = 2;
+                        break;
+                    }
+                    if (object.message != null)
+                        message.message = String(object.message);
+                    return message;
+                };
+
+                /**
+                 * Creates a plain object from a RegisterResponse message. Also converts values to other types if specified.
+                 * @function toObject
+                 * @memberof qbychat.websocket.user.RegisterResponse
+                 * @static
+                 * @param {qbychat.websocket.user.RegisterResponse} message RegisterResponse
+                 * @param {$protobuf.IConversionOptions} [options] Conversion options
+                 * @returns {Object.<string,*>} Plain object
+                 */
+                RegisterResponse.toObject = function toObject(message, options) {
+                    if (!options)
+                        options = {};
+                    let object = {};
+                    if (options.defaults)
+                        object.status = options.enums === String ? "SUCCESS" : 0;
+                    if (message.status != null && message.hasOwnProperty("status"))
+                        object.status = options.enums === String ? $root.qbychat.websocket.user.RegisterStatus[message.status] === undefined ? message.status : $root.qbychat.websocket.user.RegisterStatus[message.status] : message.status;
+                    if (message.message != null && message.hasOwnProperty("message")) {
+                        object.message = message.message;
+                        if (options.oneofs)
+                            object._message = "message";
+                    }
+                    return object;
+                };
+
+                /**
+                 * Converts this RegisterResponse to JSON.
+                 * @function toJSON
+                 * @memberof qbychat.websocket.user.RegisterResponse
+                 * @instance
+                 * @returns {Object.<string,*>} JSON object
+                 */
+                RegisterResponse.prototype.toJSON = function toJSON() {
+                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                };
+
+                /**
+                 * Gets the default type url for RegisterResponse
+                 * @function getTypeUrl
+                 * @memberof qbychat.websocket.user.RegisterResponse
+                 * @static
+                 * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns {string} The default type url
+                 */
+                RegisterResponse.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                    if (typeUrlPrefix === undefined) {
+                        typeUrlPrefix = "type.googleapis.com";
+                    }
+                    return typeUrlPrefix + "/qbychat.websocket.user.RegisterResponse";
+                };
+
+                return RegisterResponse;
+            })();
+
+            /**
+             * RegisterStatus enum.
+             * @name qbychat.websocket.user.RegisterStatus
+             * @enum {number}
+             * @property {number} SUCCESS=0 SUCCESS value
+             * @property {number} USERNAME_EXISTS=1 USERNAME_EXISTS value
+             * @property {number} BAD_USERNAME=2 BAD_USERNAME value
+             */
+            user.RegisterStatus = (function() {
+                const valuesById = {}, values = Object.create(valuesById);
+                values[valuesById[0] = "SUCCESS"] = 0;
+                values[valuesById[1] = "USERNAME_EXISTS"] = 1;
+                values[valuesById[2] = "BAD_USERNAME"] = 2;
+                return values;
+            })();
+
+            return user;
         })();
 
         return websocket;
