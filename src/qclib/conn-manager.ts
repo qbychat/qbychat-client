@@ -1,14 +1,29 @@
 import {useEffect, useState} from 'react';
 import axios from 'axios';
+import {qbychat} from '../proto/proto';
+import {
+    computeSharedSecret,
+    exportPublicKey,
+    generateECDHKeyPair,
+    generateSalt,
+    getECDHPublicKeyFromBytes
+} from "../utils/crypto-utils.ts";
 
 interface QbyChatConfig {
     websocketPath: string;
 }
 
+async function blobToByteArray(blob: Blob) {
+    const buffer = await new Response(blob).arrayBuffer();
+    return new Uint8Array(buffer);
+}
+
 class ConnectionManager {
     private ws: WebSocket | null = null;
-    private status: 'disconnected' | 'connecting' | 'connected' | 'error' | 'reconnecting' | 'unset' | 'bad-server' = 'unset';
+    private status: 'disconnected' | 'connecting' | 'connected' | 'handshake' | 'error' | 'reconnecting' | 'unset' | 'bad-server' = 'unset';
     private url: string = '';
+    private ecdhKeyPair: CryptoKeyPair = null;
+    private ecdhSalt: Uint8Array = Uint8Array.from([0, 0]);
     private reconnectAttempts: number = 0;
     private reconnectDelay: number = 3000;
     private reconnectTimer: NodeJS.Timeout | null = null;
@@ -49,13 +64,21 @@ class ConnectionManager {
         this.ws = new WebSocket(url);
 
         this.ws.onopen = () => {
-            this.status = 'connected';
+            this.status = 'handshake';
             this.reconnectAttempts = 0;
             if (this.reconnectTimer) {
                 clearTimeout(this.reconnectTimer); // clear reconnect timer
             }
-            console.log('WebSocket connected');
+            console.log('WebSocket connected, start handshake');
+            this.handshake();
         };
+
+        this.ws.onmessage = async (e: MessageEvent) => {
+            const uint8Array = await blobToByteArray(e.data)
+            // todo parse encrypted
+            const message = qbychat.websocket.protocol.ClientboundMessage.decode(uint8Array);
+            await this.process(message);
+        }
 
         this.ws.onclose = () => {
             if (this.status === 'disconnected') return; // manual closed by client, skip reconnect
@@ -70,6 +93,38 @@ class ConnectionManager {
         };
     }
 
+    private async handshake() {
+        this.ecdhKeyPair = await generateECDHKeyPair();
+        this.ecdhSalt = generateSalt();
+        const clientHandshake = qbychat.websocket.protocol.ClientHandshake.create({
+            clientInfo: qbychat.websocket.protocol.ClientInfo.create({
+                name: "QbyChat Desktop",
+                version: '1.0.0', // todo client version
+            }),
+            publicKey: await exportPublicKey(this.ecdhKeyPair.publicKey),
+            aesKeySalt: this.ecdhSalt,
+            aesKeyLength: 32
+        })
+        const message = qbychat.websocket.protocol.ServerboundMessage.create({
+            clientHandshake: clientHandshake
+        })
+        // send the handshake packet
+        this.sendMessage(qbychat.websocket.protocol.ServerboundMessage.encode(message).finish())
+    }
+
+    private async process(message: qbychat.websocket.protocol.ClientboundMessage) {
+        if (message.serverHandshake) {
+            // handshake packet
+            this.status = 'connected';
+            console.log("Success handshake");
+            // calc aes key
+            const parsedPublicKey = await getECDHPublicKeyFromBytes(message.serverHandshake.publicKey!)
+            const secret = await computeSharedSecret(this.ecdhKeyPair.privateKey, parsedPublicKey)
+            // todo calc aes key
+            return;
+        }
+    }
+
     private attemptReconnect(): void {
         this.status = 'reconnecting';
         console.log(`Attempting to reconnect... (${this.reconnectAttempts + 1})`);
@@ -80,12 +135,11 @@ class ConnectionManager {
         }, this.reconnectDelay);
     }
 
-    sendMessage(message: string): void {
+    sendMessage(message: Uint8Array): void {
         if (this.ws && this.ws.readyState === WebSocket.OPEN) {
             this.ws.send(message);
-            console.log('Message sent:', message);
         } else {
-            console.log('WebSocket is not connected.');
+            // todo add to queue
         }
     }
 

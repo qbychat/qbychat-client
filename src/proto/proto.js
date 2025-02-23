@@ -903,6 +903,8 @@ export const qbychat = $root.qbychat = (() => {
                  * @interface IClientHandshake
                  * @property {qbychat.websocket.protocol.IClientInfo|null} [clientInfo] ClientHandshake clientInfo
                  * @property {Uint8Array|null} [publicKey] ClientHandshake publicKey
+                 * @property {Uint8Array|null} [aesKeySalt] ClientHandshake aesKeySalt
+                 * @property {number|null} [aesKeyLength] ClientHandshake aesKeyLength
                  */
 
                 /**
@@ -936,12 +938,40 @@ export const qbychat = $root.qbychat = (() => {
                  */
                 ClientHandshake.prototype.publicKey = null;
 
+                /**
+                 * ClientHandshake aesKeySalt.
+                 * @member {Uint8Array|null|undefined} aesKeySalt
+                 * @memberof qbychat.websocket.protocol.ClientHandshake
+                 * @instance
+                 */
+                ClientHandshake.prototype.aesKeySalt = null;
+
+                /**
+                 * ClientHandshake aesKeyLength.
+                 * @member {number|null|undefined} aesKeyLength
+                 * @memberof qbychat.websocket.protocol.ClientHandshake
+                 * @instance
+                 */
+                ClientHandshake.prototype.aesKeyLength = null;
+
                 // OneOf field names bound to virtual getters and setters
                 let $oneOfFields;
 
                 // Virtual OneOf for proto3 optional field
                 Object.defineProperty(ClientHandshake.prototype, "_publicKey", {
                     get: $util.oneOfGetter($oneOfFields = ["publicKey"]),
+                    set: $util.oneOfSetter($oneOfFields)
+                });
+
+                // Virtual OneOf for proto3 optional field
+                Object.defineProperty(ClientHandshake.prototype, "_aesKeySalt", {
+                    get: $util.oneOfGetter($oneOfFields = ["aesKeySalt"]),
+                    set: $util.oneOfSetter($oneOfFields)
+                });
+
+                // Virtual OneOf for proto3 optional field
+                Object.defineProperty(ClientHandshake.prototype, "_aesKeyLength", {
+                    get: $util.oneOfGetter($oneOfFields = ["aesKeyLength"]),
                     set: $util.oneOfSetter($oneOfFields)
                 });
 
@@ -973,6 +1003,10 @@ export const qbychat = $root.qbychat = (() => {
                         $root.qbychat.websocket.protocol.ClientInfo.encode(message.clientInfo, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
                     if (message.publicKey != null && Object.hasOwnProperty.call(message, "publicKey"))
                         writer.uint32(/* id 2, wireType 2 =*/18).bytes(message.publicKey);
+                    if (message.aesKeySalt != null && Object.hasOwnProperty.call(message, "aesKeySalt"))
+                        writer.uint32(/* id 3, wireType 2 =*/26).bytes(message.aesKeySalt);
+                    if (message.aesKeyLength != null && Object.hasOwnProperty.call(message, "aesKeyLength"))
+                        writer.uint32(/* id 4, wireType 5 =*/37).fixed32(message.aesKeyLength);
                     return writer;
                 };
 
@@ -1013,6 +1047,14 @@ export const qbychat = $root.qbychat = (() => {
                             }
                         case 2: {
                                 message.publicKey = reader.bytes();
+                                break;
+                            }
+                        case 3: {
+                                message.aesKeySalt = reader.bytes();
+                                break;
+                            }
+                        case 4: {
+                                message.aesKeyLength = reader.fixed32();
                                 break;
                             }
                         default:
@@ -1061,6 +1103,16 @@ export const qbychat = $root.qbychat = (() => {
                         if (!(message.publicKey && typeof message.publicKey.length === "number" || $util.isString(message.publicKey)))
                             return "publicKey: buffer expected";
                     }
+                    if (message.aesKeySalt != null && message.hasOwnProperty("aesKeySalt")) {
+                        properties._aesKeySalt = 1;
+                        if (!(message.aesKeySalt && typeof message.aesKeySalt.length === "number" || $util.isString(message.aesKeySalt)))
+                            return "aesKeySalt: buffer expected";
+                    }
+                    if (message.aesKeyLength != null && message.hasOwnProperty("aesKeyLength")) {
+                        properties._aesKeyLength = 1;
+                        if (!$util.isInteger(message.aesKeyLength))
+                            return "aesKeyLength: integer expected";
+                    }
                     return null;
                 };
 
@@ -1086,6 +1138,13 @@ export const qbychat = $root.qbychat = (() => {
                             $util.base64.decode(object.publicKey, message.publicKey = $util.newBuffer($util.base64.length(object.publicKey)), 0);
                         else if (object.publicKey.length >= 0)
                             message.publicKey = object.publicKey;
+                    if (object.aesKeySalt != null)
+                        if (typeof object.aesKeySalt === "string")
+                            $util.base64.decode(object.aesKeySalt, message.aesKeySalt = $util.newBuffer($util.base64.length(object.aesKeySalt)), 0);
+                        else if (object.aesKeySalt.length >= 0)
+                            message.aesKeySalt = object.aesKeySalt;
+                    if (object.aesKeyLength != null)
+                        message.aesKeyLength = object.aesKeyLength >>> 0;
                     return message;
                 };
 
@@ -1110,6 +1169,16 @@ export const qbychat = $root.qbychat = (() => {
                         object.publicKey = options.bytes === String ? $util.base64.encode(message.publicKey, 0, message.publicKey.length) : options.bytes === Array ? Array.prototype.slice.call(message.publicKey) : message.publicKey;
                         if (options.oneofs)
                             object._publicKey = "publicKey";
+                    }
+                    if (message.aesKeySalt != null && message.hasOwnProperty("aesKeySalt")) {
+                        object.aesKeySalt = options.bytes === String ? $util.base64.encode(message.aesKeySalt, 0, message.aesKeySalt.length) : options.bytes === Array ? Array.prototype.slice.call(message.aesKeySalt) : message.aesKeySalt;
+                        if (options.oneofs)
+                            object._aesKeySalt = "aesKeySalt";
+                    }
+                    if (message.aesKeyLength != null && message.hasOwnProperty("aesKeyLength")) {
+                        object.aesKeyLength = message.aesKeyLength;
+                        if (options.oneofs)
+                            object._aesKeyLength = "aesKeyLength";
                     }
                     return object;
                 };

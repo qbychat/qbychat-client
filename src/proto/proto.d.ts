@@ -1,5 +1,5 @@
 import * as $protobuf from "protobufjs";
-
+import Long = require("long");
 /** Namespace qbychat. */
 export namespace qbychat {
 
@@ -350,6 +350,12 @@ export namespace qbychat {
 
                 /** ClientHandshake publicKey */
                 publicKey?: (Uint8Array|null);
+
+                /** ClientHandshake aesKeySalt */
+                aesKeySalt?: (Uint8Array|null);
+
+                /** ClientHandshake aesKeyLength */
+                aesKeyLength?: (number|null);
             }
 
             /** Represents a ClientHandshake. */
@@ -366,6 +372,12 @@ export namespace qbychat {
 
                 /** ClientHandshake publicKey. */
                 public publicKey?: (Uint8Array|null);
+
+                /** ClientHandshake aesKeySalt. */
+                public aesKeySalt?: (Uint8Array|null);
+
+                /** ClientHandshake aesKeyLength. */
+                public aesKeyLength?: (number|null);
 
                 /**
                  * Creates a new ClientHandshake instance using the specified properties.

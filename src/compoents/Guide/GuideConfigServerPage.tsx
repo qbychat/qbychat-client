@@ -2,7 +2,7 @@ import {useEffect, useRef, useState} from "react";
 import {connectionManager} from "../../qclib/conn-manager.ts";
 import {KEY_CONNECTION_CONFIG_URL, useConfig} from "../../qclib/config-manager.ts";
 import {useNavigate} from "react-router-dom";
-import {setTitle} from "../../utils.ts";
+import {setTitle} from "../../utils/web-utils.ts";
 
 interface BackendConfigInputProps {
     value: string;
@@ -66,7 +66,7 @@ function GuideConfigServerPage() {
     }, [connectionUrl]);
 
     useEffect(() => {
-        setTitle("Getting Started");
+        setTitle("Connect to a Server");
     }, []);
 
     return (<>

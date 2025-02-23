@@ -1,8 +1,14 @@
 import {KEY_CONNECTION_CONFIG_URL, useConfig} from "../../qclib/config-manager.ts";
 import {Link} from "react-router-dom";
+import {useEffect} from "react";
+import {setTitle} from "../../utils/web-utils.ts";
 
 function GuideConfigAccountPage() {
     const [connectionUrl] = useConfig(KEY_CONNECTION_CONFIG_URL, "");
+
+    useEffect(() => {
+        setTitle("Log in to QbyChat");
+    }, []);
 
     return (<>
         <div className={"flex flex-col gap-3 items-center justify-center min-h-screen select-none"}>
@@ -17,8 +23,6 @@ function GuideConfigAccountPage() {
                 </div>
                 <Link to={"/guide/server"} className="btn btn-soft">Back to server configuration</Link>
             </div>
-
-
         </div>
     </>);
 }
