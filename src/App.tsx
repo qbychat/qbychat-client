@@ -9,6 +9,8 @@ import {useEffect} from "react";
 import {configManager, KEY_CONNECTION_CONFIG_URL} from "./qclib/config-manager.ts";
 import RegisterPage from "./compoents/RegisterPage/RegisterPage.tsx";
 import LoginPage from "./compoents/LoginPage/LoginPage.tsx";
+import {qbychat} from "./proto/proto";
+import TokenUpdateEvent = qbychat.websocket.auth.TokenUpdateEvent;
 
 function App() {
     const connectionStatus = useConnectionStatus()
@@ -26,6 +28,18 @@ function App() {
                 });
             }
         });
+    }, []);
+
+    useEffect(() => {
+        const id = connectionManager.registerEventHandler(TokenUpdateEvent.getTypeUrl(), async (payload) => {
+            // parse payload
+            const event = TokenUpdateEvent.decode(payload);
+            // todo save token
+            console.log(`JWT Received: ${event.token}`)
+        })
+        return () => {
+            connectionManager.removeEventHandler(id)
+        }
     }, []);
 
     return (<>

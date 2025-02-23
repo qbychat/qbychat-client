@@ -1,10 +1,12 @@
 import * as React from "react";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import BackButton from "../BackButton/BackButton.tsx";
 import {Link, useNavigate} from "react-router-dom";
 import {userService} from "../../qclib/service/user-service.ts";
 import {qbychat} from "../../proto/proto";
+import {connectionManager} from "../../qclib/conn-manager.ts";
 import RegisterStatus = qbychat.websocket.user.RegisterStatus;
+import TokenUpdateEvent = qbychat.websocket.auth.TokenUpdateEvent;
 
 function RegisterPage() {
     const navigate = useNavigate();
@@ -13,6 +15,16 @@ function RegisterPage() {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [error, setError] = useState<string | null>()
     const [success, setSuccess] = useState(false)
+
+    useEffect(() => {
+        const id = connectionManager.registerEventHandler(TokenUpdateEvent.getTypeUrl(), async () => {
+            // do navigate
+            navigate("/");
+        })
+        return () => {
+            connectionManager.removeEventHandler(id)
+        }
+    }, []);
 
     const handleRegister = async (e: React.FormEvent) => {
         e.preventDefault();

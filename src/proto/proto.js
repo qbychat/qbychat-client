@@ -2063,6 +2063,1174 @@ export const qbychat = $root.qbychat = (() => {
             return protocol;
         })();
 
+        websocket.auth = (function() {
+
+            /**
+             * Namespace auth.
+             * @memberof qbychat.websocket
+             * @namespace
+             */
+            const auth = {};
+
+            auth.TokenLoginRequest = (function() {
+
+                /**
+                 * Properties of a TokenLoginRequest.
+                 * @memberof qbychat.websocket.auth
+                 * @interface ITokenLoginRequest
+                 * @property {string|null} [token] TokenLoginRequest token
+                 */
+
+                /**
+                 * Constructs a new TokenLoginRequest.
+                 * @memberof qbychat.websocket.auth
+                 * @classdesc Represents a TokenLoginRequest.
+                 * @implements ITokenLoginRequest
+                 * @constructor
+                 * @param {qbychat.websocket.auth.ITokenLoginRequest=} [properties] Properties to set
+                 */
+                function TokenLoginRequest(properties) {
+                    if (properties)
+                        for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                            if (properties[keys[i]] != null)
+                                this[keys[i]] = properties[keys[i]];
+                }
+
+                /**
+                 * TokenLoginRequest token.
+                 * @member {string} token
+                 * @memberof qbychat.websocket.auth.TokenLoginRequest
+                 * @instance
+                 */
+                TokenLoginRequest.prototype.token = "";
+
+                /**
+                 * Creates a new TokenLoginRequest instance using the specified properties.
+                 * @function create
+                 * @memberof qbychat.websocket.auth.TokenLoginRequest
+                 * @static
+                 * @param {qbychat.websocket.auth.ITokenLoginRequest=} [properties] Properties to set
+                 * @returns {qbychat.websocket.auth.TokenLoginRequest} TokenLoginRequest instance
+                 */
+                TokenLoginRequest.create = function create(properties) {
+                    return new TokenLoginRequest(properties);
+                };
+
+                /**
+                 * Encodes the specified TokenLoginRequest message. Does not implicitly {@link qbychat.websocket.auth.TokenLoginRequest.verify|verify} messages.
+                 * @function encode
+                 * @memberof qbychat.websocket.auth.TokenLoginRequest
+                 * @static
+                 * @param {qbychat.websocket.auth.ITokenLoginRequest} message TokenLoginRequest message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                TokenLoginRequest.encode = function encode(message, writer) {
+                    if (!writer)
+                        writer = $Writer.create();
+                    if (message.token != null && Object.hasOwnProperty.call(message, "token"))
+                        writer.uint32(/* id 1, wireType 2 =*/10).string(message.token);
+                    return writer;
+                };
+
+                /**
+                 * Encodes the specified TokenLoginRequest message, length delimited. Does not implicitly {@link qbychat.websocket.auth.TokenLoginRequest.verify|verify} messages.
+                 * @function encodeDelimited
+                 * @memberof qbychat.websocket.auth.TokenLoginRequest
+                 * @static
+                 * @param {qbychat.websocket.auth.ITokenLoginRequest} message TokenLoginRequest message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                TokenLoginRequest.encodeDelimited = function encodeDelimited(message, writer) {
+                    return this.encode(message, writer).ldelim();
+                };
+
+                /**
+                 * Decodes a TokenLoginRequest message from the specified reader or buffer.
+                 * @function decode
+                 * @memberof qbychat.websocket.auth.TokenLoginRequest
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @param {number} [length] Message length if known beforehand
+                 * @returns {qbychat.websocket.auth.TokenLoginRequest} TokenLoginRequest
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                TokenLoginRequest.decode = function decode(reader, length) {
+                    if (!(reader instanceof $Reader))
+                        reader = $Reader.create(reader);
+                    let end = length === undefined ? reader.len : reader.pos + length, message = new $root.qbychat.websocket.auth.TokenLoginRequest();
+                    while (reader.pos < end) {
+                        let tag = reader.uint32();
+                        switch (tag >>> 3) {
+                        case 1: {
+                                message.token = reader.string();
+                                break;
+                            }
+                        default:
+                            reader.skipType(tag & 7);
+                            break;
+                        }
+                    }
+                    return message;
+                };
+
+                /**
+                 * Decodes a TokenLoginRequest message from the specified reader or buffer, length delimited.
+                 * @function decodeDelimited
+                 * @memberof qbychat.websocket.auth.TokenLoginRequest
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @returns {qbychat.websocket.auth.TokenLoginRequest} TokenLoginRequest
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                TokenLoginRequest.decodeDelimited = function decodeDelimited(reader) {
+                    if (!(reader instanceof $Reader))
+                        reader = new $Reader(reader);
+                    return this.decode(reader, reader.uint32());
+                };
+
+                /**
+                 * Verifies a TokenLoginRequest message.
+                 * @function verify
+                 * @memberof qbychat.websocket.auth.TokenLoginRequest
+                 * @static
+                 * @param {Object.<string,*>} message Plain object to verify
+                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                 */
+                TokenLoginRequest.verify = function verify(message) {
+                    if (typeof message !== "object" || message === null)
+                        return "object expected";
+                    if (message.token != null && message.hasOwnProperty("token"))
+                        if (!$util.isString(message.token))
+                            return "token: string expected";
+                    return null;
+                };
+
+                /**
+                 * Creates a TokenLoginRequest message from a plain object. Also converts values to their respective internal types.
+                 * @function fromObject
+                 * @memberof qbychat.websocket.auth.TokenLoginRequest
+                 * @static
+                 * @param {Object.<string,*>} object Plain object
+                 * @returns {qbychat.websocket.auth.TokenLoginRequest} TokenLoginRequest
+                 */
+                TokenLoginRequest.fromObject = function fromObject(object) {
+                    if (object instanceof $root.qbychat.websocket.auth.TokenLoginRequest)
+                        return object;
+                    let message = new $root.qbychat.websocket.auth.TokenLoginRequest();
+                    if (object.token != null)
+                        message.token = String(object.token);
+                    return message;
+                };
+
+                /**
+                 * Creates a plain object from a TokenLoginRequest message. Also converts values to other types if specified.
+                 * @function toObject
+                 * @memberof qbychat.websocket.auth.TokenLoginRequest
+                 * @static
+                 * @param {qbychat.websocket.auth.TokenLoginRequest} message TokenLoginRequest
+                 * @param {$protobuf.IConversionOptions} [options] Conversion options
+                 * @returns {Object.<string,*>} Plain object
+                 */
+                TokenLoginRequest.toObject = function toObject(message, options) {
+                    if (!options)
+                        options = {};
+                    let object = {};
+                    if (options.defaults)
+                        object.token = "";
+                    if (message.token != null && message.hasOwnProperty("token"))
+                        object.token = message.token;
+                    return object;
+                };
+
+                /**
+                 * Converts this TokenLoginRequest to JSON.
+                 * @function toJSON
+                 * @memberof qbychat.websocket.auth.TokenLoginRequest
+                 * @instance
+                 * @returns {Object.<string,*>} JSON object
+                 */
+                TokenLoginRequest.prototype.toJSON = function toJSON() {
+                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                };
+
+                /**
+                 * Gets the default type url for TokenLoginRequest
+                 * @function getTypeUrl
+                 * @memberof qbychat.websocket.auth.TokenLoginRequest
+                 * @static
+                 * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns {string} The default type url
+                 */
+                TokenLoginRequest.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                    if (typeUrlPrefix === undefined) {
+                        typeUrlPrefix = "type.googleapis.com";
+                    }
+                    return typeUrlPrefix + "/qbychat.websocket.auth.TokenLoginRequest";
+                };
+
+                return TokenLoginRequest;
+            })();
+
+            auth.TokenLoginResponse = (function() {
+
+                /**
+                 * Properties of a TokenLoginResponse.
+                 * @memberof qbychat.websocket.auth
+                 * @interface ITokenLoginResponse
+                 * @property {qbychat.websocket.auth.LoginStatus|null} [status] TokenLoginResponse status
+                 */
+
+                /**
+                 * Constructs a new TokenLoginResponse.
+                 * @memberof qbychat.websocket.auth
+                 * @classdesc Represents a TokenLoginResponse.
+                 * @implements ITokenLoginResponse
+                 * @constructor
+                 * @param {qbychat.websocket.auth.ITokenLoginResponse=} [properties] Properties to set
+                 */
+                function TokenLoginResponse(properties) {
+                    if (properties)
+                        for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                            if (properties[keys[i]] != null)
+                                this[keys[i]] = properties[keys[i]];
+                }
+
+                /**
+                 * TokenLoginResponse status.
+                 * @member {qbychat.websocket.auth.LoginStatus} status
+                 * @memberof qbychat.websocket.auth.TokenLoginResponse
+                 * @instance
+                 */
+                TokenLoginResponse.prototype.status = 0;
+
+                /**
+                 * Creates a new TokenLoginResponse instance using the specified properties.
+                 * @function create
+                 * @memberof qbychat.websocket.auth.TokenLoginResponse
+                 * @static
+                 * @param {qbychat.websocket.auth.ITokenLoginResponse=} [properties] Properties to set
+                 * @returns {qbychat.websocket.auth.TokenLoginResponse} TokenLoginResponse instance
+                 */
+                TokenLoginResponse.create = function create(properties) {
+                    return new TokenLoginResponse(properties);
+                };
+
+                /**
+                 * Encodes the specified TokenLoginResponse message. Does not implicitly {@link qbychat.websocket.auth.TokenLoginResponse.verify|verify} messages.
+                 * @function encode
+                 * @memberof qbychat.websocket.auth.TokenLoginResponse
+                 * @static
+                 * @param {qbychat.websocket.auth.ITokenLoginResponse} message TokenLoginResponse message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                TokenLoginResponse.encode = function encode(message, writer) {
+                    if (!writer)
+                        writer = $Writer.create();
+                    if (message.status != null && Object.hasOwnProperty.call(message, "status"))
+                        writer.uint32(/* id 1, wireType 0 =*/8).int32(message.status);
+                    return writer;
+                };
+
+                /**
+                 * Encodes the specified TokenLoginResponse message, length delimited. Does not implicitly {@link qbychat.websocket.auth.TokenLoginResponse.verify|verify} messages.
+                 * @function encodeDelimited
+                 * @memberof qbychat.websocket.auth.TokenLoginResponse
+                 * @static
+                 * @param {qbychat.websocket.auth.ITokenLoginResponse} message TokenLoginResponse message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                TokenLoginResponse.encodeDelimited = function encodeDelimited(message, writer) {
+                    return this.encode(message, writer).ldelim();
+                };
+
+                /**
+                 * Decodes a TokenLoginResponse message from the specified reader or buffer.
+                 * @function decode
+                 * @memberof qbychat.websocket.auth.TokenLoginResponse
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @param {number} [length] Message length if known beforehand
+                 * @returns {qbychat.websocket.auth.TokenLoginResponse} TokenLoginResponse
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                TokenLoginResponse.decode = function decode(reader, length) {
+                    if (!(reader instanceof $Reader))
+                        reader = $Reader.create(reader);
+                    let end = length === undefined ? reader.len : reader.pos + length, message = new $root.qbychat.websocket.auth.TokenLoginResponse();
+                    while (reader.pos < end) {
+                        let tag = reader.uint32();
+                        switch (tag >>> 3) {
+                        case 1: {
+                                message.status = reader.int32();
+                                break;
+                            }
+                        default:
+                            reader.skipType(tag & 7);
+                            break;
+                        }
+                    }
+                    return message;
+                };
+
+                /**
+                 * Decodes a TokenLoginResponse message from the specified reader or buffer, length delimited.
+                 * @function decodeDelimited
+                 * @memberof qbychat.websocket.auth.TokenLoginResponse
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @returns {qbychat.websocket.auth.TokenLoginResponse} TokenLoginResponse
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                TokenLoginResponse.decodeDelimited = function decodeDelimited(reader) {
+                    if (!(reader instanceof $Reader))
+                        reader = new $Reader(reader);
+                    return this.decode(reader, reader.uint32());
+                };
+
+                /**
+                 * Verifies a TokenLoginResponse message.
+                 * @function verify
+                 * @memberof qbychat.websocket.auth.TokenLoginResponse
+                 * @static
+                 * @param {Object.<string,*>} message Plain object to verify
+                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                 */
+                TokenLoginResponse.verify = function verify(message) {
+                    if (typeof message !== "object" || message === null)
+                        return "object expected";
+                    if (message.status != null && message.hasOwnProperty("status"))
+                        switch (message.status) {
+                        default:
+                            return "status: enum value expected";
+                        case 0:
+                        case 1:
+                        case 2:
+                        case 3:
+                        case 4:
+                            break;
+                        }
+                    return null;
+                };
+
+                /**
+                 * Creates a TokenLoginResponse message from a plain object. Also converts values to their respective internal types.
+                 * @function fromObject
+                 * @memberof qbychat.websocket.auth.TokenLoginResponse
+                 * @static
+                 * @param {Object.<string,*>} object Plain object
+                 * @returns {qbychat.websocket.auth.TokenLoginResponse} TokenLoginResponse
+                 */
+                TokenLoginResponse.fromObject = function fromObject(object) {
+                    if (object instanceof $root.qbychat.websocket.auth.TokenLoginResponse)
+                        return object;
+                    let message = new $root.qbychat.websocket.auth.TokenLoginResponse();
+                    switch (object.status) {
+                    default:
+                        if (typeof object.status === "number") {
+                            message.status = object.status;
+                            break;
+                        }
+                        break;
+                    case "SUCCESS":
+                    case 0:
+                        message.status = 0;
+                        break;
+                    case "TOKEN_EXPIRED":
+                    case 1:
+                        message.status = 1;
+                        break;
+                    case "BAD_TOKEN":
+                    case 2:
+                        message.status = 2;
+                        break;
+                    case "USER_NOT_FOUND":
+                    case 3:
+                        message.status = 3;
+                        break;
+                    case "BAD_PASSWORD":
+                    case 4:
+                        message.status = 4;
+                        break;
+                    }
+                    return message;
+                };
+
+                /**
+                 * Creates a plain object from a TokenLoginResponse message. Also converts values to other types if specified.
+                 * @function toObject
+                 * @memberof qbychat.websocket.auth.TokenLoginResponse
+                 * @static
+                 * @param {qbychat.websocket.auth.TokenLoginResponse} message TokenLoginResponse
+                 * @param {$protobuf.IConversionOptions} [options] Conversion options
+                 * @returns {Object.<string,*>} Plain object
+                 */
+                TokenLoginResponse.toObject = function toObject(message, options) {
+                    if (!options)
+                        options = {};
+                    let object = {};
+                    if (options.defaults)
+                        object.status = options.enums === String ? "SUCCESS" : 0;
+                    if (message.status != null && message.hasOwnProperty("status"))
+                        object.status = options.enums === String ? $root.qbychat.websocket.auth.LoginStatus[message.status] === undefined ? message.status : $root.qbychat.websocket.auth.LoginStatus[message.status] : message.status;
+                    return object;
+                };
+
+                /**
+                 * Converts this TokenLoginResponse to JSON.
+                 * @function toJSON
+                 * @memberof qbychat.websocket.auth.TokenLoginResponse
+                 * @instance
+                 * @returns {Object.<string,*>} JSON object
+                 */
+                TokenLoginResponse.prototype.toJSON = function toJSON() {
+                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                };
+
+                /**
+                 * Gets the default type url for TokenLoginResponse
+                 * @function getTypeUrl
+                 * @memberof qbychat.websocket.auth.TokenLoginResponse
+                 * @static
+                 * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns {string} The default type url
+                 */
+                TokenLoginResponse.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                    if (typeUrlPrefix === undefined) {
+                        typeUrlPrefix = "type.googleapis.com";
+                    }
+                    return typeUrlPrefix + "/qbychat.websocket.auth.TokenLoginResponse";
+                };
+
+                return TokenLoginResponse;
+            })();
+
+            /**
+             * LoginStatus enum.
+             * @name qbychat.websocket.auth.LoginStatus
+             * @enum {number}
+             * @property {number} SUCCESS=0 SUCCESS value
+             * @property {number} TOKEN_EXPIRED=1 TOKEN_EXPIRED value
+             * @property {number} BAD_TOKEN=2 BAD_TOKEN value
+             * @property {number} USER_NOT_FOUND=3 USER_NOT_FOUND value
+             * @property {number} BAD_PASSWORD=4 BAD_PASSWORD value
+             */
+            auth.LoginStatus = (function() {
+                const valuesById = {}, values = Object.create(valuesById);
+                values[valuesById[0] = "SUCCESS"] = 0;
+                values[valuesById[1] = "TOKEN_EXPIRED"] = 1;
+                values[valuesById[2] = "BAD_TOKEN"] = 2;
+                values[valuesById[3] = "USER_NOT_FOUND"] = 3;
+                values[valuesById[4] = "BAD_PASSWORD"] = 4;
+                return values;
+            })();
+
+            auth.UsernamePasswordLoginRequest = (function() {
+
+                /**
+                 * Properties of a UsernamePasswordLoginRequest.
+                 * @memberof qbychat.websocket.auth
+                 * @interface IUsernamePasswordLoginRequest
+                 * @property {string|null} [username] UsernamePasswordLoginRequest username
+                 * @property {string|null} [password] UsernamePasswordLoginRequest password
+                 */
+
+                /**
+                 * Constructs a new UsernamePasswordLoginRequest.
+                 * @memberof qbychat.websocket.auth
+                 * @classdesc Represents a UsernamePasswordLoginRequest.
+                 * @implements IUsernamePasswordLoginRequest
+                 * @constructor
+                 * @param {qbychat.websocket.auth.IUsernamePasswordLoginRequest=} [properties] Properties to set
+                 */
+                function UsernamePasswordLoginRequest(properties) {
+                    if (properties)
+                        for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                            if (properties[keys[i]] != null)
+                                this[keys[i]] = properties[keys[i]];
+                }
+
+                /**
+                 * UsernamePasswordLoginRequest username.
+                 * @member {string} username
+                 * @memberof qbychat.websocket.auth.UsernamePasswordLoginRequest
+                 * @instance
+                 */
+                UsernamePasswordLoginRequest.prototype.username = "";
+
+                /**
+                 * UsernamePasswordLoginRequest password.
+                 * @member {string} password
+                 * @memberof qbychat.websocket.auth.UsernamePasswordLoginRequest
+                 * @instance
+                 */
+                UsernamePasswordLoginRequest.prototype.password = "";
+
+                /**
+                 * Creates a new UsernamePasswordLoginRequest instance using the specified properties.
+                 * @function create
+                 * @memberof qbychat.websocket.auth.UsernamePasswordLoginRequest
+                 * @static
+                 * @param {qbychat.websocket.auth.IUsernamePasswordLoginRequest=} [properties] Properties to set
+                 * @returns {qbychat.websocket.auth.UsernamePasswordLoginRequest} UsernamePasswordLoginRequest instance
+                 */
+                UsernamePasswordLoginRequest.create = function create(properties) {
+                    return new UsernamePasswordLoginRequest(properties);
+                };
+
+                /**
+                 * Encodes the specified UsernamePasswordLoginRequest message. Does not implicitly {@link qbychat.websocket.auth.UsernamePasswordLoginRequest.verify|verify} messages.
+                 * @function encode
+                 * @memberof qbychat.websocket.auth.UsernamePasswordLoginRequest
+                 * @static
+                 * @param {qbychat.websocket.auth.IUsernamePasswordLoginRequest} message UsernamePasswordLoginRequest message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                UsernamePasswordLoginRequest.encode = function encode(message, writer) {
+                    if (!writer)
+                        writer = $Writer.create();
+                    if (message.username != null && Object.hasOwnProperty.call(message, "username"))
+                        writer.uint32(/* id 1, wireType 2 =*/10).string(message.username);
+                    if (message.password != null && Object.hasOwnProperty.call(message, "password"))
+                        writer.uint32(/* id 2, wireType 2 =*/18).string(message.password);
+                    return writer;
+                };
+
+                /**
+                 * Encodes the specified UsernamePasswordLoginRequest message, length delimited. Does not implicitly {@link qbychat.websocket.auth.UsernamePasswordLoginRequest.verify|verify} messages.
+                 * @function encodeDelimited
+                 * @memberof qbychat.websocket.auth.UsernamePasswordLoginRequest
+                 * @static
+                 * @param {qbychat.websocket.auth.IUsernamePasswordLoginRequest} message UsernamePasswordLoginRequest message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                UsernamePasswordLoginRequest.encodeDelimited = function encodeDelimited(message, writer) {
+                    return this.encode(message, writer).ldelim();
+                };
+
+                /**
+                 * Decodes a UsernamePasswordLoginRequest message from the specified reader or buffer.
+                 * @function decode
+                 * @memberof qbychat.websocket.auth.UsernamePasswordLoginRequest
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @param {number} [length] Message length if known beforehand
+                 * @returns {qbychat.websocket.auth.UsernamePasswordLoginRequest} UsernamePasswordLoginRequest
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                UsernamePasswordLoginRequest.decode = function decode(reader, length) {
+                    if (!(reader instanceof $Reader))
+                        reader = $Reader.create(reader);
+                    let end = length === undefined ? reader.len : reader.pos + length, message = new $root.qbychat.websocket.auth.UsernamePasswordLoginRequest();
+                    while (reader.pos < end) {
+                        let tag = reader.uint32();
+                        switch (tag >>> 3) {
+                        case 1: {
+                                message.username = reader.string();
+                                break;
+                            }
+                        case 2: {
+                                message.password = reader.string();
+                                break;
+                            }
+                        default:
+                            reader.skipType(tag & 7);
+                            break;
+                        }
+                    }
+                    return message;
+                };
+
+                /**
+                 * Decodes a UsernamePasswordLoginRequest message from the specified reader or buffer, length delimited.
+                 * @function decodeDelimited
+                 * @memberof qbychat.websocket.auth.UsernamePasswordLoginRequest
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @returns {qbychat.websocket.auth.UsernamePasswordLoginRequest} UsernamePasswordLoginRequest
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                UsernamePasswordLoginRequest.decodeDelimited = function decodeDelimited(reader) {
+                    if (!(reader instanceof $Reader))
+                        reader = new $Reader(reader);
+                    return this.decode(reader, reader.uint32());
+                };
+
+                /**
+                 * Verifies a UsernamePasswordLoginRequest message.
+                 * @function verify
+                 * @memberof qbychat.websocket.auth.UsernamePasswordLoginRequest
+                 * @static
+                 * @param {Object.<string,*>} message Plain object to verify
+                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                 */
+                UsernamePasswordLoginRequest.verify = function verify(message) {
+                    if (typeof message !== "object" || message === null)
+                        return "object expected";
+                    if (message.username != null && message.hasOwnProperty("username"))
+                        if (!$util.isString(message.username))
+                            return "username: string expected";
+                    if (message.password != null && message.hasOwnProperty("password"))
+                        if (!$util.isString(message.password))
+                            return "password: string expected";
+                    return null;
+                };
+
+                /**
+                 * Creates a UsernamePasswordLoginRequest message from a plain object. Also converts values to their respective internal types.
+                 * @function fromObject
+                 * @memberof qbychat.websocket.auth.UsernamePasswordLoginRequest
+                 * @static
+                 * @param {Object.<string,*>} object Plain object
+                 * @returns {qbychat.websocket.auth.UsernamePasswordLoginRequest} UsernamePasswordLoginRequest
+                 */
+                UsernamePasswordLoginRequest.fromObject = function fromObject(object) {
+                    if (object instanceof $root.qbychat.websocket.auth.UsernamePasswordLoginRequest)
+                        return object;
+                    let message = new $root.qbychat.websocket.auth.UsernamePasswordLoginRequest();
+                    if (object.username != null)
+                        message.username = String(object.username);
+                    if (object.password != null)
+                        message.password = String(object.password);
+                    return message;
+                };
+
+                /**
+                 * Creates a plain object from a UsernamePasswordLoginRequest message. Also converts values to other types if specified.
+                 * @function toObject
+                 * @memberof qbychat.websocket.auth.UsernamePasswordLoginRequest
+                 * @static
+                 * @param {qbychat.websocket.auth.UsernamePasswordLoginRequest} message UsernamePasswordLoginRequest
+                 * @param {$protobuf.IConversionOptions} [options] Conversion options
+                 * @returns {Object.<string,*>} Plain object
+                 */
+                UsernamePasswordLoginRequest.toObject = function toObject(message, options) {
+                    if (!options)
+                        options = {};
+                    let object = {};
+                    if (options.defaults) {
+                        object.username = "";
+                        object.password = "";
+                    }
+                    if (message.username != null && message.hasOwnProperty("username"))
+                        object.username = message.username;
+                    if (message.password != null && message.hasOwnProperty("password"))
+                        object.password = message.password;
+                    return object;
+                };
+
+                /**
+                 * Converts this UsernamePasswordLoginRequest to JSON.
+                 * @function toJSON
+                 * @memberof qbychat.websocket.auth.UsernamePasswordLoginRequest
+                 * @instance
+                 * @returns {Object.<string,*>} JSON object
+                 */
+                UsernamePasswordLoginRequest.prototype.toJSON = function toJSON() {
+                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                };
+
+                /**
+                 * Gets the default type url for UsernamePasswordLoginRequest
+                 * @function getTypeUrl
+                 * @memberof qbychat.websocket.auth.UsernamePasswordLoginRequest
+                 * @static
+                 * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns {string} The default type url
+                 */
+                UsernamePasswordLoginRequest.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                    if (typeUrlPrefix === undefined) {
+                        typeUrlPrefix = "type.googleapis.com";
+                    }
+                    return typeUrlPrefix + "/qbychat.websocket.auth.UsernamePasswordLoginRequest";
+                };
+
+                return UsernamePasswordLoginRequest;
+            })();
+
+            auth.UsernamePasswordLoginResponse = (function() {
+
+                /**
+                 * Properties of a UsernamePasswordLoginResponse.
+                 * @memberof qbychat.websocket.auth
+                 * @interface IUsernamePasswordLoginResponse
+                 * @property {qbychat.websocket.auth.LoginStatus|null} [status] UsernamePasswordLoginResponse status
+                 */
+
+                /**
+                 * Constructs a new UsernamePasswordLoginResponse.
+                 * @memberof qbychat.websocket.auth
+                 * @classdesc Represents a UsernamePasswordLoginResponse.
+                 * @implements IUsernamePasswordLoginResponse
+                 * @constructor
+                 * @param {qbychat.websocket.auth.IUsernamePasswordLoginResponse=} [properties] Properties to set
+                 */
+                function UsernamePasswordLoginResponse(properties) {
+                    if (properties)
+                        for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                            if (properties[keys[i]] != null)
+                                this[keys[i]] = properties[keys[i]];
+                }
+
+                /**
+                 * UsernamePasswordLoginResponse status.
+                 * @member {qbychat.websocket.auth.LoginStatus} status
+                 * @memberof qbychat.websocket.auth.UsernamePasswordLoginResponse
+                 * @instance
+                 */
+                UsernamePasswordLoginResponse.prototype.status = 0;
+
+                /**
+                 * Creates a new UsernamePasswordLoginResponse instance using the specified properties.
+                 * @function create
+                 * @memberof qbychat.websocket.auth.UsernamePasswordLoginResponse
+                 * @static
+                 * @param {qbychat.websocket.auth.IUsernamePasswordLoginResponse=} [properties] Properties to set
+                 * @returns {qbychat.websocket.auth.UsernamePasswordLoginResponse} UsernamePasswordLoginResponse instance
+                 */
+                UsernamePasswordLoginResponse.create = function create(properties) {
+                    return new UsernamePasswordLoginResponse(properties);
+                };
+
+                /**
+                 * Encodes the specified UsernamePasswordLoginResponse message. Does not implicitly {@link qbychat.websocket.auth.UsernamePasswordLoginResponse.verify|verify} messages.
+                 * @function encode
+                 * @memberof qbychat.websocket.auth.UsernamePasswordLoginResponse
+                 * @static
+                 * @param {qbychat.websocket.auth.IUsernamePasswordLoginResponse} message UsernamePasswordLoginResponse message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                UsernamePasswordLoginResponse.encode = function encode(message, writer) {
+                    if (!writer)
+                        writer = $Writer.create();
+                    if (message.status != null && Object.hasOwnProperty.call(message, "status"))
+                        writer.uint32(/* id 1, wireType 0 =*/8).int32(message.status);
+                    return writer;
+                };
+
+                /**
+                 * Encodes the specified UsernamePasswordLoginResponse message, length delimited. Does not implicitly {@link qbychat.websocket.auth.UsernamePasswordLoginResponse.verify|verify} messages.
+                 * @function encodeDelimited
+                 * @memberof qbychat.websocket.auth.UsernamePasswordLoginResponse
+                 * @static
+                 * @param {qbychat.websocket.auth.IUsernamePasswordLoginResponse} message UsernamePasswordLoginResponse message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                UsernamePasswordLoginResponse.encodeDelimited = function encodeDelimited(message, writer) {
+                    return this.encode(message, writer).ldelim();
+                };
+
+                /**
+                 * Decodes a UsernamePasswordLoginResponse message from the specified reader or buffer.
+                 * @function decode
+                 * @memberof qbychat.websocket.auth.UsernamePasswordLoginResponse
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @param {number} [length] Message length if known beforehand
+                 * @returns {qbychat.websocket.auth.UsernamePasswordLoginResponse} UsernamePasswordLoginResponse
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                UsernamePasswordLoginResponse.decode = function decode(reader, length) {
+                    if (!(reader instanceof $Reader))
+                        reader = $Reader.create(reader);
+                    let end = length === undefined ? reader.len : reader.pos + length, message = new $root.qbychat.websocket.auth.UsernamePasswordLoginResponse();
+                    while (reader.pos < end) {
+                        let tag = reader.uint32();
+                        switch (tag >>> 3) {
+                        case 1: {
+                                message.status = reader.int32();
+                                break;
+                            }
+                        default:
+                            reader.skipType(tag & 7);
+                            break;
+                        }
+                    }
+                    return message;
+                };
+
+                /**
+                 * Decodes a UsernamePasswordLoginResponse message from the specified reader or buffer, length delimited.
+                 * @function decodeDelimited
+                 * @memberof qbychat.websocket.auth.UsernamePasswordLoginResponse
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @returns {qbychat.websocket.auth.UsernamePasswordLoginResponse} UsernamePasswordLoginResponse
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                UsernamePasswordLoginResponse.decodeDelimited = function decodeDelimited(reader) {
+                    if (!(reader instanceof $Reader))
+                        reader = new $Reader(reader);
+                    return this.decode(reader, reader.uint32());
+                };
+
+                /**
+                 * Verifies a UsernamePasswordLoginResponse message.
+                 * @function verify
+                 * @memberof qbychat.websocket.auth.UsernamePasswordLoginResponse
+                 * @static
+                 * @param {Object.<string,*>} message Plain object to verify
+                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                 */
+                UsernamePasswordLoginResponse.verify = function verify(message) {
+                    if (typeof message !== "object" || message === null)
+                        return "object expected";
+                    if (message.status != null && message.hasOwnProperty("status"))
+                        switch (message.status) {
+                        default:
+                            return "status: enum value expected";
+                        case 0:
+                        case 1:
+                        case 2:
+                        case 3:
+                        case 4:
+                            break;
+                        }
+                    return null;
+                };
+
+                /**
+                 * Creates a UsernamePasswordLoginResponse message from a plain object. Also converts values to their respective internal types.
+                 * @function fromObject
+                 * @memberof qbychat.websocket.auth.UsernamePasswordLoginResponse
+                 * @static
+                 * @param {Object.<string,*>} object Plain object
+                 * @returns {qbychat.websocket.auth.UsernamePasswordLoginResponse} UsernamePasswordLoginResponse
+                 */
+                UsernamePasswordLoginResponse.fromObject = function fromObject(object) {
+                    if (object instanceof $root.qbychat.websocket.auth.UsernamePasswordLoginResponse)
+                        return object;
+                    let message = new $root.qbychat.websocket.auth.UsernamePasswordLoginResponse();
+                    switch (object.status) {
+                    default:
+                        if (typeof object.status === "number") {
+                            message.status = object.status;
+                            break;
+                        }
+                        break;
+                    case "SUCCESS":
+                    case 0:
+                        message.status = 0;
+                        break;
+                    case "TOKEN_EXPIRED":
+                    case 1:
+                        message.status = 1;
+                        break;
+                    case "BAD_TOKEN":
+                    case 2:
+                        message.status = 2;
+                        break;
+                    case "USER_NOT_FOUND":
+                    case 3:
+                        message.status = 3;
+                        break;
+                    case "BAD_PASSWORD":
+                    case 4:
+                        message.status = 4;
+                        break;
+                    }
+                    return message;
+                };
+
+                /**
+                 * Creates a plain object from a UsernamePasswordLoginResponse message. Also converts values to other types if specified.
+                 * @function toObject
+                 * @memberof qbychat.websocket.auth.UsernamePasswordLoginResponse
+                 * @static
+                 * @param {qbychat.websocket.auth.UsernamePasswordLoginResponse} message UsernamePasswordLoginResponse
+                 * @param {$protobuf.IConversionOptions} [options] Conversion options
+                 * @returns {Object.<string,*>} Plain object
+                 */
+                UsernamePasswordLoginResponse.toObject = function toObject(message, options) {
+                    if (!options)
+                        options = {};
+                    let object = {};
+                    if (options.defaults)
+                        object.status = options.enums === String ? "SUCCESS" : 0;
+                    if (message.status != null && message.hasOwnProperty("status"))
+                        object.status = options.enums === String ? $root.qbychat.websocket.auth.LoginStatus[message.status] === undefined ? message.status : $root.qbychat.websocket.auth.LoginStatus[message.status] : message.status;
+                    return object;
+                };
+
+                /**
+                 * Converts this UsernamePasswordLoginResponse to JSON.
+                 * @function toJSON
+                 * @memberof qbychat.websocket.auth.UsernamePasswordLoginResponse
+                 * @instance
+                 * @returns {Object.<string,*>} JSON object
+                 */
+                UsernamePasswordLoginResponse.prototype.toJSON = function toJSON() {
+                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                };
+
+                /**
+                 * Gets the default type url for UsernamePasswordLoginResponse
+                 * @function getTypeUrl
+                 * @memberof qbychat.websocket.auth.UsernamePasswordLoginResponse
+                 * @static
+                 * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns {string} The default type url
+                 */
+                UsernamePasswordLoginResponse.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                    if (typeUrlPrefix === undefined) {
+                        typeUrlPrefix = "type.googleapis.com";
+                    }
+                    return typeUrlPrefix + "/qbychat.websocket.auth.UsernamePasswordLoginResponse";
+                };
+
+                return UsernamePasswordLoginResponse;
+            })();
+
+            auth.TokenUpdateEvent = (function() {
+
+                /**
+                 * Properties of a TokenUpdateEvent.
+                 * @memberof qbychat.websocket.auth
+                 * @interface ITokenUpdateEvent
+                 * @property {string|null} [token] TokenUpdateEvent token
+                 * @property {google.protobuf.ITimestamp|null} [expireAt] TokenUpdateEvent expireAt
+                 */
+
+                /**
+                 * Constructs a new TokenUpdateEvent.
+                 * @memberof qbychat.websocket.auth
+                 * @classdesc Represents a TokenUpdateEvent.
+                 * @implements ITokenUpdateEvent
+                 * @constructor
+                 * @param {qbychat.websocket.auth.ITokenUpdateEvent=} [properties] Properties to set
+                 */
+                function TokenUpdateEvent(properties) {
+                    if (properties)
+                        for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                            if (properties[keys[i]] != null)
+                                this[keys[i]] = properties[keys[i]];
+                }
+
+                /**
+                 * TokenUpdateEvent token.
+                 * @member {string} token
+                 * @memberof qbychat.websocket.auth.TokenUpdateEvent
+                 * @instance
+                 */
+                TokenUpdateEvent.prototype.token = "";
+
+                /**
+                 * TokenUpdateEvent expireAt.
+                 * @member {google.protobuf.ITimestamp|null|undefined} expireAt
+                 * @memberof qbychat.websocket.auth.TokenUpdateEvent
+                 * @instance
+                 */
+                TokenUpdateEvent.prototype.expireAt = null;
+
+                /**
+                 * Creates a new TokenUpdateEvent instance using the specified properties.
+                 * @function create
+                 * @memberof qbychat.websocket.auth.TokenUpdateEvent
+                 * @static
+                 * @param {qbychat.websocket.auth.ITokenUpdateEvent=} [properties] Properties to set
+                 * @returns {qbychat.websocket.auth.TokenUpdateEvent} TokenUpdateEvent instance
+                 */
+                TokenUpdateEvent.create = function create(properties) {
+                    return new TokenUpdateEvent(properties);
+                };
+
+                /**
+                 * Encodes the specified TokenUpdateEvent message. Does not implicitly {@link qbychat.websocket.auth.TokenUpdateEvent.verify|verify} messages.
+                 * @function encode
+                 * @memberof qbychat.websocket.auth.TokenUpdateEvent
+                 * @static
+                 * @param {qbychat.websocket.auth.ITokenUpdateEvent} message TokenUpdateEvent message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                TokenUpdateEvent.encode = function encode(message, writer) {
+                    if (!writer)
+                        writer = $Writer.create();
+                    if (message.token != null && Object.hasOwnProperty.call(message, "token"))
+                        writer.uint32(/* id 1, wireType 2 =*/10).string(message.token);
+                    if (message.expireAt != null && Object.hasOwnProperty.call(message, "expireAt"))
+                        $root.google.protobuf.Timestamp.encode(message.expireAt, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+                    return writer;
+                };
+
+                /**
+                 * Encodes the specified TokenUpdateEvent message, length delimited. Does not implicitly {@link qbychat.websocket.auth.TokenUpdateEvent.verify|verify} messages.
+                 * @function encodeDelimited
+                 * @memberof qbychat.websocket.auth.TokenUpdateEvent
+                 * @static
+                 * @param {qbychat.websocket.auth.ITokenUpdateEvent} message TokenUpdateEvent message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                TokenUpdateEvent.encodeDelimited = function encodeDelimited(message, writer) {
+                    return this.encode(message, writer).ldelim();
+                };
+
+                /**
+                 * Decodes a TokenUpdateEvent message from the specified reader or buffer.
+                 * @function decode
+                 * @memberof qbychat.websocket.auth.TokenUpdateEvent
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @param {number} [length] Message length if known beforehand
+                 * @returns {qbychat.websocket.auth.TokenUpdateEvent} TokenUpdateEvent
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                TokenUpdateEvent.decode = function decode(reader, length) {
+                    if (!(reader instanceof $Reader))
+                        reader = $Reader.create(reader);
+                    let end = length === undefined ? reader.len : reader.pos + length, message = new $root.qbychat.websocket.auth.TokenUpdateEvent();
+                    while (reader.pos < end) {
+                        let tag = reader.uint32();
+                        switch (tag >>> 3) {
+                        case 1: {
+                                message.token = reader.string();
+                                break;
+                            }
+                        case 2: {
+                                message.expireAt = $root.google.protobuf.Timestamp.decode(reader, reader.uint32());
+                                break;
+                            }
+                        default:
+                            reader.skipType(tag & 7);
+                            break;
+                        }
+                    }
+                    return message;
+                };
+
+                /**
+                 * Decodes a TokenUpdateEvent message from the specified reader or buffer, length delimited.
+                 * @function decodeDelimited
+                 * @memberof qbychat.websocket.auth.TokenUpdateEvent
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @returns {qbychat.websocket.auth.TokenUpdateEvent} TokenUpdateEvent
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                TokenUpdateEvent.decodeDelimited = function decodeDelimited(reader) {
+                    if (!(reader instanceof $Reader))
+                        reader = new $Reader(reader);
+                    return this.decode(reader, reader.uint32());
+                };
+
+                /**
+                 * Verifies a TokenUpdateEvent message.
+                 * @function verify
+                 * @memberof qbychat.websocket.auth.TokenUpdateEvent
+                 * @static
+                 * @param {Object.<string,*>} message Plain object to verify
+                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                 */
+                TokenUpdateEvent.verify = function verify(message) {
+                    if (typeof message !== "object" || message === null)
+                        return "object expected";
+                    if (message.token != null && message.hasOwnProperty("token"))
+                        if (!$util.isString(message.token))
+                            return "token: string expected";
+                    if (message.expireAt != null && message.hasOwnProperty("expireAt")) {
+                        let error = $root.google.protobuf.Timestamp.verify(message.expireAt);
+                        if (error)
+                            return "expireAt." + error;
+                    }
+                    return null;
+                };
+
+                /**
+                 * Creates a TokenUpdateEvent message from a plain object. Also converts values to their respective internal types.
+                 * @function fromObject
+                 * @memberof qbychat.websocket.auth.TokenUpdateEvent
+                 * @static
+                 * @param {Object.<string,*>} object Plain object
+                 * @returns {qbychat.websocket.auth.TokenUpdateEvent} TokenUpdateEvent
+                 */
+                TokenUpdateEvent.fromObject = function fromObject(object) {
+                    if (object instanceof $root.qbychat.websocket.auth.TokenUpdateEvent)
+                        return object;
+                    let message = new $root.qbychat.websocket.auth.TokenUpdateEvent();
+                    if (object.token != null)
+                        message.token = String(object.token);
+                    if (object.expireAt != null) {
+                        if (typeof object.expireAt !== "object")
+                            throw TypeError(".qbychat.websocket.auth.TokenUpdateEvent.expireAt: object expected");
+                        message.expireAt = $root.google.protobuf.Timestamp.fromObject(object.expireAt);
+                    }
+                    return message;
+                };
+
+                /**
+                 * Creates a plain object from a TokenUpdateEvent message. Also converts values to other types if specified.
+                 * @function toObject
+                 * @memberof qbychat.websocket.auth.TokenUpdateEvent
+                 * @static
+                 * @param {qbychat.websocket.auth.TokenUpdateEvent} message TokenUpdateEvent
+                 * @param {$protobuf.IConversionOptions} [options] Conversion options
+                 * @returns {Object.<string,*>} Plain object
+                 */
+                TokenUpdateEvent.toObject = function toObject(message, options) {
+                    if (!options)
+                        options = {};
+                    let object = {};
+                    if (options.defaults) {
+                        object.token = "";
+                        object.expireAt = null;
+                    }
+                    if (message.token != null && message.hasOwnProperty("token"))
+                        object.token = message.token;
+                    if (message.expireAt != null && message.hasOwnProperty("expireAt"))
+                        object.expireAt = $root.google.protobuf.Timestamp.toObject(message.expireAt, options);
+                    return object;
+                };
+
+                /**
+                 * Converts this TokenUpdateEvent to JSON.
+                 * @function toJSON
+                 * @memberof qbychat.websocket.auth.TokenUpdateEvent
+                 * @instance
+                 * @returns {Object.<string,*>} JSON object
+                 */
+                TokenUpdateEvent.prototype.toJSON = function toJSON() {
+                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                };
+
+                /**
+                 * Gets the default type url for TokenUpdateEvent
+                 * @function getTypeUrl
+                 * @memberof qbychat.websocket.auth.TokenUpdateEvent
+                 * @static
+                 * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns {string} The default type url
+                 */
+                TokenUpdateEvent.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                    if (typeUrlPrefix === undefined) {
+                        typeUrlPrefix = "type.googleapis.com";
+                    }
+                    return typeUrlPrefix + "/qbychat.websocket.auth.TokenUpdateEvent";
+                };
+
+                return TokenUpdateEvent;
+            })();
+
+            return auth;
+        })();
+
         websocket.user = (function() {
 
             /**
@@ -2840,6 +4008,247 @@ export const google = $root.google = (() => {
             };
 
             return Any;
+        })();
+
+        protobuf.Timestamp = (function() {
+
+            /**
+             * Properties of a Timestamp.
+             * @memberof google.protobuf
+             * @interface ITimestamp
+             * @property {number|Long|null} [seconds] Timestamp seconds
+             * @property {number|null} [nanos] Timestamp nanos
+             */
+
+            /**
+             * Constructs a new Timestamp.
+             * @memberof google.protobuf
+             * @classdesc Represents a Timestamp.
+             * @implements ITimestamp
+             * @constructor
+             * @param {google.protobuf.ITimestamp=} [properties] Properties to set
+             */
+            function Timestamp(properties) {
+                if (properties)
+                    for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+
+            /**
+             * Timestamp seconds.
+             * @member {number|Long} seconds
+             * @memberof google.protobuf.Timestamp
+             * @instance
+             */
+            Timestamp.prototype.seconds = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
+
+            /**
+             * Timestamp nanos.
+             * @member {number} nanos
+             * @memberof google.protobuf.Timestamp
+             * @instance
+             */
+            Timestamp.prototype.nanos = 0;
+
+            /**
+             * Creates a new Timestamp instance using the specified properties.
+             * @function create
+             * @memberof google.protobuf.Timestamp
+             * @static
+             * @param {google.protobuf.ITimestamp=} [properties] Properties to set
+             * @returns {google.protobuf.Timestamp} Timestamp instance
+             */
+            Timestamp.create = function create(properties) {
+                return new Timestamp(properties);
+            };
+
+            /**
+             * Encodes the specified Timestamp message. Does not implicitly {@link google.protobuf.Timestamp.verify|verify} messages.
+             * @function encode
+             * @memberof google.protobuf.Timestamp
+             * @static
+             * @param {google.protobuf.ITimestamp} message Timestamp message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            Timestamp.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.seconds != null && Object.hasOwnProperty.call(message, "seconds"))
+                    writer.uint32(/* id 1, wireType 0 =*/8).int64(message.seconds);
+                if (message.nanos != null && Object.hasOwnProperty.call(message, "nanos"))
+                    writer.uint32(/* id 2, wireType 0 =*/16).int32(message.nanos);
+                return writer;
+            };
+
+            /**
+             * Encodes the specified Timestamp message, length delimited. Does not implicitly {@link google.protobuf.Timestamp.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof google.protobuf.Timestamp
+             * @static
+             * @param {google.protobuf.ITimestamp} message Timestamp message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            Timestamp.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+
+            /**
+             * Decodes a Timestamp message from the specified reader or buffer.
+             * @function decode
+             * @memberof google.protobuf.Timestamp
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {google.protobuf.Timestamp} Timestamp
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            Timestamp.decode = function decode(reader, length) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                let end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.protobuf.Timestamp();
+                while (reader.pos < end) {
+                    let tag = reader.uint32();
+                    switch (tag >>> 3) {
+                    case 1: {
+                            message.seconds = reader.int64();
+                            break;
+                        }
+                    case 2: {
+                            message.nanos = reader.int32();
+                            break;
+                        }
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Decodes a Timestamp message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof google.protobuf.Timestamp
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {google.protobuf.Timestamp} Timestamp
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            Timestamp.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a Timestamp message.
+             * @function verify
+             * @memberof google.protobuf.Timestamp
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            Timestamp.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (message.seconds != null && message.hasOwnProperty("seconds"))
+                    if (!$util.isInteger(message.seconds) && !(message.seconds && $util.isInteger(message.seconds.low) && $util.isInteger(message.seconds.high)))
+                        return "seconds: integer|Long expected";
+                if (message.nanos != null && message.hasOwnProperty("nanos"))
+                    if (!$util.isInteger(message.nanos))
+                        return "nanos: integer expected";
+                return null;
+            };
+
+            /**
+             * Creates a Timestamp message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof google.protobuf.Timestamp
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {google.protobuf.Timestamp} Timestamp
+             */
+            Timestamp.fromObject = function fromObject(object) {
+                if (object instanceof $root.google.protobuf.Timestamp)
+                    return object;
+                let message = new $root.google.protobuf.Timestamp();
+                if (object.seconds != null)
+                    if ($util.Long)
+                        (message.seconds = $util.Long.fromValue(object.seconds)).unsigned = false;
+                    else if (typeof object.seconds === "string")
+                        message.seconds = parseInt(object.seconds, 10);
+                    else if (typeof object.seconds === "number")
+                        message.seconds = object.seconds;
+                    else if (typeof object.seconds === "object")
+                        message.seconds = new $util.LongBits(object.seconds.low >>> 0, object.seconds.high >>> 0).toNumber();
+                if (object.nanos != null)
+                    message.nanos = object.nanos | 0;
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a Timestamp message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof google.protobuf.Timestamp
+             * @static
+             * @param {google.protobuf.Timestamp} message Timestamp
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            Timestamp.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                let object = {};
+                if (options.defaults) {
+                    if ($util.Long) {
+                        let long = new $util.Long(0, 0, false);
+                        object.seconds = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                    } else
+                        object.seconds = options.longs === String ? "0" : 0;
+                    object.nanos = 0;
+                }
+                if (message.seconds != null && message.hasOwnProperty("seconds"))
+                    if (typeof message.seconds === "number")
+                        object.seconds = options.longs === String ? String(message.seconds) : message.seconds;
+                    else
+                        object.seconds = options.longs === String ? $util.Long.prototype.toString.call(message.seconds) : options.longs === Number ? new $util.LongBits(message.seconds.low >>> 0, message.seconds.high >>> 0).toNumber() : message.seconds;
+                if (message.nanos != null && message.hasOwnProperty("nanos"))
+                    object.nanos = message.nanos;
+                return object;
+            };
+
+            /**
+             * Converts this Timestamp to JSON.
+             * @function toJSON
+             * @memberof google.protobuf.Timestamp
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            Timestamp.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            /**
+             * Gets the default type url for Timestamp
+             * @function getTypeUrl
+             * @memberof google.protobuf.Timestamp
+             * @static
+             * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+             * @returns {string} The default type url
+             */
+            Timestamp.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                if (typeUrlPrefix === undefined) {
+                    typeUrlPrefix = "type.googleapis.com";
+                }
+                return typeUrlPrefix + "/google.protobuf.Timestamp";
+            };
+
+            return Timestamp;
         })();
 
         return protobuf;

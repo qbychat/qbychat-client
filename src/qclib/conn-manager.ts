@@ -22,6 +22,11 @@ interface QbyChatConfig {
     websocketPath: string;
 }
 
+interface EventHandler {
+    type: string;
+    dispatcher: (message: Uint8Array) => Promise<void>;
+}
+
 async function blobToByteArray(blob: Blob) {
     const buffer = await new Response(blob).arrayBuffer();
     return new Uint8Array(buffer);
@@ -42,6 +47,7 @@ class ConnectionManager {
     private messageQueue: Uint8Array[] = [];
 
     private responseHandlers: Map<string, (response: protocol.IResponse) => void> = new Map();
+    private eventHandlers: Map<string, EventHandler> = new Map();
 
     constructor() {
     }
@@ -164,7 +170,39 @@ class ConnectionManager {
                 this.responseHandlers.delete(response.ticket!); // Clean up the handler after it has been called
             }
         }
-        // todo handle events
+        // handle events
+        if (message.event) {
+            // find handlers
+            const event = message.event!;
+            console.info("Received event:", event.type_url);
+            for (const handler of this.eventHandlers.values()) {
+                if (handler.type === event.type_url) {
+                    // handle
+                    await handler.dispatcher(event.value!)
+                }
+            }
+        }
+    }
+
+    /**
+     * Register an event handler
+     *
+     * @param type event type
+     * @param dispatcher event handler
+     * @return handler id
+     * */
+    registerEventHandler(type: string, dispatcher: (message: Uint8Array) => Promise<void>): string {
+        const id = uuidv4();
+        console.log(`Register event handler for type ${type} (${id})`);
+        this.eventHandlers.set(id, {
+            type: type,
+            dispatcher: dispatcher
+        });
+        return id;
+    }
+
+    removeEventHandler(id: string): void {
+        this.eventHandlers.delete(id);
     }
 
     private attemptReconnect(): void {
@@ -226,6 +264,8 @@ class ConnectionManager {
             this.responseHandlers.set(ticket, callback);
         });
     }
+
+
 
     disconnect(): void {
         if (this.ws) {
