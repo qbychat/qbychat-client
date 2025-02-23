@@ -24,7 +24,7 @@ interface QbyChatConfig {
 
 interface EventHandler {
     type: string;
-    dispatcher: (message: Uint8Array) => Promise<void>;
+    dispatcher: (account: string | null | undefined, message: Uint8Array) => Promise<void>;
 }
 
 async function blobToByteArray(blob: Blob) {
@@ -178,7 +178,7 @@ class ConnectionManager {
             for (const handler of this.eventHandlers.values()) {
                 if (handler.type === event.type_url) {
                     // handle
-                    await handler.dispatcher(event.value!)
+                    await handler.dispatcher(message.account, event.value!)
                 }
             }
         }
@@ -191,7 +191,7 @@ class ConnectionManager {
      * @param dispatcher event handler
      * @return handler id
      * */
-    registerEventHandler(type: string, dispatcher: (message: Uint8Array) => Promise<void>): string {
+    registerEventHandler(type: string, dispatcher: (account: string | null | undefined, message: Uint8Array) => Promise<void>): string {
         const id = uuidv4();
         console.log(`Register event handler for type ${type} (${id})`);
         this.eventHandlers.set(id, {
