@@ -28,6 +28,10 @@ function App() {
                 });
             }
         });
+
+        return () => {
+            connectionManager.disconnect();
+        }
     }, []);
 
     useEffect(() => {
