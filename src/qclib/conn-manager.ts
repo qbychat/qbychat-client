@@ -2,11 +2,15 @@ import {useEffect, useState} from 'react';
 import axios from 'axios';
 import {qbychat} from '../proto/proto';
 import {
+    bytesToAESKey,
     computeSharedSecret,
+    decryptAESGCM,
+    encryptAESGCM,
     exportPublicKey,
     generateECDHKeyPair,
     generateSalt,
-    getECDHPublicKeyFromBytes
+    getECDHPublicKeyFromBytes,
+    hkdfSha256
 } from "../utils/crypto-utils.ts";
 
 interface QbyChatConfig {
@@ -23,7 +27,9 @@ class ConnectionManager {
     private status: 'disconnected' | 'connecting' | 'connected' | 'handshake' | 'error' | 'reconnecting' | 'unset' | 'bad-server' = 'unset';
     private url: string = '';
     private ecdhKeyPair: CryptoKeyPair | null = null;
-    private ecdhSalt: Uint8Array = Uint8Array.from([0, 0]);
+    private ecdhSalt: Uint8Array | null = null;
+    private aesKeyLength: number = 32;
+    private aesKey: CryptoKey | null = null;
     private reconnectAttempts: number = 0;
     private reconnectDelay: number = 3000;
     private reconnectTimer: NodeJS.Timeout | null = null;
@@ -74,13 +80,22 @@ class ConnectionManager {
         };
 
         this.ws.onmessage = async (e: MessageEvent) => {
-            const uint8Array = await blobToByteArray(e.data)
-            // todo parse encrypted
+            let uint8Array = await blobToByteArray(e.data);
+            if (this.aesKey) {
+                // decrypt bytearray
+                console.log("Received encrypted message");
+                uint8Array = await decryptAESGCM(uint8Array, this.aesKey);
+            } else {
+                console.log("Received message (unencrypted)");
+            }
             const message = qbychat.websocket.protocol.ClientboundMessage.decode(uint8Array);
             await this.process(message);
         }
 
         this.ws.onclose = () => {
+            // clear encrypt info
+            this.aesKey = null
+            this.ecdhSalt = null
             if (this.status === 'disconnected') return; // manual closed by client, skip reconnect
             this.status = 'disconnected';
             console.log('WebSocket disconnected');
@@ -103,24 +118,29 @@ class ConnectionManager {
             }),
             publicKey: await exportPublicKey(this.ecdhKeyPair.publicKey),
             aesKeySalt: this.ecdhSalt,
-            aesKeyLength: 32
+            aesKeyLength: this.aesKeyLength
         })
         const message = qbychat.websocket.protocol.ServerboundMessage.create({
             clientHandshake: clientHandshake
         })
         // send the handshake packet
-        this.sendMessage(qbychat.websocket.protocol.ServerboundMessage.encode(message).finish())
+        await this.sendMessage(qbychat.websocket.protocol.ServerboundMessage.encode(message).finish())
     }
 
     private async process(message: qbychat.websocket.protocol.ClientboundMessage) {
         if (message.serverHandshake) {
             // handshake packet
             this.status = 'connected';
-            console.log("Success handshake");
+            console.log("Success received handshake packet");
             // calc aes key
             const parsedPublicKey = await getECDHPublicKeyFromBytes(message.serverHandshake.publicKey!)
-            const secret = await computeSharedSecret(this.ecdhKeyPair.privateKey, parsedPublicKey)
-            // todo calc aes key
+            const secret = await computeSharedSecret(this.ecdhKeyPair!.privateKey, parsedPublicKey)
+            const utf8Encode = new TextEncoder();
+            const info = utf8Encode.encode("Clientside AES Key");
+            const sharedAESKey = await hkdfSha256(secret, this.ecdhSalt!, info, this.aesKeyLength)
+            console.log("AES Key received.")
+            // save
+            this.aesKey = await bytesToAESKey(sharedAESKey);
             return;
         }
     }
@@ -135,9 +155,16 @@ class ConnectionManager {
         }, this.reconnectDelay);
     }
 
-    sendMessage(message: Uint8Array): void {
+    async sendMessage(message: Uint8Array) {
         if (this.ws && this.ws.readyState === WebSocket.OPEN) {
-            this.ws.send(message);
+            if (this.aesKey) {
+                // encrypt & send
+                console.debug("Sending message with encryption")
+                this.ws.send(await encryptAESGCM(message, this.aesKey))
+            } else {
+                console.debug("Sending message (unencrypted)")
+                this.ws.send(message);
+            }
         } else {
             // todo add to queue
         }

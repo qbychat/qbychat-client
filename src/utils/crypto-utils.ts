@@ -74,7 +74,7 @@ export async function decryptAESGCM(encryptedData: Uint8Array, secretKey: Crypto
     return new Uint8Array(decrypted);
 }
 
-export async function hkdfSha256(inputKeyMaterial: Uint8Array, salt: Uint8Array, info: Uint8Array, outputLength: number): Promise<Uint8Array> {
+export async function hkdfSha256(inputKeyMaterial: ArrayBuffer, salt: Uint8Array, info: Uint8Array, outputLength: number): Promise<Uint8Array> {
     const baseKey = await crypto.subtle.importKey(
         "raw",
         inputKeyMaterial,
