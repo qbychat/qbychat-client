@@ -22,7 +22,7 @@ class ConnectionManager {
     private ws: WebSocket | null = null;
     private status: 'disconnected' | 'connecting' | 'connected' | 'handshake' | 'error' | 'reconnecting' | 'unset' | 'bad-server' = 'unset';
     private url: string = '';
-    private ecdhKeyPair: CryptoKeyPair = null;
+    private ecdhKeyPair: CryptoKeyPair | null = null;
     private ecdhSalt: Uint8Array = Uint8Array.from([0, 0]);
     private reconnectAttempts: number = 0;
     private reconnectDelay: number = 3000;
