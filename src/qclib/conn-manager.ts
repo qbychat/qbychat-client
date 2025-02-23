@@ -113,8 +113,8 @@ class ConnectionManager {
         this.ecdhSalt = generateSalt();
         const clientHandshake = qbychat.websocket.protocol.ClientHandshake.create({
             clientInfo: qbychat.websocket.protocol.ClientInfo.create({
-                name: "QbyChat Desktop",
-                version: '1.0.0', // todo client version
+                name: 'QbyChat Desktop',
+                version: await window.electron.getVersion(),
             }),
             publicKey: await exportPublicKey(this.ecdhKeyPair.publicKey),
             aesKeySalt: this.ecdhSalt,

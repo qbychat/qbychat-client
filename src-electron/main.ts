@@ -26,6 +26,10 @@ app.whenReady().then(() => {
 
     const store = new Store();
 
+    ipcMain.handle('get-version', () => {
+        return app.getVersion();
+    })
+
     ipcMain.handle('get-config', (event, key: string) => {
         return store.get(key);
     });
