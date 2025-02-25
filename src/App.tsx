@@ -1,5 +1,5 @@
 import './App.css'
-import {HashRouter, Navigate, Route, Routes} from "react-router-dom";
+import {HashRouter, Route, Routes} from "react-router-dom";
 import GuideWelcomePage from "./compoents/Guide/GuideWelcomePage.tsx";
 import ConnectionIndicator from "./compoents/ConnectionIndicator/ConnectionIndicator.tsx";
 import GuideConfigServerPage from "./compoents/Guide/GuideConfigServerPage.tsx";
@@ -9,12 +9,11 @@ import {useEffect} from "react";
 import {configManager, KEY_CONNECTION_CONFIG_URL} from "./qclib/config-manager.ts";
 import RegisterPage from "./compoents/RegisterPage/RegisterPage.tsx";
 import LoginPage from "./compoents/LoginPage/LoginPage.tsx";
-import {accountManager} from "./qclib/account-manager.ts";
-import {userService} from "./qclib/service/user-service.ts";
+import LoadingPage from "./compoents/LoadingPage/LoadingPage.tsx";
+import ChatPage from "./compoents/ChatPage/ChatPage.tsx";
 
 function App() {
     const connectionStatus = useConnectionStatus()
-    const isLoggedIn = false; // todo mock value
 
     useEffect(() => {
         // auto connect
@@ -25,8 +24,6 @@ function App() {
                 // connect to websocket
                 connectionManager.receiveConfigAndConnect(configUrl).then(() => {
                     console.log("Connected.");
-                    // auto login
-
                 });
             }
         });
@@ -40,10 +37,10 @@ function App() {
         {connectionStatus != "connected" && <ConnectionIndicator status={connectionStatus}/>}
         <HashRouter>
             <Routes>
-                <Route
-                    path="/"
-                    element={isLoggedIn ? <Navigate to={"/chat"}/> : <Navigate to={"/guide"}/>}
+                <Route index={true}
+                       element={<LoadingPage/>}
                 />
+                <Route path={"/chat"} element={<ChatPage/>}/>
                 <Route path={"/user/login"} element={<LoginPage/>}/>
                 <Route path={"/user/register"} element={<RegisterPage/>}/>
 

@@ -8,6 +8,7 @@ import UsernamePasswordLoginResponse = qbychat.websocket.auth.UsernamePasswordLo
 import UsernamePasswordLoginRequest = qbychat.websocket.auth.UsernamePasswordLoginRequest;
 import TokenLoginResponse = qbychat.websocket.auth.TokenLoginResponse;
 import TokenLoginRequest = qbychat.websocket.auth.TokenLoginRequest;
+import LoginStatus = qbychat.websocket.auth.LoginStatus;
 
 class UserService extends Service {
     serviceName: string = "org.cubewhy.qbychat.service.UserService";
@@ -45,11 +46,24 @@ class UserService extends Service {
 
     async autoLogin(accounts: string[]) {
         for (const account of accounts) {
-            console.log(`Processing auto login for account ${account}`);
+            console.log(`Starting auto login process for account: ${account}`);
             // get token
             const token = await accountManager.getToken(account);
             // send login packet
-            await this.tokenLogin(token);
+            const response = await this.tokenLogin(token);
+            // todo push events for errors
+            switch (response.status) {
+                case LoginStatus.SUCCESS:
+                    console.log(`Success authorized with account ${account}`)
+                    break;
+                case LoginStatus.USER_NOT_FOUND:
+                    console.error(`Failed authorized with account ${account} (user deleted)`);
+                    break;
+                case LoginStatus.SESSION_TERMINATED:
+                case LoginStatus.TOKEN_EXPIRED:
+                    console.error(`Failed authorized with account ${account} (session was terminated)`)
+                    break;
+            }
         }
     }
 }

@@ -34,7 +34,7 @@ const accountManager = new AccountManager();
 // register events
 eventManger.registerEventHandler(TokenUpdateEvent.getTypeUrl(), async (account, payload) => {
     // parse payload
-    const event = TokenUpdateEvent.decode(payload);
+    const event = TokenUpdateEvent.decode(payload as Uint8Array);
     // save token
     await accountManager.saveToken(account!, event.token)
 })
