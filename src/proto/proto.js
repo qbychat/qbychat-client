@@ -16,7 +16,7 @@ export const qbychat = $root.qbychat = (() => {
      */
     const qbychat = {};
 
-    qbychat.websocket = (function() {
+    qbychat.websocket = (function () {
 
         /**
          * Namespace websocket.
@@ -25,7 +25,7 @@ export const qbychat = $root.qbychat = (() => {
          */
         const websocket = {};
 
-        websocket.protocol = (function() {
+        websocket.protocol = (function () {
 
             /**
              * Namespace protocol.
@@ -34,7 +34,7 @@ export const qbychat = $root.qbychat = (() => {
              */
             const protocol = {};
 
-            protocol.ClientboundMessage = (function() {
+            protocol.ClientboundMessage = (function () {
 
                 /**
                  * Properties of a ClientboundMessage.
@@ -175,29 +175,30 @@ export const qbychat = $root.qbychat = (() => {
                 ClientboundMessage.decode = function decode(reader, length) {
                     if (!(reader instanceof $Reader))
                         reader = $Reader.create(reader);
-                    let end = length === undefined ? reader.len : reader.pos + length, message = new $root.qbychat.websocket.protocol.ClientboundMessage();
+                    let end = length === undefined ? reader.len : reader.pos + length,
+                        message = new $root.qbychat.websocket.protocol.ClientboundMessage();
                     while (reader.pos < end) {
                         let tag = reader.uint32();
                         switch (tag >>> 3) {
-                        case 1: {
+                            case 1: {
                                 message.account = reader.string();
                                 break;
                             }
-                        case 2: {
+                            case 2: {
                                 message.response = $root.qbychat.websocket.protocol.Response.decode(reader, reader.uint32());
                                 break;
                             }
-                        case 3: {
+                            case 3: {
                                 message.event = $root.google.protobuf.Any.decode(reader, reader.uint32());
                                 break;
                             }
-                        case 4: {
+                            case 4: {
                                 message.serverHandshake = $root.qbychat.websocket.protocol.ServerHandshake.decode(reader, reader.uint32());
                                 break;
                             }
-                        default:
-                            reader.skipType(tag & 7);
-                            break;
+                            default:
+                                reader.skipType(tag & 7);
+                                break;
                         }
                     }
                     return message;
@@ -364,7 +365,7 @@ export const qbychat = $root.qbychat = (() => {
                 return ClientboundMessage;
             })();
 
-            protocol.Response = (function() {
+            protocol.Response = (function () {
 
                 /**
                  * Properties of a Response.
@@ -463,21 +464,22 @@ export const qbychat = $root.qbychat = (() => {
                 Response.decode = function decode(reader, length) {
                     if (!(reader instanceof $Reader))
                         reader = $Reader.create(reader);
-                    let end = length === undefined ? reader.len : reader.pos + length, message = new $root.qbychat.websocket.protocol.Response();
+                    let end = length === undefined ? reader.len : reader.pos + length,
+                        message = new $root.qbychat.websocket.protocol.Response();
                     while (reader.pos < end) {
                         let tag = reader.uint32();
                         switch (tag >>> 3) {
-                        case 1: {
+                            case 1: {
                                 message.ticket = reader.string();
                                 break;
                             }
-                        case 2: {
+                            case 2: {
                                 message.payload = reader.bytes();
                                 break;
                             }
-                        default:
-                            reader.skipType(tag & 7);
-                            break;
+                            default:
+                                reader.skipType(tag & 7);
+                                break;
                         }
                     }
                     return message;
@@ -600,7 +602,7 @@ export const qbychat = $root.qbychat = (() => {
                 return Response;
             })();
 
-            protocol.ServerboundMessage = (function() {
+            protocol.ServerboundMessage = (function () {
 
                 /**
                  * Properties of a ServerboundMessage.
@@ -730,25 +732,26 @@ export const qbychat = $root.qbychat = (() => {
                 ServerboundMessage.decode = function decode(reader, length) {
                     if (!(reader instanceof $Reader))
                         reader = $Reader.create(reader);
-                    let end = length === undefined ? reader.len : reader.pos + length, message = new $root.qbychat.websocket.protocol.ServerboundMessage();
+                    let end = length === undefined ? reader.len : reader.pos + length,
+                        message = new $root.qbychat.websocket.protocol.ServerboundMessage();
                     while (reader.pos < end) {
                         let tag = reader.uint32();
                         switch (tag >>> 3) {
-                        case 1: {
+                            case 1: {
                                 message.account = reader.string();
                                 break;
                             }
-                        case 2: {
+                            case 2: {
                                 message.clientHandshake = $root.qbychat.websocket.protocol.ClientHandshake.decode(reader, reader.uint32());
                                 break;
                             }
-                        case 3: {
+                            case 3: {
                                 message.request = $root.qbychat.websocket.protocol.Request.decode(reader, reader.uint32());
                                 break;
                             }
-                        default:
-                            reader.skipType(tag & 7);
-                            break;
+                            default:
+                                reader.skipType(tag & 7);
+                                break;
                         }
                     }
                     return message;
@@ -895,7 +898,7 @@ export const qbychat = $root.qbychat = (() => {
                 return ServerboundMessage;
             })();
 
-            protocol.ClientHandshake = (function() {
+            protocol.ClientHandshake = (function () {
 
                 /**
                  * Properties of a ClientHandshake.
@@ -1054,33 +1057,34 @@ export const qbychat = $root.qbychat = (() => {
                 ClientHandshake.decode = function decode(reader, length) {
                     if (!(reader instanceof $Reader))
                         reader = $Reader.create(reader);
-                    let end = length === undefined ? reader.len : reader.pos + length, message = new $root.qbychat.websocket.protocol.ClientHandshake();
+                    let end = length === undefined ? reader.len : reader.pos + length,
+                        message = new $root.qbychat.websocket.protocol.ClientHandshake();
                     while (reader.pos < end) {
                         let tag = reader.uint32();
                         switch (tag >>> 3) {
-                        case 1: {
+                            case 1: {
                                 message.clientInfo = $root.qbychat.websocket.protocol.ClientInfo.decode(reader, reader.uint32());
                                 break;
                             }
-                        case 2: {
+                            case 2: {
                                 message.publicKey = reader.bytes();
                                 break;
                             }
-                        case 3: {
+                            case 3: {
                                 message.aesKeySalt = reader.bytes();
                                 break;
                             }
-                        case 4: {
+                            case 4: {
                                 message.aesKeyLength = reader.fixed32();
                                 break;
                             }
-                        case 5: {
+                            case 5: {
                                 message.aesKeyInfo = reader.bytes();
                                 break;
                             }
-                        default:
-                            reader.skipType(tag & 7);
-                            break;
+                            default:
+                                reader.skipType(tag & 7);
+                                break;
                         }
                     }
                     return message;
@@ -1248,7 +1252,7 @@ export const qbychat = $root.qbychat = (() => {
                 return ClientHandshake;
             })();
 
-            protocol.ServerHandshake = (function() {
+            protocol.ServerHandshake = (function () {
 
                 /**
                  * Properties of a ServerHandshake.
@@ -1345,17 +1349,18 @@ export const qbychat = $root.qbychat = (() => {
                 ServerHandshake.decode = function decode(reader, length) {
                     if (!(reader instanceof $Reader))
                         reader = $Reader.create(reader);
-                    let end = length === undefined ? reader.len : reader.pos + length, message = new $root.qbychat.websocket.protocol.ServerHandshake();
+                    let end = length === undefined ? reader.len : reader.pos + length,
+                        message = new $root.qbychat.websocket.protocol.ServerHandshake();
                     while (reader.pos < end) {
                         let tag = reader.uint32();
                         switch (tag >>> 3) {
-                        case 1: {
+                            case 1: {
                                 message.publicKey = reader.bytes();
                                 break;
                             }
-                        default:
-                            reader.skipType(tag & 7);
-                            break;
+                            default:
+                                reader.skipType(tag & 7);
+                                break;
                         }
                     }
                     return message;
@@ -1467,7 +1472,7 @@ export const qbychat = $root.qbychat = (() => {
                 return ServerHandshake;
             })();
 
-            protocol.ClientInfo = (function() {
+            protocol.ClientInfo = (function () {
 
                 /**
                  * Properties of a ClientInfo.
@@ -1577,25 +1582,26 @@ export const qbychat = $root.qbychat = (() => {
                 ClientInfo.decode = function decode(reader, length) {
                     if (!(reader instanceof $Reader))
                         reader = $Reader.create(reader);
-                    let end = length === undefined ? reader.len : reader.pos + length, message = new $root.qbychat.websocket.protocol.ClientInfo();
+                    let end = length === undefined ? reader.len : reader.pos + length,
+                        message = new $root.qbychat.websocket.protocol.ClientInfo();
                     while (reader.pos < end) {
                         let tag = reader.uint32();
                         switch (tag >>> 3) {
-                        case 1: {
+                            case 1: {
                                 message.name = reader.string();
                                 break;
                             }
-                        case 2: {
+                            case 2: {
                                 message.platform = reader.int32();
                                 break;
                             }
-                        case 3: {
+                            case 3: {
                                 message.version = reader.string();
                                 break;
                             }
-                        default:
-                            reader.skipType(tag & 7);
-                            break;
+                            default:
+                                reader.skipType(tag & 7);
+                                break;
                         }
                     }
                     return message;
@@ -1633,15 +1639,15 @@ export const qbychat = $root.qbychat = (() => {
                             return "name: string expected";
                     if (message.platform != null && message.hasOwnProperty("platform"))
                         switch (message.platform) {
-                        default:
-                            return "platform: enum value expected";
-                        case 0:
-                        case 1:
-                        case 2:
-                        case 3:
-                        case 4:
-                        case 5:
-                            break;
+                            default:
+                                return "platform: enum value expected";
+                            case 0:
+                            case 1:
+                            case 2:
+                            case 3:
+                            case 4:
+                            case 5:
+                                break;
                         }
                     if (message.version != null && message.hasOwnProperty("version"))
                         if (!$util.isString(message.version))
@@ -1664,36 +1670,36 @@ export const qbychat = $root.qbychat = (() => {
                     if (object.name != null)
                         message.name = String(object.name);
                     switch (object.platform) {
-                    default:
-                        if (typeof object.platform === "number") {
-                            message.platform = object.platform;
+                        default:
+                            if (typeof object.platform === "number") {
+                                message.platform = object.platform;
+                                break;
+                            }
                             break;
-                        }
-                        break;
-                    case "LINUX":
-                    case 0:
-                        message.platform = 0;
-                        break;
-                    case "WINDOWS":
-                    case 1:
-                        message.platform = 1;
-                        break;
-                    case "OSX":
-                    case 2:
-                        message.platform = 2;
-                        break;
-                    case "ANDROID":
-                    case 3:
-                        message.platform = 3;
-                        break;
-                    case "IOS":
-                    case 4:
-                        message.platform = 4;
-                        break;
-                    case "UNKNOWN":
-                    case 5:
-                        message.platform = 5;
-                        break;
+                        case "LINUX":
+                        case 0:
+                            message.platform = 0;
+                            break;
+                        case "WINDOWS":
+                        case 1:
+                            message.platform = 1;
+                            break;
+                        case "OSX":
+                        case 2:
+                            message.platform = 2;
+                            break;
+                        case "ANDROID":
+                        case 3:
+                            message.platform = 3;
+                            break;
+                        case "IOS":
+                        case 4:
+                            message.platform = 4;
+                            break;
+                        case "UNKNOWN":
+                        case 5:
+                            message.platform = 5;
+                            break;
                     }
                     if (object.version != null)
                         message.version = String(object.version);
@@ -1767,7 +1773,7 @@ export const qbychat = $root.qbychat = (() => {
              * @property {number} IOS=4 IOS value
              * @property {number} UNKNOWN=5 UNKNOWN value
              */
-            protocol.Platform = (function() {
+            protocol.Platform = (function () {
                 const valuesById = {}, values = Object.create(valuesById);
                 values[valuesById[0] = "LINUX"] = 0;
                 values[valuesById[1] = "WINDOWS"] = 1;
@@ -1778,7 +1784,7 @@ export const qbychat = $root.qbychat = (() => {
                 return values;
             })();
 
-            protocol.Request = (function() {
+            protocol.Request = (function () {
 
                 /**
                  * Properties of a Request.
@@ -1899,29 +1905,30 @@ export const qbychat = $root.qbychat = (() => {
                 Request.decode = function decode(reader, length) {
                     if (!(reader instanceof $Reader))
                         reader = $Reader.create(reader);
-                    let end = length === undefined ? reader.len : reader.pos + length, message = new $root.qbychat.websocket.protocol.Request();
+                    let end = length === undefined ? reader.len : reader.pos + length,
+                        message = new $root.qbychat.websocket.protocol.Request();
                     while (reader.pos < end) {
                         let tag = reader.uint32();
                         switch (tag >>> 3) {
-                        case 1: {
+                            case 1: {
                                 message.ticket = reader.string();
                                 break;
                             }
-                        case 2: {
+                            case 2: {
                                 message.service = reader.string();
                                 break;
                             }
-                        case 3: {
+                            case 3: {
                                 message.method = reader.string();
                                 break;
                             }
-                        case 4: {
+                            case 4: {
                                 message.payload = reader.bytes();
                                 break;
                             }
-                        default:
-                            reader.skipType(tag & 7);
-                            break;
+                            default:
+                                reader.skipType(tag & 7);
+                                break;
                         }
                     }
                     return message;
@@ -2063,7 +2070,7 @@ export const qbychat = $root.qbychat = (() => {
             return protocol;
         })();
 
-        websocket.auth = (function() {
+        websocket.auth = (function () {
 
             /**
              * Namespace auth.
@@ -2072,7 +2079,7 @@ export const qbychat = $root.qbychat = (() => {
              */
             const auth = {};
 
-            auth.TokenLoginRequest = (function() {
+            auth.TokenLoginRequest = (function () {
 
                 /**
                  * Properties of a TokenLoginRequest.
@@ -2160,17 +2167,18 @@ export const qbychat = $root.qbychat = (() => {
                 TokenLoginRequest.decode = function decode(reader, length) {
                     if (!(reader instanceof $Reader))
                         reader = $Reader.create(reader);
-                    let end = length === undefined ? reader.len : reader.pos + length, message = new $root.qbychat.websocket.auth.TokenLoginRequest();
+                    let end = length === undefined ? reader.len : reader.pos + length,
+                        message = new $root.qbychat.websocket.auth.TokenLoginRequest();
                     while (reader.pos < end) {
                         let tag = reader.uint32();
                         switch (tag >>> 3) {
-                        case 1: {
+                            case 1: {
                                 message.token = reader.string();
                                 break;
                             }
-                        default:
-                            reader.skipType(tag & 7);
-                            break;
+                            default:
+                                reader.skipType(tag & 7);
+                                break;
                         }
                     }
                     return message;
@@ -2275,7 +2283,7 @@ export const qbychat = $root.qbychat = (() => {
                 return TokenLoginRequest;
             })();
 
-            auth.TokenLoginResponse = (function() {
+            auth.TokenLoginResponse = (function () {
 
                 /**
                  * Properties of a TokenLoginResponse.
@@ -2363,17 +2371,18 @@ export const qbychat = $root.qbychat = (() => {
                 TokenLoginResponse.decode = function decode(reader, length) {
                     if (!(reader instanceof $Reader))
                         reader = $Reader.create(reader);
-                    let end = length === undefined ? reader.len : reader.pos + length, message = new $root.qbychat.websocket.auth.TokenLoginResponse();
+                    let end = length === undefined ? reader.len : reader.pos + length,
+                        message = new $root.qbychat.websocket.auth.TokenLoginResponse();
                     while (reader.pos < end) {
                         let tag = reader.uint32();
                         switch (tag >>> 3) {
-                        case 1: {
+                            case 1: {
                                 message.status = reader.int32();
                                 break;
                             }
-                        default:
-                            reader.skipType(tag & 7);
-                            break;
+                            default:
+                                reader.skipType(tag & 7);
+                                break;
                         }
                     }
                     return message;
@@ -2408,14 +2417,14 @@ export const qbychat = $root.qbychat = (() => {
                         return "object expected";
                     if (message.status != null && message.hasOwnProperty("status"))
                         switch (message.status) {
-                        default:
-                            return "status: enum value expected";
-                        case 0:
-                        case 1:
-                        case 2:
-                        case 3:
-                        case 4:
-                            break;
+                            default:
+                                return "status: enum value expected";
+                            case 0:
+                            case 1:
+                            case 2:
+                            case 3:
+                            case 4:
+                                break;
                         }
                     return null;
                 };
@@ -2433,32 +2442,32 @@ export const qbychat = $root.qbychat = (() => {
                         return object;
                     let message = new $root.qbychat.websocket.auth.TokenLoginResponse();
                     switch (object.status) {
-                    default:
-                        if (typeof object.status === "number") {
-                            message.status = object.status;
+                        default:
+                            if (typeof object.status === "number") {
+                                message.status = object.status;
+                                break;
+                            }
                             break;
-                        }
-                        break;
-                    case "SUCCESS":
-                    case 0:
-                        message.status = 0;
-                        break;
-                    case "TOKEN_EXPIRED":
-                    case 1:
-                        message.status = 1;
-                        break;
-                    case "BAD_TOKEN":
-                    case 2:
-                        message.status = 2;
-                        break;
-                    case "USER_NOT_FOUND":
-                    case 3:
-                        message.status = 3;
-                        break;
-                    case "BAD_PASSWORD":
-                    case 4:
-                        message.status = 4;
-                        break;
+                        case "SUCCESS":
+                        case 0:
+                            message.status = 0;
+                            break;
+                        case "TOKEN_EXPIRED":
+                        case 1:
+                            message.status = 1;
+                            break;
+                        case "BAD_TOKEN":
+                        case 2:
+                            message.status = 2;
+                            break;
+                        case "USER_NOT_FOUND":
+                        case 3:
+                            message.status = 3;
+                            break;
+                        case "BAD_PASSWORD":
+                        case 4:
+                            message.status = 4;
+                            break;
                     }
                     return message;
                 };
@@ -2522,7 +2531,7 @@ export const qbychat = $root.qbychat = (() => {
              * @property {number} USER_NOT_FOUND=3 USER_NOT_FOUND value
              * @property {number} BAD_PASSWORD=4 BAD_PASSWORD value
              */
-            auth.LoginStatus = (function() {
+            auth.LoginStatus = (function () {
                 const valuesById = {}, values = Object.create(valuesById);
                 values[valuesById[0] = "SUCCESS"] = 0;
                 values[valuesById[1] = "TOKEN_EXPIRED"] = 1;
@@ -2532,7 +2541,7 @@ export const qbychat = $root.qbychat = (() => {
                 return values;
             })();
 
-            auth.UsernamePasswordLoginRequest = (function() {
+            auth.UsernamePasswordLoginRequest = (function () {
 
                 /**
                  * Properties of a UsernamePasswordLoginRequest.
@@ -2631,21 +2640,22 @@ export const qbychat = $root.qbychat = (() => {
                 UsernamePasswordLoginRequest.decode = function decode(reader, length) {
                     if (!(reader instanceof $Reader))
                         reader = $Reader.create(reader);
-                    let end = length === undefined ? reader.len : reader.pos + length, message = new $root.qbychat.websocket.auth.UsernamePasswordLoginRequest();
+                    let end = length === undefined ? reader.len : reader.pos + length,
+                        message = new $root.qbychat.websocket.auth.UsernamePasswordLoginRequest();
                     while (reader.pos < end) {
                         let tag = reader.uint32();
                         switch (tag >>> 3) {
-                        case 1: {
+                            case 1: {
                                 message.username = reader.string();
                                 break;
                             }
-                        case 2: {
+                            case 2: {
                                 message.password = reader.string();
                                 break;
                             }
-                        default:
-                            reader.skipType(tag & 7);
-                            break;
+                            default:
+                                reader.skipType(tag & 7);
+                                break;
                         }
                     }
                     return message;
@@ -2759,7 +2769,7 @@ export const qbychat = $root.qbychat = (() => {
                 return UsernamePasswordLoginRequest;
             })();
 
-            auth.UsernamePasswordLoginResponse = (function() {
+            auth.UsernamePasswordLoginResponse = (function () {
 
                 /**
                  * Properties of a UsernamePasswordLoginResponse.
@@ -2847,17 +2857,18 @@ export const qbychat = $root.qbychat = (() => {
                 UsernamePasswordLoginResponse.decode = function decode(reader, length) {
                     if (!(reader instanceof $Reader))
                         reader = $Reader.create(reader);
-                    let end = length === undefined ? reader.len : reader.pos + length, message = new $root.qbychat.websocket.auth.UsernamePasswordLoginResponse();
+                    let end = length === undefined ? reader.len : reader.pos + length,
+                        message = new $root.qbychat.websocket.auth.UsernamePasswordLoginResponse();
                     while (reader.pos < end) {
                         let tag = reader.uint32();
                         switch (tag >>> 3) {
-                        case 1: {
+                            case 1: {
                                 message.status = reader.int32();
                                 break;
                             }
-                        default:
-                            reader.skipType(tag & 7);
-                            break;
+                            default:
+                                reader.skipType(tag & 7);
+                                break;
                         }
                     }
                     return message;
@@ -2892,14 +2903,14 @@ export const qbychat = $root.qbychat = (() => {
                         return "object expected";
                     if (message.status != null && message.hasOwnProperty("status"))
                         switch (message.status) {
-                        default:
-                            return "status: enum value expected";
-                        case 0:
-                        case 1:
-                        case 2:
-                        case 3:
-                        case 4:
-                            break;
+                            default:
+                                return "status: enum value expected";
+                            case 0:
+                            case 1:
+                            case 2:
+                            case 3:
+                            case 4:
+                                break;
                         }
                     return null;
                 };
@@ -2917,32 +2928,32 @@ export const qbychat = $root.qbychat = (() => {
                         return object;
                     let message = new $root.qbychat.websocket.auth.UsernamePasswordLoginResponse();
                     switch (object.status) {
-                    default:
-                        if (typeof object.status === "number") {
-                            message.status = object.status;
+                        default:
+                            if (typeof object.status === "number") {
+                                message.status = object.status;
+                                break;
+                            }
                             break;
-                        }
-                        break;
-                    case "SUCCESS":
-                    case 0:
-                        message.status = 0;
-                        break;
-                    case "TOKEN_EXPIRED":
-                    case 1:
-                        message.status = 1;
-                        break;
-                    case "BAD_TOKEN":
-                    case 2:
-                        message.status = 2;
-                        break;
-                    case "USER_NOT_FOUND":
-                    case 3:
-                        message.status = 3;
-                        break;
-                    case "BAD_PASSWORD":
-                    case 4:
-                        message.status = 4;
-                        break;
+                        case "SUCCESS":
+                        case 0:
+                            message.status = 0;
+                            break;
+                        case "TOKEN_EXPIRED":
+                        case 1:
+                            message.status = 1;
+                            break;
+                        case "BAD_TOKEN":
+                        case 2:
+                            message.status = 2;
+                            break;
+                        case "USER_NOT_FOUND":
+                        case 3:
+                            message.status = 3;
+                            break;
+                        case "BAD_PASSWORD":
+                        case 4:
+                            message.status = 4;
+                            break;
                     }
                     return message;
                 };
@@ -2996,7 +3007,7 @@ export const qbychat = $root.qbychat = (() => {
                 return UsernamePasswordLoginResponse;
             })();
 
-            auth.TokenUpdateEvent = (function() {
+            auth.TokenUpdateEvent = (function () {
 
                 /**
                  * Properties of a TokenUpdateEvent.
@@ -3095,21 +3106,22 @@ export const qbychat = $root.qbychat = (() => {
                 TokenUpdateEvent.decode = function decode(reader, length) {
                     if (!(reader instanceof $Reader))
                         reader = $Reader.create(reader);
-                    let end = length === undefined ? reader.len : reader.pos + length, message = new $root.qbychat.websocket.auth.TokenUpdateEvent();
+                    let end = length === undefined ? reader.len : reader.pos + length,
+                        message = new $root.qbychat.websocket.auth.TokenUpdateEvent();
                     while (reader.pos < end) {
                         let tag = reader.uint32();
                         switch (tag >>> 3) {
-                        case 1: {
+                            case 1: {
                                 message.token = reader.string();
                                 break;
                             }
-                        case 2: {
+                            case 2: {
                                 message.expireAt = $root.google.protobuf.Timestamp.decode(reader, reader.uint32());
                                 break;
                             }
-                        default:
-                            reader.skipType(tag & 7);
-                            break;
+                            default:
+                                reader.skipType(tag & 7);
+                                break;
                         }
                     }
                     return message;
@@ -3231,7 +3243,7 @@ export const qbychat = $root.qbychat = (() => {
             return auth;
         })();
 
-        websocket.user = (function() {
+        websocket.user = (function () {
 
             /**
              * Namespace user.
@@ -3240,7 +3252,7 @@ export const qbychat = $root.qbychat = (() => {
              */
             const user = {};
 
-            user.RegisterRequest = (function() {
+            user.RegisterRequest = (function () {
 
                 /**
                  * Properties of a RegisterRequest.
@@ -3339,21 +3351,22 @@ export const qbychat = $root.qbychat = (() => {
                 RegisterRequest.decode = function decode(reader, length) {
                     if (!(reader instanceof $Reader))
                         reader = $Reader.create(reader);
-                    let end = length === undefined ? reader.len : reader.pos + length, message = new $root.qbychat.websocket.user.RegisterRequest();
+                    let end = length === undefined ? reader.len : reader.pos + length,
+                        message = new $root.qbychat.websocket.user.RegisterRequest();
                     while (reader.pos < end) {
                         let tag = reader.uint32();
                         switch (tag >>> 3) {
-                        case 1: {
+                            case 1: {
                                 message.username = reader.string();
                                 break;
                             }
-                        case 2: {
+                            case 2: {
                                 message.password = reader.string();
                                 break;
                             }
-                        default:
-                            reader.skipType(tag & 7);
-                            break;
+                            default:
+                                reader.skipType(tag & 7);
+                                break;
                         }
                     }
                     return message;
@@ -3467,7 +3480,7 @@ export const qbychat = $root.qbychat = (() => {
                 return RegisterRequest;
             })();
 
-            user.RegisterResponse = (function() {
+            user.RegisterResponse = (function () {
 
                 /**
                  * Properties of a RegisterResponse.
@@ -3575,21 +3588,22 @@ export const qbychat = $root.qbychat = (() => {
                 RegisterResponse.decode = function decode(reader, length) {
                     if (!(reader instanceof $Reader))
                         reader = $Reader.create(reader);
-                    let end = length === undefined ? reader.len : reader.pos + length, message = new $root.qbychat.websocket.user.RegisterResponse();
+                    let end = length === undefined ? reader.len : reader.pos + length,
+                        message = new $root.qbychat.websocket.user.RegisterResponse();
                     while (reader.pos < end) {
                         let tag = reader.uint32();
                         switch (tag >>> 3) {
-                        case 1: {
+                            case 1: {
                                 message.status = reader.int32();
                                 break;
                             }
-                        case 2: {
+                            case 2: {
                                 message.message = reader.string();
                                 break;
                             }
-                        default:
-                            reader.skipType(tag & 7);
-                            break;
+                            default:
+                                reader.skipType(tag & 7);
+                                break;
                         }
                     }
                     return message;
@@ -3625,12 +3639,12 @@ export const qbychat = $root.qbychat = (() => {
                     let properties = {};
                     if (message.status != null && message.hasOwnProperty("status"))
                         switch (message.status) {
-                        default:
-                            return "status: enum value expected";
-                        case 0:
-                        case 1:
-                        case 2:
-                            break;
+                            default:
+                                return "status: enum value expected";
+                            case 0:
+                            case 1:
+                            case 2:
+                                break;
                         }
                     if (message.message != null && message.hasOwnProperty("message")) {
                         properties._message = 1;
@@ -3653,24 +3667,24 @@ export const qbychat = $root.qbychat = (() => {
                         return object;
                     let message = new $root.qbychat.websocket.user.RegisterResponse();
                     switch (object.status) {
-                    default:
-                        if (typeof object.status === "number") {
-                            message.status = object.status;
+                        default:
+                            if (typeof object.status === "number") {
+                                message.status = object.status;
+                                break;
+                            }
                             break;
-                        }
-                        break;
-                    case "SUCCESS":
-                    case 0:
-                        message.status = 0;
-                        break;
-                    case "USERNAME_EXISTS":
-                    case 1:
-                        message.status = 1;
-                        break;
-                    case "BAD_USERNAME":
-                    case 2:
-                        message.status = 2;
-                        break;
+                        case "SUCCESS":
+                        case 0:
+                            message.status = 0;
+                            break;
+                        case "USERNAME_EXISTS":
+                        case 1:
+                            message.status = 1;
+                            break;
+                        case "BAD_USERNAME":
+                        case 2:
+                            message.status = 2;
+                            break;
                     }
                     if (object.message != null)
                         message.message = String(object.message);
@@ -3739,7 +3753,7 @@ export const qbychat = $root.qbychat = (() => {
              * @property {number} USERNAME_EXISTS=1 USERNAME_EXISTS value
              * @property {number} BAD_USERNAME=2 BAD_USERNAME value
              */
-            user.RegisterStatus = (function() {
+            user.RegisterStatus = (function () {
                 const valuesById = {}, values = Object.create(valuesById);
                 values[valuesById[0] = "SUCCESS"] = 0;
                 values[valuesById[1] = "USERNAME_EXISTS"] = 1;
@@ -3765,7 +3779,7 @@ export const google = $root.google = (() => {
      */
     const google = {};
 
-    google.protobuf = (function() {
+    google.protobuf = (function () {
 
         /**
          * Namespace protobuf.
@@ -3774,7 +3788,7 @@ export const google = $root.google = (() => {
          */
         const protobuf = {};
 
-        protobuf.Any = (function() {
+        protobuf.Any = (function () {
 
             /**
              * Properties of an Any.
@@ -3873,21 +3887,22 @@ export const google = $root.google = (() => {
             Any.decode = function decode(reader, length) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
-                let end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.protobuf.Any();
+                let end = length === undefined ? reader.len : reader.pos + length,
+                    message = new $root.google.protobuf.Any();
                 while (reader.pos < end) {
                     let tag = reader.uint32();
                     switch (tag >>> 3) {
-                    case 1: {
+                        case 1: {
                             message.type_url = reader.string();
                             break;
                         }
-                    case 2: {
+                        case 2: {
                             message.value = reader.bytes();
                             break;
                         }
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
+                        default:
+                            reader.skipType(tag & 7);
+                            break;
                     }
                 }
                 return message;
@@ -4010,7 +4025,7 @@ export const google = $root.google = (() => {
             return Any;
         })();
 
-        protobuf.Timestamp = (function() {
+        protobuf.Timestamp = (function () {
 
             /**
              * Properties of a Timestamp.
@@ -4041,7 +4056,7 @@ export const google = $root.google = (() => {
              * @memberof google.protobuf.Timestamp
              * @instance
              */
-            Timestamp.prototype.seconds = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
+            Timestamp.prototype.seconds = $util.Long ? $util.Long.fromBits(0, 0, false) : 0;
 
             /**
              * Timestamp nanos.
@@ -4109,21 +4124,22 @@ export const google = $root.google = (() => {
             Timestamp.decode = function decode(reader, length) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
-                let end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.protobuf.Timestamp();
+                let end = length === undefined ? reader.len : reader.pos + length,
+                    message = new $root.google.protobuf.Timestamp();
                 while (reader.pos < end) {
                     let tag = reader.uint32();
                     switch (tag >>> 3) {
-                    case 1: {
+                        case 1: {
                             message.seconds = reader.int64();
                             break;
                         }
-                    case 2: {
+                        case 2: {
                             message.nanos = reader.int32();
                             break;
                         }
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
+                        default:
+                            reader.skipType(tag & 7);
+                            break;
                     }
                 }
                 return message;
@@ -4257,4 +4273,4 @@ export const google = $root.google = (() => {
     return google;
 })();
 
-export { $root as default };
+export {$root as default};

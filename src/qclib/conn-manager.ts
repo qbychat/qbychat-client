@@ -17,14 +17,10 @@ import ClientboundMessage = qbychat.websocket.protocol.ClientboundMessage;
 import ServerboundMessage = qbychat.websocket.protocol.ServerboundMessage;
 import Request = qbychat.websocket.protocol.Request;
 import protocol = qbychat.websocket.protocol;
+import {eventManger} from "./event-manager.ts";
 
 interface QbyChatConfig {
     websocketPath: string;
-}
-
-interface EventHandler {
-    type: string;
-    dispatcher: (account: string | null | undefined, message: Uint8Array) => Promise<void>;
 }
 
 async function blobToByteArray(blob: Blob) {
@@ -47,9 +43,13 @@ class ConnectionManager {
     private messageQueue: Uint8Array[] = [];
 
     private responseHandlers: Map<string, (response: protocol.IResponse) => void> = new Map();
-    private eventHandlers: Map<string, EventHandler> = new Map();
 
     constructor() {
+        // register events
+        eventManger.registerEventHandler("authorized", async () => {
+            // send queued messages
+            this.messageQueue.forEach(message => this.sendMessage(message));
+        })
     }
 
     getStatus() {
@@ -155,8 +155,8 @@ class ConnectionManager {
             console.log("AES Key received.")
             // save
             this.aesKey = await bytesToAESKey(sharedAESKey);
-            // send queued messages
-            this.messageQueue.forEach(message => this.sendMessage(message));
+            // broadcast event
+            await eventManger.publishEvent("connected", null);
             return;
         }
         // process response packet
@@ -172,37 +172,11 @@ class ConnectionManager {
         }
         // handle events
         if (message.event) {
-            // find handlers
             const event = message.event!;
             console.info("Received event:", event.type_url);
-            for (const handler of this.eventHandlers.values()) {
-                if (handler.type === event.type_url) {
-                    // handle
-                    await handler.dispatcher(message.account, event.value!)
-                }
-            }
+            // publish event
+            await eventManger.publishEvent(event.type_url!, event.value!, message.account);
         }
-    }
-
-    /**
-     * Register an event handler
-     *
-     * @param type event type
-     * @param dispatcher event handler
-     * @return handler id
-     * */
-    registerEventHandler(type: string, dispatcher: (account: string | null | undefined, message: Uint8Array) => Promise<void>): string {
-        const id = uuidv4();
-        console.log(`Register event handler for type ${type} (${id})`);
-        this.eventHandlers.set(id, {
-            type: type,
-            dispatcher: dispatcher
-        });
-        return id;
-    }
-
-    removeEventHandler(id: string): void {
-        this.eventHandlers.delete(id);
     }
 
     private attemptReconnect(): void {
@@ -231,7 +205,7 @@ class ConnectionManager {
         }
     }
 
-    async request(account: string | null, service: string, method: string, payload: Uint8Array, timeout: number = 5000): Promise<protocol.IResponse> {
+    async request(account: string | null, service: string, method: string, payload: Uint8Array, timeout: number = 5000): Promise<Uint8Array> {
         // send request packet
         const ticket = uuidv4();
         const request = Request.create({
@@ -246,7 +220,7 @@ class ConnectionManager {
         });
         console.log(`Send request ${service}:${method} to backend`)
         await this.sendMessage(ServerboundMessage.encode(message).finish()); // send request
-        return new Promise<protocol.IResponse>((resolve, reject) => {
+        return new Promise<Uint8Array>((resolve, reject) => {
             // Set a timeout to reject the promise after the specified time
             const timeoutId = setTimeout(() => {
                 // If the timeout occurs, reject the promise
@@ -258,7 +232,7 @@ class ConnectionManager {
             const callback = (response: protocol.IResponse) => {
                 // clean timeout
                 clearTimeout(timeoutId);
-                resolve(response);
+                resolve(response.payload!);
             }
             // add to response handlers
             this.responseHandlers.set(ticket, callback);

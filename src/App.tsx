@@ -9,6 +9,8 @@ import {useEffect} from "react";
 import {configManager, KEY_CONNECTION_CONFIG_URL} from "./qclib/config-manager.ts";
 import RegisterPage from "./compoents/RegisterPage/RegisterPage.tsx";
 import LoginPage from "./compoents/LoginPage/LoginPage.tsx";
+import {accountManager} from "./qclib/account-manager.ts";
+import {userService} from "./qclib/service/user-service.ts";
 
 function App() {
     const connectionStatus = useConnectionStatus()
@@ -23,6 +25,8 @@ function App() {
                 // connect to websocket
                 connectionManager.receiveConfigAndConnect(configUrl).then(() => {
                     console.log("Connected.");
+                    // auto login
+
                 });
             }
         });

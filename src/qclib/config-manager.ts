@@ -35,5 +35,6 @@ export function useConfig<T>(key: string, defaultValue: T): readonly [T, (value:
 }
 
 export const KEY_CONNECTION_CONFIG_URL = "qc-conn-cfg-url";
+export const KEY_ACTIVE_ACCOUNT = "qc-active-account";
 
 export {configManager};
