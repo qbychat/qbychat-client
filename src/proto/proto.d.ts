@@ -563,6 +563,9 @@ export namespace qbychat {
             /** Properties of a ClientInfo. */
             interface IClientInfo {
 
+                /** ClientInfo installationId */
+                installationId?: (string|null);
+
                 /** ClientInfo name */
                 name?: (string|null);
 
@@ -581,6 +584,9 @@ export namespace qbychat {
                  * @param [properties] Properties to set
                  */
                 constructor(properties?: qbychat.websocket.protocol.IClientInfo);
+
+                /** ClientInfo installationId. */
+                public installationId: string;
 
                 /** ClientInfo name. */
                 public name: string;
@@ -995,6 +1001,7 @@ export namespace qbychat {
             /** LoginStatus enum. */
             enum LoginStatus {
                 SUCCESS = 0,
+                SESSION_TERMINATED = 5,
                 TOKEN_EXPIRED = 1,
                 BAD_TOKEN = 2,
                 USER_NOT_FOUND = 3,

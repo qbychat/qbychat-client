@@ -2,6 +2,7 @@ import {app, BrowserWindow, ipcMain} from 'electron'
 import {getPreloadPath, getUIPath} from "./pathResolver.js";
 import {isDev} from "./utils.js";
 import Store from "electron-store";
+import keytar from 'keytar';
 
 function createWindow() {
     const win = new BrowserWindow({
@@ -24,11 +25,17 @@ function createWindow() {
 app.whenReady().then(() => {
     createWindow();
 
-    const store = new Store();
+    const store = new Store({
+        name: "global"
+    });
+
+    ipcMain.handle('get-name', () => {
+        return app.getName();
+    });
 
     ipcMain.handle('get-version', () => {
         return app.getVersion();
-    })
+    });
 
     ipcMain.handle('get-config', (event, key: string) => {
         return store.get(key);
@@ -37,6 +44,19 @@ app.whenReady().then(() => {
     ipcMain.handle('set-config', (event, key: string, value: unknown) => {
         store.set(key, value);
     });
+
+    ipcMain.handle('save-token', async (event, serviceName: string, account: string, token: string) => {
+        return keytar.setPassword(serviceName, account, token);
+    });
+
+    ipcMain.handle("get-token", async (event, serviceName: string, account: string) => {
+        return keytar.getPassword(serviceName, account);
+    })
+
+    ipcMain.handle('find-credentials', async (event, serviceName: string) => {
+        return keytar.findCredentials(serviceName);
+    });
+
 
     app.on('activate', () => {
         if (BrowserWindow.getAllWindows().length === 0) {

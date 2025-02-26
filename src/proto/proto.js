@@ -1473,6 +1473,7 @@ export const qbychat = $root.qbychat = (() => {
                  * Properties of a ClientInfo.
                  * @memberof qbychat.websocket.protocol
                  * @interface IClientInfo
+                 * @property {string|null} [installationId] ClientInfo installationId
                  * @property {string|null} [name] ClientInfo name
                  * @property {qbychat.websocket.protocol.Platform|null} [platform] ClientInfo platform
                  * @property {string|null} [version] ClientInfo version
@@ -1492,6 +1493,14 @@ export const qbychat = $root.qbychat = (() => {
                             if (properties[keys[i]] != null)
                                 this[keys[i]] = properties[keys[i]];
                 }
+
+                /**
+                 * ClientInfo installationId.
+                 * @member {string} installationId
+                 * @memberof qbychat.websocket.protocol.ClientInfo
+                 * @instance
+                 */
+                ClientInfo.prototype.installationId = "";
 
                 /**
                  * ClientInfo name.
@@ -1541,12 +1550,14 @@ export const qbychat = $root.qbychat = (() => {
                 ClientInfo.encode = function encode(message, writer) {
                     if (!writer)
                         writer = $Writer.create();
+                    if (message.installationId != null && Object.hasOwnProperty.call(message, "installationId"))
+                        writer.uint32(/* id 1, wireType 2 =*/10).string(message.installationId);
                     if (message.name != null && Object.hasOwnProperty.call(message, "name"))
-                        writer.uint32(/* id 1, wireType 2 =*/10).string(message.name);
+                        writer.uint32(/* id 2, wireType 2 =*/18).string(message.name);
                     if (message.platform != null && Object.hasOwnProperty.call(message, "platform"))
-                        writer.uint32(/* id 2, wireType 0 =*/16).int32(message.platform);
+                        writer.uint32(/* id 3, wireType 0 =*/24).int32(message.platform);
                     if (message.version != null && Object.hasOwnProperty.call(message, "version"))
-                        writer.uint32(/* id 3, wireType 2 =*/26).string(message.version);
+                        writer.uint32(/* id 4, wireType 2 =*/34).string(message.version);
                     return writer;
                 };
 
@@ -1582,14 +1593,18 @@ export const qbychat = $root.qbychat = (() => {
                         let tag = reader.uint32();
                         switch (tag >>> 3) {
                         case 1: {
-                                message.name = reader.string();
+                                message.installationId = reader.string();
                                 break;
                             }
                         case 2: {
-                                message.platform = reader.int32();
+                                message.name = reader.string();
                                 break;
                             }
                         case 3: {
+                                message.platform = reader.int32();
+                                break;
+                            }
+                        case 4: {
                                 message.version = reader.string();
                                 break;
                             }
@@ -1628,6 +1643,9 @@ export const qbychat = $root.qbychat = (() => {
                 ClientInfo.verify = function verify(message) {
                     if (typeof message !== "object" || message === null)
                         return "object expected";
+                    if (message.installationId != null && message.hasOwnProperty("installationId"))
+                        if (!$util.isString(message.installationId))
+                            return "installationId: string expected";
                     if (message.name != null && message.hasOwnProperty("name"))
                         if (!$util.isString(message.name))
                             return "name: string expected";
@@ -1661,6 +1679,8 @@ export const qbychat = $root.qbychat = (() => {
                     if (object instanceof $root.qbychat.websocket.protocol.ClientInfo)
                         return object;
                     let message = new $root.qbychat.websocket.protocol.ClientInfo();
+                    if (object.installationId != null)
+                        message.installationId = String(object.installationId);
                     if (object.name != null)
                         message.name = String(object.name);
                     switch (object.platform) {
@@ -1714,10 +1734,13 @@ export const qbychat = $root.qbychat = (() => {
                         options = {};
                     let object = {};
                     if (options.defaults) {
+                        object.installationId = "";
                         object.name = "";
                         object.platform = options.enums === String ? "LINUX" : 0;
                         object.version = "";
                     }
+                    if (message.installationId != null && message.hasOwnProperty("installationId"))
+                        object.installationId = message.installationId;
                     if (message.name != null && message.hasOwnProperty("name"))
                         object.name = message.name;
                     if (message.platform != null && message.hasOwnProperty("platform"))
@@ -2411,6 +2434,7 @@ export const qbychat = $root.qbychat = (() => {
                         default:
                             return "status: enum value expected";
                         case 0:
+                        case 5:
                         case 1:
                         case 2:
                         case 3:
@@ -2442,6 +2466,10 @@ export const qbychat = $root.qbychat = (() => {
                     case "SUCCESS":
                     case 0:
                         message.status = 0;
+                        break;
+                    case "SESSION_TERMINATED":
+                    case 5:
+                        message.status = 5;
                         break;
                     case "TOKEN_EXPIRED":
                     case 1:
@@ -2517,6 +2545,7 @@ export const qbychat = $root.qbychat = (() => {
              * @name qbychat.websocket.auth.LoginStatus
              * @enum {number}
              * @property {number} SUCCESS=0 SUCCESS value
+             * @property {number} SESSION_TERMINATED=5 SESSION_TERMINATED value
              * @property {number} TOKEN_EXPIRED=1 TOKEN_EXPIRED value
              * @property {number} BAD_TOKEN=2 BAD_TOKEN value
              * @property {number} USER_NOT_FOUND=3 USER_NOT_FOUND value
@@ -2525,6 +2554,7 @@ export const qbychat = $root.qbychat = (() => {
             auth.LoginStatus = (function() {
                 const valuesById = {}, values = Object.create(valuesById);
                 values[valuesById[0] = "SUCCESS"] = 0;
+                values[valuesById[5] = "SESSION_TERMINATED"] = 5;
                 values[valuesById[1] = "TOKEN_EXPIRED"] = 1;
                 values[valuesById[2] = "BAD_TOKEN"] = 2;
                 values[valuesById[3] = "USER_NOT_FOUND"] = 3;
@@ -2895,6 +2925,7 @@ export const qbychat = $root.qbychat = (() => {
                         default:
                             return "status: enum value expected";
                         case 0:
+                        case 5:
                         case 1:
                         case 2:
                         case 3:
@@ -2926,6 +2957,10 @@ export const qbychat = $root.qbychat = (() => {
                     case "SUCCESS":
                     case 0:
                         message.status = 0;
+                        break;
+                    case "SESSION_TERMINATED":
+                    case 5:
+                        message.status = 5;
                         break;
                     case "TOKEN_EXPIRED":
                     case 1:

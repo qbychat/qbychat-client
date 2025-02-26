@@ -4,9 +4,9 @@ import BackButton from "../BackButton/BackButton.tsx";
 import {Link, useNavigate} from "react-router-dom";
 import {userService} from "../../qclib/service/user-service.ts";
 import {qbychat} from "../../proto/proto";
-import {connectionManager} from "../../qclib/conn-manager.ts";
 import RegisterStatus = qbychat.websocket.user.RegisterStatus;
 import TokenUpdateEvent = qbychat.websocket.auth.TokenUpdateEvent;
+import {eventManger} from "../../qclib/event-manager.ts";
 
 function RegisterPage() {
     const navigate = useNavigate();
@@ -17,12 +17,12 @@ function RegisterPage() {
     const [success, setSuccess] = useState(false)
 
     useEffect(() => {
-        const id = connectionManager.registerEventHandler(TokenUpdateEvent.getTypeUrl(), async () => {
+        const id = eventManger.registerEventHandler(TokenUpdateEvent.getTypeUrl(), async () => {
             // do navigate
             navigate("/");
         })
         return () => {
-            connectionManager.removeEventHandler(id)
+            eventManger.removeEventHandler(id)
         }
     }, []);
 

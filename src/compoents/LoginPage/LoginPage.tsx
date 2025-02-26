@@ -6,9 +6,9 @@ import {FaQrcode} from "react-icons/fa";
 import {MdLogin} from "react-icons/md";
 import {userService} from "../../qclib/service/user-service.ts";
 import {qbychat} from "../../proto/proto";
-import {connectionManager} from "../../qclib/conn-manager.ts";
 import LoginStatus = qbychat.websocket.auth.LoginStatus;
 import TokenUpdateEvent = qbychat.websocket.auth.TokenUpdateEvent;
+import {eventManger} from "../../qclib/event-manager.ts";
 
 function LoginPage() {
     const navigate = useNavigate();
@@ -36,12 +36,12 @@ function LoginPage() {
     }
 
     useEffect(() => {
-        const id = connectionManager.registerEventHandler(TokenUpdateEvent.getTypeUrl(), async () => {
+        const id = eventManger.registerEventHandler(TokenUpdateEvent.getTypeUrl(), async () => {
             // do navigate
             navigate("/");
         })
         return () => {
-            connectionManager.removeEventHandler(id)
+            eventManger.removeEventHandler(id)
         }
     }, []);
 
