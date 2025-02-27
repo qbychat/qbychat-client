@@ -3266,6 +3266,384 @@ export const qbychat = $root.qbychat = (() => {
             return auth;
         })();
 
+        websocket.chat = (function() {
+
+            /**
+             * Namespace chat.
+             * @memberof qbychat.websocket
+             * @namespace
+             */
+            const chat = {};
+
+            /**
+             * ChatType enum.
+             * @name qbychat.websocket.chat.ChatType
+             * @enum {number}
+             * @property {number} GROUP=0 GROUP value
+             * @property {number} CHANNEL=1 CHANNEL value
+             * @property {number} PRIVATE_MESSAGE=2 PRIVATE_MESSAGE value
+             */
+            chat.ChatType = (function() {
+                const valuesById = {}, values = Object.create(valuesById);
+                values[valuesById[0] = "GROUP"] = 0;
+                values[valuesById[1] = "CHANNEL"] = 1;
+                values[valuesById[2] = "PRIVATE_MESSAGE"] = 2;
+                return values;
+            })();
+
+            chat.CreateChatRequest = (function() {
+
+                /**
+                 * Properties of a CreateChatRequest.
+                 * @memberof qbychat.websocket.chat
+                 * @interface ICreateChatRequest
+                 */
+
+                /**
+                 * Constructs a new CreateChatRequest.
+                 * @memberof qbychat.websocket.chat
+                 * @classdesc Represents a CreateChatRequest.
+                 * @implements ICreateChatRequest
+                 * @constructor
+                 * @param {qbychat.websocket.chat.ICreateChatRequest=} [properties] Properties to set
+                 */
+                function CreateChatRequest(properties) {
+                    if (properties)
+                        for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                            if (properties[keys[i]] != null)
+                                this[keys[i]] = properties[keys[i]];
+                }
+
+                /**
+                 * Creates a new CreateChatRequest instance using the specified properties.
+                 * @function create
+                 * @memberof qbychat.websocket.chat.CreateChatRequest
+                 * @static
+                 * @param {qbychat.websocket.chat.ICreateChatRequest=} [properties] Properties to set
+                 * @returns {qbychat.websocket.chat.CreateChatRequest} CreateChatRequest instance
+                 */
+                CreateChatRequest.create = function create(properties) {
+                    return new CreateChatRequest(properties);
+                };
+
+                /**
+                 * Encodes the specified CreateChatRequest message. Does not implicitly {@link qbychat.websocket.chat.CreateChatRequest.verify|verify} messages.
+                 * @function encode
+                 * @memberof qbychat.websocket.chat.CreateChatRequest
+                 * @static
+                 * @param {qbychat.websocket.chat.ICreateChatRequest} message CreateChatRequest message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                CreateChatRequest.encode = function encode(message, writer) {
+                    if (!writer)
+                        writer = $Writer.create();
+                    return writer;
+                };
+
+                /**
+                 * Encodes the specified CreateChatRequest message, length delimited. Does not implicitly {@link qbychat.websocket.chat.CreateChatRequest.verify|verify} messages.
+                 * @function encodeDelimited
+                 * @memberof qbychat.websocket.chat.CreateChatRequest
+                 * @static
+                 * @param {qbychat.websocket.chat.ICreateChatRequest} message CreateChatRequest message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                CreateChatRequest.encodeDelimited = function encodeDelimited(message, writer) {
+                    return this.encode(message, writer).ldelim();
+                };
+
+                /**
+                 * Decodes a CreateChatRequest message from the specified reader or buffer.
+                 * @function decode
+                 * @memberof qbychat.websocket.chat.CreateChatRequest
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @param {number} [length] Message length if known beforehand
+                 * @returns {qbychat.websocket.chat.CreateChatRequest} CreateChatRequest
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                CreateChatRequest.decode = function decode(reader, length) {
+                    if (!(reader instanceof $Reader))
+                        reader = $Reader.create(reader);
+                    let end = length === undefined ? reader.len : reader.pos + length, message = new $root.qbychat.websocket.chat.CreateChatRequest();
+                    while (reader.pos < end) {
+                        let tag = reader.uint32();
+                        switch (tag >>> 3) {
+                        default:
+                            reader.skipType(tag & 7);
+                            break;
+                        }
+                    }
+                    return message;
+                };
+
+                /**
+                 * Decodes a CreateChatRequest message from the specified reader or buffer, length delimited.
+                 * @function decodeDelimited
+                 * @memberof qbychat.websocket.chat.CreateChatRequest
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @returns {qbychat.websocket.chat.CreateChatRequest} CreateChatRequest
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                CreateChatRequest.decodeDelimited = function decodeDelimited(reader) {
+                    if (!(reader instanceof $Reader))
+                        reader = new $Reader(reader);
+                    return this.decode(reader, reader.uint32());
+                };
+
+                /**
+                 * Verifies a CreateChatRequest message.
+                 * @function verify
+                 * @memberof qbychat.websocket.chat.CreateChatRequest
+                 * @static
+                 * @param {Object.<string,*>} message Plain object to verify
+                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                 */
+                CreateChatRequest.verify = function verify(message) {
+                    if (typeof message !== "object" || message === null)
+                        return "object expected";
+                    return null;
+                };
+
+                /**
+                 * Creates a CreateChatRequest message from a plain object. Also converts values to their respective internal types.
+                 * @function fromObject
+                 * @memberof qbychat.websocket.chat.CreateChatRequest
+                 * @static
+                 * @param {Object.<string,*>} object Plain object
+                 * @returns {qbychat.websocket.chat.CreateChatRequest} CreateChatRequest
+                 */
+                CreateChatRequest.fromObject = function fromObject(object) {
+                    if (object instanceof $root.qbychat.websocket.chat.CreateChatRequest)
+                        return object;
+                    return new $root.qbychat.websocket.chat.CreateChatRequest();
+                };
+
+                /**
+                 * Creates a plain object from a CreateChatRequest message. Also converts values to other types if specified.
+                 * @function toObject
+                 * @memberof qbychat.websocket.chat.CreateChatRequest
+                 * @static
+                 * @param {qbychat.websocket.chat.CreateChatRequest} message CreateChatRequest
+                 * @param {$protobuf.IConversionOptions} [options] Conversion options
+                 * @returns {Object.<string,*>} Plain object
+                 */
+                CreateChatRequest.toObject = function toObject() {
+                    return {};
+                };
+
+                /**
+                 * Converts this CreateChatRequest to JSON.
+                 * @function toJSON
+                 * @memberof qbychat.websocket.chat.CreateChatRequest
+                 * @instance
+                 * @returns {Object.<string,*>} JSON object
+                 */
+                CreateChatRequest.prototype.toJSON = function toJSON() {
+                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                };
+
+                /**
+                 * Gets the default type url for CreateChatRequest
+                 * @function getTypeUrl
+                 * @memberof qbychat.websocket.chat.CreateChatRequest
+                 * @static
+                 * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns {string} The default type url
+                 */
+                CreateChatRequest.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                    if (typeUrlPrefix === undefined) {
+                        typeUrlPrefix = "type.googleapis.com";
+                    }
+                    return typeUrlPrefix + "/qbychat.websocket.chat.CreateChatRequest";
+                };
+
+                return CreateChatRequest;
+            })();
+
+            chat.CreateChatResponse = (function() {
+
+                /**
+                 * Properties of a CreateChatResponse.
+                 * @memberof qbychat.websocket.chat
+                 * @interface ICreateChatResponse
+                 */
+
+                /**
+                 * Constructs a new CreateChatResponse.
+                 * @memberof qbychat.websocket.chat
+                 * @classdesc Represents a CreateChatResponse.
+                 * @implements ICreateChatResponse
+                 * @constructor
+                 * @param {qbychat.websocket.chat.ICreateChatResponse=} [properties] Properties to set
+                 */
+                function CreateChatResponse(properties) {
+                    if (properties)
+                        for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                            if (properties[keys[i]] != null)
+                                this[keys[i]] = properties[keys[i]];
+                }
+
+                /**
+                 * Creates a new CreateChatResponse instance using the specified properties.
+                 * @function create
+                 * @memberof qbychat.websocket.chat.CreateChatResponse
+                 * @static
+                 * @param {qbychat.websocket.chat.ICreateChatResponse=} [properties] Properties to set
+                 * @returns {qbychat.websocket.chat.CreateChatResponse} CreateChatResponse instance
+                 */
+                CreateChatResponse.create = function create(properties) {
+                    return new CreateChatResponse(properties);
+                };
+
+                /**
+                 * Encodes the specified CreateChatResponse message. Does not implicitly {@link qbychat.websocket.chat.CreateChatResponse.verify|verify} messages.
+                 * @function encode
+                 * @memberof qbychat.websocket.chat.CreateChatResponse
+                 * @static
+                 * @param {qbychat.websocket.chat.ICreateChatResponse} message CreateChatResponse message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                CreateChatResponse.encode = function encode(message, writer) {
+                    if (!writer)
+                        writer = $Writer.create();
+                    return writer;
+                };
+
+                /**
+                 * Encodes the specified CreateChatResponse message, length delimited. Does not implicitly {@link qbychat.websocket.chat.CreateChatResponse.verify|verify} messages.
+                 * @function encodeDelimited
+                 * @memberof qbychat.websocket.chat.CreateChatResponse
+                 * @static
+                 * @param {qbychat.websocket.chat.ICreateChatResponse} message CreateChatResponse message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                CreateChatResponse.encodeDelimited = function encodeDelimited(message, writer) {
+                    return this.encode(message, writer).ldelim();
+                };
+
+                /**
+                 * Decodes a CreateChatResponse message from the specified reader or buffer.
+                 * @function decode
+                 * @memberof qbychat.websocket.chat.CreateChatResponse
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @param {number} [length] Message length if known beforehand
+                 * @returns {qbychat.websocket.chat.CreateChatResponse} CreateChatResponse
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                CreateChatResponse.decode = function decode(reader, length) {
+                    if (!(reader instanceof $Reader))
+                        reader = $Reader.create(reader);
+                    let end = length === undefined ? reader.len : reader.pos + length, message = new $root.qbychat.websocket.chat.CreateChatResponse();
+                    while (reader.pos < end) {
+                        let tag = reader.uint32();
+                        switch (tag >>> 3) {
+                        default:
+                            reader.skipType(tag & 7);
+                            break;
+                        }
+                    }
+                    return message;
+                };
+
+                /**
+                 * Decodes a CreateChatResponse message from the specified reader or buffer, length delimited.
+                 * @function decodeDelimited
+                 * @memberof qbychat.websocket.chat.CreateChatResponse
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @returns {qbychat.websocket.chat.CreateChatResponse} CreateChatResponse
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                CreateChatResponse.decodeDelimited = function decodeDelimited(reader) {
+                    if (!(reader instanceof $Reader))
+                        reader = new $Reader(reader);
+                    return this.decode(reader, reader.uint32());
+                };
+
+                /**
+                 * Verifies a CreateChatResponse message.
+                 * @function verify
+                 * @memberof qbychat.websocket.chat.CreateChatResponse
+                 * @static
+                 * @param {Object.<string,*>} message Plain object to verify
+                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                 */
+                CreateChatResponse.verify = function verify(message) {
+                    if (typeof message !== "object" || message === null)
+                        return "object expected";
+                    return null;
+                };
+
+                /**
+                 * Creates a CreateChatResponse message from a plain object. Also converts values to their respective internal types.
+                 * @function fromObject
+                 * @memberof qbychat.websocket.chat.CreateChatResponse
+                 * @static
+                 * @param {Object.<string,*>} object Plain object
+                 * @returns {qbychat.websocket.chat.CreateChatResponse} CreateChatResponse
+                 */
+                CreateChatResponse.fromObject = function fromObject(object) {
+                    if (object instanceof $root.qbychat.websocket.chat.CreateChatResponse)
+                        return object;
+                    return new $root.qbychat.websocket.chat.CreateChatResponse();
+                };
+
+                /**
+                 * Creates a plain object from a CreateChatResponse message. Also converts values to other types if specified.
+                 * @function toObject
+                 * @memberof qbychat.websocket.chat.CreateChatResponse
+                 * @static
+                 * @param {qbychat.websocket.chat.CreateChatResponse} message CreateChatResponse
+                 * @param {$protobuf.IConversionOptions} [options] Conversion options
+                 * @returns {Object.<string,*>} Plain object
+                 */
+                CreateChatResponse.toObject = function toObject() {
+                    return {};
+                };
+
+                /**
+                 * Converts this CreateChatResponse to JSON.
+                 * @function toJSON
+                 * @memberof qbychat.websocket.chat.CreateChatResponse
+                 * @instance
+                 * @returns {Object.<string,*>} JSON object
+                 */
+                CreateChatResponse.prototype.toJSON = function toJSON() {
+                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                };
+
+                /**
+                 * Gets the default type url for CreateChatResponse
+                 * @function getTypeUrl
+                 * @memberof qbychat.websocket.chat.CreateChatResponse
+                 * @static
+                 * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns {string} The default type url
+                 */
+                CreateChatResponse.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                    if (typeUrlPrefix === undefined) {
+                        typeUrlPrefix = "type.googleapis.com";
+                    }
+                    return typeUrlPrefix + "/qbychat.websocket.chat.CreateChatResponse";
+                };
+
+                return CreateChatResponse;
+            })();
+
+            return chat;
+        })();
+
         websocket.user = (function() {
 
             /**
