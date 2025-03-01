@@ -1,6 +1,7 @@
 import * as React from "react";
 
 import {AnimatePresence, motion} from "motion/react"
+import {useHotkeys} from "react-hotkeys-hook";
 
 interface Props {
     state: boolean;
@@ -12,11 +13,17 @@ function Dialog(props: Props) {
 
     const handleClick = (e: React.MouseEvent) => {
         if (e.target === e.currentTarget) {
-            if (props.onCancel) {
-                props.onCancel();
-            }
+            handleCancel();
         }
     };
+
+    const handleCancel = () => {
+        if (props.onCancel) {
+            props.onCancel();
+        }
+    }
+
+    useHotkeys('esc', handleCancel, [])
 
     return <AnimatePresence>
         {props.state && (
