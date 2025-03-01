@@ -13,8 +13,8 @@ function ChatListItem(props: Props) {
                 <Avatar chatId={props.chat.remoteId} showName={props.chat.title}/>
             </div>
             <div className="min-w-0 flex-auto">
-                <p className="text-sm/6 font-semibold text-gray-900 dark:text-white">{props.chat.title}</p>
-                <p className="mt-1 truncate text-xs/5 text-gray-500 group-hover:text-gray-300">LATEST MESSAGE (TODO)</p>
+                <p className="text-sm/6 font-semibold text-gray-900 dark:text-white whitespace-nowrap overflow-hidden text-ellipsis">{props.chat.title}</p>
+                <p className="mt-1 truncate text-xs/5 text-gray-500 group-hover:text-gray-300 whitespace-nowrap overflow-hidden text-ellipsis">LATEST MESSAGE (TODO)</p>
             </div>
         </div>
     </li>;

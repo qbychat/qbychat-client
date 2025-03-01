@@ -46,7 +46,7 @@ function ChatPage() {
     return <div className="flex h-screen select-none">
             <div className={"flex flex-col dark:bg-base-200 rounded-r"} style={{width: leftWidth}}>
                 <TitleBar user={user}/>
-                <div className={"h-full mx-2"}>
+                <div className={"h-full mx-2 overflow-y-auto"}>
                     <ChatList/>
                 </div>
             </div>
