@@ -11,6 +11,15 @@ export default defineConfig({
     base: './',
     build: {
         outDir: 'dist-react',
+        rollupOptions: {
+            output: {
+                manualChunks: {
+                    react: ['react', 'react-dom', 'react-icons', 'react-router-dom', 'react-hotkeys-hook'],
+                    dexie: ['dexie', 'dexie-react-hooks']
+                },
+                chunkFileNames: 'assets/[name]-[hash].js',
+            }
+        }
     },
     server: {
         port: 5123,

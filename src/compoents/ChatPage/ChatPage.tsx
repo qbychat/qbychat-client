@@ -1,8 +1,12 @@
 import {useEffect, useState} from "react";
 import TitleBar from "../TitleBar/TitleBar.tsx";
+import ChatList from "../ChatList/ChatList.tsx";
+import {useUser} from "../../qclib/react-hooks.ts";
 
 function ChatPage() {
     // const [searchParams] = useSearchParams();
+
+    const user = useUser();
 
     const [leftWidth, setLeftWidth] = useState(300);
     const [isDragging, setIsDragging] = useState(false);
@@ -40,8 +44,11 @@ function ChatPage() {
     }, [isDragging]);
 
     return <div className="flex h-screen select-none">
-            <div className={"dark:bg-base-200 rounded-r"} style={{width: leftWidth}}>
-                <TitleBar/>
+            <div className={"flex flex-col dark:bg-base-200 rounded-r"} style={{width: leftWidth}}>
+                <TitleBar user={user}/>
+                <div className={"h-full mx-2"}>
+                    <ChatList/>
+                </div>
             </div>
             <div
                 className="cursor-e-resize w-1 shadow-xl rounded-r rounded-l"

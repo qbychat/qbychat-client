@@ -2,8 +2,13 @@ import {GiHamburgerMenu} from "react-icons/gi";
 import SearchBar from "../SearchBar/SearchBar.tsx";
 import {useState} from "react";
 import Sidebar from "../Sidebar/Sidebar.tsx";
+import {Account} from "../../qclib/database.ts";
 
-function TitleBar() {
+interface Props {
+    user: Account | null | undefined
+}
+
+function TitleBar(props: Props) {
     const [searchValue, setSearchValue] = useState("")
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
@@ -45,7 +50,7 @@ function TitleBar() {
                 {/*drawer*/}
                 <label htmlFor="my-drawer" aria-label="close sidebar" className="drawer-overlay"></label>
                 <ul className="menu bg-base-200 text-base-content min-h-full w-72 p-4">
-                    <Sidebar/>
+                    <Sidebar user={props.user}/>
                 </ul>
             </div>
         </div>

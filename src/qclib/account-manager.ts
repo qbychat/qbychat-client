@@ -16,6 +16,7 @@ class AccountManager {
     }
 
     async switchAccount(account: string | null): Promise<void> {
+        await eventManger.publishEvent("switch-account", null, account);
         return configManager.set(KEY_ACTIVE_ACCOUNT, account);
     }
 

@@ -12,6 +12,7 @@ import TokenLoginRequest = qbychat.websocket.auth.TokenLoginRequest;
 import LoginStatus = qbychat.websocket.auth.LoginStatus;
 import TokenUpdateEvent = qbychat.websocket.auth.TokenUpdateEvent;
 import user = qbychat.websocket.user;
+import {chatService} from "./chat-service.ts";
 
 class UserService extends Service {
     serviceName: string = "org.cubewhy.qbychat.service.UserService";
@@ -60,6 +61,7 @@ class UserService extends Service {
                     console.log(`Success authorized with account ${account}`);
                     // sync
                     await this.sync(account);
+                    await chatService.sync(account);
                     break;
                 case LoginStatus.USER_NOT_FOUND:
                     console.error(`Failed authorized with account ${account} (user deleted)`);
@@ -76,7 +78,7 @@ class UserService extends Service {
     }
 
     async sync(account: string): Promise<void> {
-        const response0 = await this.request("Sync", null, account)
+        const response0 = await this.request("Sync", user.SyncRequest.encode(user.SyncRequest.create({})).finish(), account)
         const response = user.SyncResponse.decode(response0);
         const resUser = response.user!;
         // find current user

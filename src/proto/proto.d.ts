@@ -1315,6 +1315,127 @@ export namespace qbychat {
         /** Namespace chat. */
         namespace chat {
 
+            /** Properties of a Chat. */
+            interface IChat {
+
+                /** Chat chatId */
+                chatId?: (string|null);
+
+                /** Chat name */
+                name?: (string|null);
+
+                /** Chat title */
+                title?: (string|null);
+
+                /** Chat description */
+                description?: (string|null);
+
+                /** Chat type */
+                type?: (qbychat.websocket.chat.ChatType|null);
+            }
+
+            /** Represents a Chat. */
+            class Chat implements IChat {
+
+                /**
+                 * Constructs a new Chat.
+                 * @param [properties] Properties to set
+                 */
+                constructor(properties?: qbychat.websocket.chat.IChat);
+
+                /** Chat chatId. */
+                public chatId: string;
+
+                /** Chat name. */
+                public name?: (string|null);
+
+                /** Chat title. */
+                public title: string;
+
+                /** Chat description. */
+                public description?: (string|null);
+
+                /** Chat type. */
+                public type: qbychat.websocket.chat.ChatType;
+
+                /**
+                 * Creates a new Chat instance using the specified properties.
+                 * @param [properties] Properties to set
+                 * @returns Chat instance
+                 */
+                public static create(properties?: qbychat.websocket.chat.IChat): qbychat.websocket.chat.Chat;
+
+                /**
+                 * Encodes the specified Chat message. Does not implicitly {@link qbychat.websocket.chat.Chat.verify|verify} messages.
+                 * @param message Chat message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encode(message: qbychat.websocket.chat.IChat, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Encodes the specified Chat message, length delimited. Does not implicitly {@link qbychat.websocket.chat.Chat.verify|verify} messages.
+                 * @param message Chat message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encodeDelimited(message: qbychat.websocket.chat.IChat, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Decodes a Chat message from the specified reader or buffer.
+                 * @param reader Reader or buffer to decode from
+                 * @param [length] Message length if known beforehand
+                 * @returns Chat
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): qbychat.websocket.chat.Chat;
+
+                /**
+                 * Decodes a Chat message from the specified reader or buffer, length delimited.
+                 * @param reader Reader or buffer to decode from
+                 * @returns Chat
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): qbychat.websocket.chat.Chat;
+
+                /**
+                 * Verifies a Chat message.
+                 * @param message Plain object to verify
+                 * @returns `null` if valid, otherwise the reason why it is not
+                 */
+                public static verify(message: { [k: string]: any }): (string|null);
+
+                /**
+                 * Creates a Chat message from a plain object. Also converts values to their respective internal types.
+                 * @param object Plain object
+                 * @returns Chat
+                 */
+                public static fromObject(object: { [k: string]: any }): qbychat.websocket.chat.Chat;
+
+                /**
+                 * Creates a plain object from a Chat message. Also converts values to other types if specified.
+                 * @param message Chat
+                 * @param [options] Conversion options
+                 * @returns Plain object
+                 */
+                public static toObject(message: qbychat.websocket.chat.Chat, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                /**
+                 * Converts this Chat to JSON.
+                 * @returns JSON object
+                 */
+                public toJSON(): { [k: string]: any };
+
+                /**
+                 * Gets the default type url for Chat
+                 * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns The default type url
+                 */
+                public static getTypeUrl(typeUrlPrefix?: string): string;
+            }
+
             /** ChatType enum. */
             enum ChatType {
                 GROUP = 0,
@@ -1322,182 +1443,570 @@ export namespace qbychat {
                 PRIVATE_MESSAGE = 2
             }
 
-            /** Properties of a CreateChatRequest. */
-            interface ICreateChatRequest {
+            /** Properties of a SyncRequest. */
+            interface ISyncRequest {
             }
 
-            /** Represents a CreateChatRequest. */
-            class CreateChatRequest implements ICreateChatRequest {
+            /** Represents a SyncRequest. */
+            class SyncRequest implements ISyncRequest {
 
                 /**
-                 * Constructs a new CreateChatRequest.
+                 * Constructs a new SyncRequest.
                  * @param [properties] Properties to set
                  */
-                constructor(properties?: qbychat.websocket.chat.ICreateChatRequest);
+                constructor(properties?: qbychat.websocket.chat.ISyncRequest);
 
                 /**
-                 * Creates a new CreateChatRequest instance using the specified properties.
+                 * Creates a new SyncRequest instance using the specified properties.
                  * @param [properties] Properties to set
-                 * @returns CreateChatRequest instance
+                 * @returns SyncRequest instance
                  */
-                public static create(properties?: qbychat.websocket.chat.ICreateChatRequest): qbychat.websocket.chat.CreateChatRequest;
+                public static create(properties?: qbychat.websocket.chat.ISyncRequest): qbychat.websocket.chat.SyncRequest;
 
                 /**
-                 * Encodes the specified CreateChatRequest message. Does not implicitly {@link qbychat.websocket.chat.CreateChatRequest.verify|verify} messages.
-                 * @param message CreateChatRequest message or plain object to encode
+                 * Encodes the specified SyncRequest message. Does not implicitly {@link qbychat.websocket.chat.SyncRequest.verify|verify} messages.
+                 * @param message SyncRequest message or plain object to encode
                  * @param [writer] Writer to encode to
                  * @returns Writer
                  */
-                public static encode(message: qbychat.websocket.chat.ICreateChatRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+                public static encode(message: qbychat.websocket.chat.ISyncRequest, writer?: $protobuf.Writer): $protobuf.Writer;
 
                 /**
-                 * Encodes the specified CreateChatRequest message, length delimited. Does not implicitly {@link qbychat.websocket.chat.CreateChatRequest.verify|verify} messages.
-                 * @param message CreateChatRequest message or plain object to encode
+                 * Encodes the specified SyncRequest message, length delimited. Does not implicitly {@link qbychat.websocket.chat.SyncRequest.verify|verify} messages.
+                 * @param message SyncRequest message or plain object to encode
                  * @param [writer] Writer to encode to
                  * @returns Writer
                  */
-                public static encodeDelimited(message: qbychat.websocket.chat.ICreateChatRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+                public static encodeDelimited(message: qbychat.websocket.chat.ISyncRequest, writer?: $protobuf.Writer): $protobuf.Writer;
 
                 /**
-                 * Decodes a CreateChatRequest message from the specified reader or buffer.
+                 * Decodes a SyncRequest message from the specified reader or buffer.
                  * @param reader Reader or buffer to decode from
                  * @param [length] Message length if known beforehand
-                 * @returns CreateChatRequest
+                 * @returns SyncRequest
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): qbychat.websocket.chat.CreateChatRequest;
+                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): qbychat.websocket.chat.SyncRequest;
 
                 /**
-                 * Decodes a CreateChatRequest message from the specified reader or buffer, length delimited.
+                 * Decodes a SyncRequest message from the specified reader or buffer, length delimited.
                  * @param reader Reader or buffer to decode from
-                 * @returns CreateChatRequest
+                 * @returns SyncRequest
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): qbychat.websocket.chat.CreateChatRequest;
+                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): qbychat.websocket.chat.SyncRequest;
 
                 /**
-                 * Verifies a CreateChatRequest message.
+                 * Verifies a SyncRequest message.
                  * @param message Plain object to verify
                  * @returns `null` if valid, otherwise the reason why it is not
                  */
                 public static verify(message: { [k: string]: any }): (string|null);
 
                 /**
-                 * Creates a CreateChatRequest message from a plain object. Also converts values to their respective internal types.
+                 * Creates a SyncRequest message from a plain object. Also converts values to their respective internal types.
                  * @param object Plain object
-                 * @returns CreateChatRequest
+                 * @returns SyncRequest
                  */
-                public static fromObject(object: { [k: string]: any }): qbychat.websocket.chat.CreateChatRequest;
+                public static fromObject(object: { [k: string]: any }): qbychat.websocket.chat.SyncRequest;
 
                 /**
-                 * Creates a plain object from a CreateChatRequest message. Also converts values to other types if specified.
-                 * @param message CreateChatRequest
+                 * Creates a plain object from a SyncRequest message. Also converts values to other types if specified.
+                 * @param message SyncRequest
                  * @param [options] Conversion options
                  * @returns Plain object
                  */
-                public static toObject(message: qbychat.websocket.chat.CreateChatRequest, options?: $protobuf.IConversionOptions): { [k: string]: any };
+                public static toObject(message: qbychat.websocket.chat.SyncRequest, options?: $protobuf.IConversionOptions): { [k: string]: any };
 
                 /**
-                 * Converts this CreateChatRequest to JSON.
+                 * Converts this SyncRequest to JSON.
                  * @returns JSON object
                  */
                 public toJSON(): { [k: string]: any };
 
                 /**
-                 * Gets the default type url for CreateChatRequest
+                 * Gets the default type url for SyncRequest
                  * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
                  * @returns The default type url
                  */
                 public static getTypeUrl(typeUrlPrefix?: string): string;
             }
 
-            /** Properties of a CreateChatResponse. */
-            interface ICreateChatResponse {
+            /** Properties of a SyncResponse. */
+            interface ISyncResponse {
+
+                /** SyncResponse chats */
+                chats?: (qbychat.websocket.chat.IChat[]|null);
             }
 
-            /** Represents a CreateChatResponse. */
-            class CreateChatResponse implements ICreateChatResponse {
+            /** Represents a SyncResponse. */
+            class SyncResponse implements ISyncResponse {
 
                 /**
-                 * Constructs a new CreateChatResponse.
+                 * Constructs a new SyncResponse.
                  * @param [properties] Properties to set
                  */
-                constructor(properties?: qbychat.websocket.chat.ICreateChatResponse);
+                constructor(properties?: qbychat.websocket.chat.ISyncResponse);
+
+                /** SyncResponse chats. */
+                public chats: qbychat.websocket.chat.IChat[];
 
                 /**
-                 * Creates a new CreateChatResponse instance using the specified properties.
+                 * Creates a new SyncResponse instance using the specified properties.
                  * @param [properties] Properties to set
-                 * @returns CreateChatResponse instance
+                 * @returns SyncResponse instance
                  */
-                public static create(properties?: qbychat.websocket.chat.ICreateChatResponse): qbychat.websocket.chat.CreateChatResponse;
+                public static create(properties?: qbychat.websocket.chat.ISyncResponse): qbychat.websocket.chat.SyncResponse;
 
                 /**
-                 * Encodes the specified CreateChatResponse message. Does not implicitly {@link qbychat.websocket.chat.CreateChatResponse.verify|verify} messages.
-                 * @param message CreateChatResponse message or plain object to encode
+                 * Encodes the specified SyncResponse message. Does not implicitly {@link qbychat.websocket.chat.SyncResponse.verify|verify} messages.
+                 * @param message SyncResponse message or plain object to encode
                  * @param [writer] Writer to encode to
                  * @returns Writer
                  */
-                public static encode(message: qbychat.websocket.chat.ICreateChatResponse, writer?: $protobuf.Writer): $protobuf.Writer;
+                public static encode(message: qbychat.websocket.chat.ISyncResponse, writer?: $protobuf.Writer): $protobuf.Writer;
 
                 /**
-                 * Encodes the specified CreateChatResponse message, length delimited. Does not implicitly {@link qbychat.websocket.chat.CreateChatResponse.verify|verify} messages.
-                 * @param message CreateChatResponse message or plain object to encode
+                 * Encodes the specified SyncResponse message, length delimited. Does not implicitly {@link qbychat.websocket.chat.SyncResponse.verify|verify} messages.
+                 * @param message SyncResponse message or plain object to encode
                  * @param [writer] Writer to encode to
                  * @returns Writer
                  */
-                public static encodeDelimited(message: qbychat.websocket.chat.ICreateChatResponse, writer?: $protobuf.Writer): $protobuf.Writer;
+                public static encodeDelimited(message: qbychat.websocket.chat.ISyncResponse, writer?: $protobuf.Writer): $protobuf.Writer;
 
                 /**
-                 * Decodes a CreateChatResponse message from the specified reader or buffer.
+                 * Decodes a SyncResponse message from the specified reader or buffer.
                  * @param reader Reader or buffer to decode from
                  * @param [length] Message length if known beforehand
-                 * @returns CreateChatResponse
+                 * @returns SyncResponse
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): qbychat.websocket.chat.CreateChatResponse;
+                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): qbychat.websocket.chat.SyncResponse;
 
                 /**
-                 * Decodes a CreateChatResponse message from the specified reader or buffer, length delimited.
+                 * Decodes a SyncResponse message from the specified reader or buffer, length delimited.
                  * @param reader Reader or buffer to decode from
-                 * @returns CreateChatResponse
+                 * @returns SyncResponse
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): qbychat.websocket.chat.CreateChatResponse;
+                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): qbychat.websocket.chat.SyncResponse;
 
                 /**
-                 * Verifies a CreateChatResponse message.
+                 * Verifies a SyncResponse message.
                  * @param message Plain object to verify
                  * @returns `null` if valid, otherwise the reason why it is not
                  */
                 public static verify(message: { [k: string]: any }): (string|null);
 
                 /**
-                 * Creates a CreateChatResponse message from a plain object. Also converts values to their respective internal types.
+                 * Creates a SyncResponse message from a plain object. Also converts values to their respective internal types.
                  * @param object Plain object
-                 * @returns CreateChatResponse
+                 * @returns SyncResponse
                  */
-                public static fromObject(object: { [k: string]: any }): qbychat.websocket.chat.CreateChatResponse;
+                public static fromObject(object: { [k: string]: any }): qbychat.websocket.chat.SyncResponse;
 
                 /**
-                 * Creates a plain object from a CreateChatResponse message. Also converts values to other types if specified.
-                 * @param message CreateChatResponse
+                 * Creates a plain object from a SyncResponse message. Also converts values to other types if specified.
+                 * @param message SyncResponse
                  * @param [options] Conversion options
                  * @returns Plain object
                  */
-                public static toObject(message: qbychat.websocket.chat.CreateChatResponse, options?: $protobuf.IConversionOptions): { [k: string]: any };
+                public static toObject(message: qbychat.websocket.chat.SyncResponse, options?: $protobuf.IConversionOptions): { [k: string]: any };
 
                 /**
-                 * Converts this CreateChatResponse to JSON.
+                 * Converts this SyncResponse to JSON.
                  * @returns JSON object
                  */
                 public toJSON(): { [k: string]: any };
 
                 /**
-                 * Gets the default type url for CreateChatResponse
+                 * Gets the default type url for SyncResponse
+                 * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns The default type url
+                 */
+                public static getTypeUrl(typeUrlPrefix?: string): string;
+            }
+
+            /** Properties of a CreateGroupRequest. */
+            interface ICreateGroupRequest {
+
+                /** CreateGroupRequest title */
+                title?: (string|null);
+            }
+
+            /** Represents a CreateGroupRequest. */
+            class CreateGroupRequest implements ICreateGroupRequest {
+
+                /**
+                 * Constructs a new CreateGroupRequest.
+                 * @param [properties] Properties to set
+                 */
+                constructor(properties?: qbychat.websocket.chat.ICreateGroupRequest);
+
+                /** CreateGroupRequest title. */
+                public title: string;
+
+                /**
+                 * Creates a new CreateGroupRequest instance using the specified properties.
+                 * @param [properties] Properties to set
+                 * @returns CreateGroupRequest instance
+                 */
+                public static create(properties?: qbychat.websocket.chat.ICreateGroupRequest): qbychat.websocket.chat.CreateGroupRequest;
+
+                /**
+                 * Encodes the specified CreateGroupRequest message. Does not implicitly {@link qbychat.websocket.chat.CreateGroupRequest.verify|verify} messages.
+                 * @param message CreateGroupRequest message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encode(message: qbychat.websocket.chat.ICreateGroupRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Encodes the specified CreateGroupRequest message, length delimited. Does not implicitly {@link qbychat.websocket.chat.CreateGroupRequest.verify|verify} messages.
+                 * @param message CreateGroupRequest message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encodeDelimited(message: qbychat.websocket.chat.ICreateGroupRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Decodes a CreateGroupRequest message from the specified reader or buffer.
+                 * @param reader Reader or buffer to decode from
+                 * @param [length] Message length if known beforehand
+                 * @returns CreateGroupRequest
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): qbychat.websocket.chat.CreateGroupRequest;
+
+                /**
+                 * Decodes a CreateGroupRequest message from the specified reader or buffer, length delimited.
+                 * @param reader Reader or buffer to decode from
+                 * @returns CreateGroupRequest
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): qbychat.websocket.chat.CreateGroupRequest;
+
+                /**
+                 * Verifies a CreateGroupRequest message.
+                 * @param message Plain object to verify
+                 * @returns `null` if valid, otherwise the reason why it is not
+                 */
+                public static verify(message: { [k: string]: any }): (string|null);
+
+                /**
+                 * Creates a CreateGroupRequest message from a plain object. Also converts values to their respective internal types.
+                 * @param object Plain object
+                 * @returns CreateGroupRequest
+                 */
+                public static fromObject(object: { [k: string]: any }): qbychat.websocket.chat.CreateGroupRequest;
+
+                /**
+                 * Creates a plain object from a CreateGroupRequest message. Also converts values to other types if specified.
+                 * @param message CreateGroupRequest
+                 * @param [options] Conversion options
+                 * @returns Plain object
+                 */
+                public static toObject(message: qbychat.websocket.chat.CreateGroupRequest, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                /**
+                 * Converts this CreateGroupRequest to JSON.
+                 * @returns JSON object
+                 */
+                public toJSON(): { [k: string]: any };
+
+                /**
+                 * Gets the default type url for CreateGroupRequest
+                 * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns The default type url
+                 */
+                public static getTypeUrl(typeUrlPrefix?: string): string;
+            }
+
+            /** Properties of a CreateGroupResponse. */
+            interface ICreateGroupResponse {
+            }
+
+            /** Represents a CreateGroupResponse. */
+            class CreateGroupResponse implements ICreateGroupResponse {
+
+                /**
+                 * Constructs a new CreateGroupResponse.
+                 * @param [properties] Properties to set
+                 */
+                constructor(properties?: qbychat.websocket.chat.ICreateGroupResponse);
+
+                /**
+                 * Creates a new CreateGroupResponse instance using the specified properties.
+                 * @param [properties] Properties to set
+                 * @returns CreateGroupResponse instance
+                 */
+                public static create(properties?: qbychat.websocket.chat.ICreateGroupResponse): qbychat.websocket.chat.CreateGroupResponse;
+
+                /**
+                 * Encodes the specified CreateGroupResponse message. Does not implicitly {@link qbychat.websocket.chat.CreateGroupResponse.verify|verify} messages.
+                 * @param message CreateGroupResponse message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encode(message: qbychat.websocket.chat.ICreateGroupResponse, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Encodes the specified CreateGroupResponse message, length delimited. Does not implicitly {@link qbychat.websocket.chat.CreateGroupResponse.verify|verify} messages.
+                 * @param message CreateGroupResponse message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encodeDelimited(message: qbychat.websocket.chat.ICreateGroupResponse, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Decodes a CreateGroupResponse message from the specified reader or buffer.
+                 * @param reader Reader or buffer to decode from
+                 * @param [length] Message length if known beforehand
+                 * @returns CreateGroupResponse
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): qbychat.websocket.chat.CreateGroupResponse;
+
+                /**
+                 * Decodes a CreateGroupResponse message from the specified reader or buffer, length delimited.
+                 * @param reader Reader or buffer to decode from
+                 * @returns CreateGroupResponse
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): qbychat.websocket.chat.CreateGroupResponse;
+
+                /**
+                 * Verifies a CreateGroupResponse message.
+                 * @param message Plain object to verify
+                 * @returns `null` if valid, otherwise the reason why it is not
+                 */
+                public static verify(message: { [k: string]: any }): (string|null);
+
+                /**
+                 * Creates a CreateGroupResponse message from a plain object. Also converts values to their respective internal types.
+                 * @param object Plain object
+                 * @returns CreateGroupResponse
+                 */
+                public static fromObject(object: { [k: string]: any }): qbychat.websocket.chat.CreateGroupResponse;
+
+                /**
+                 * Creates a plain object from a CreateGroupResponse message. Also converts values to other types if specified.
+                 * @param message CreateGroupResponse
+                 * @param [options] Conversion options
+                 * @returns Plain object
+                 */
+                public static toObject(message: qbychat.websocket.chat.CreateGroupResponse, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                /**
+                 * Converts this CreateGroupResponse to JSON.
+                 * @returns JSON object
+                 */
+                public toJSON(): { [k: string]: any };
+
+                /**
+                 * Gets the default type url for CreateGroupResponse
+                 * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns The default type url
+                 */
+                public static getTypeUrl(typeUrlPrefix?: string): string;
+            }
+
+            /** Properties of an AddChatEvent. */
+            interface IAddChatEvent {
+
+                /** AddChatEvent chat */
+                chat?: (qbychat.websocket.chat.IChat|null);
+            }
+
+            /** Represents an AddChatEvent. */
+            class AddChatEvent implements IAddChatEvent {
+
+                /**
+                 * Constructs a new AddChatEvent.
+                 * @param [properties] Properties to set
+                 */
+                constructor(properties?: qbychat.websocket.chat.IAddChatEvent);
+
+                /** AddChatEvent chat. */
+                public chat?: (qbychat.websocket.chat.IChat|null);
+
+                /**
+                 * Creates a new AddChatEvent instance using the specified properties.
+                 * @param [properties] Properties to set
+                 * @returns AddChatEvent instance
+                 */
+                public static create(properties?: qbychat.websocket.chat.IAddChatEvent): qbychat.websocket.chat.AddChatEvent;
+
+                /**
+                 * Encodes the specified AddChatEvent message. Does not implicitly {@link qbychat.websocket.chat.AddChatEvent.verify|verify} messages.
+                 * @param message AddChatEvent message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encode(message: qbychat.websocket.chat.IAddChatEvent, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Encodes the specified AddChatEvent message, length delimited. Does not implicitly {@link qbychat.websocket.chat.AddChatEvent.verify|verify} messages.
+                 * @param message AddChatEvent message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encodeDelimited(message: qbychat.websocket.chat.IAddChatEvent, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Decodes an AddChatEvent message from the specified reader or buffer.
+                 * @param reader Reader or buffer to decode from
+                 * @param [length] Message length if known beforehand
+                 * @returns AddChatEvent
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): qbychat.websocket.chat.AddChatEvent;
+
+                /**
+                 * Decodes an AddChatEvent message from the specified reader or buffer, length delimited.
+                 * @param reader Reader or buffer to decode from
+                 * @returns AddChatEvent
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): qbychat.websocket.chat.AddChatEvent;
+
+                /**
+                 * Verifies an AddChatEvent message.
+                 * @param message Plain object to verify
+                 * @returns `null` if valid, otherwise the reason why it is not
+                 */
+                public static verify(message: { [k: string]: any }): (string|null);
+
+                /**
+                 * Creates an AddChatEvent message from a plain object. Also converts values to their respective internal types.
+                 * @param object Plain object
+                 * @returns AddChatEvent
+                 */
+                public static fromObject(object: { [k: string]: any }): qbychat.websocket.chat.AddChatEvent;
+
+                /**
+                 * Creates a plain object from an AddChatEvent message. Also converts values to other types if specified.
+                 * @param message AddChatEvent
+                 * @param [options] Conversion options
+                 * @returns Plain object
+                 */
+                public static toObject(message: qbychat.websocket.chat.AddChatEvent, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                /**
+                 * Converts this AddChatEvent to JSON.
+                 * @returns JSON object
+                 */
+                public toJSON(): { [k: string]: any };
+
+                /**
+                 * Gets the default type url for AddChatEvent
+                 * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns The default type url
+                 */
+                public static getTypeUrl(typeUrlPrefix?: string): string;
+            }
+
+            /** Properties of a RemoveChatEvent. */
+            interface IRemoveChatEvent {
+
+                /** RemoveChatEvent chat */
+                chat?: (qbychat.websocket.chat.IChat|null);
+            }
+
+            /** Represents a RemoveChatEvent. */
+            class RemoveChatEvent implements IRemoveChatEvent {
+
+                /**
+                 * Constructs a new RemoveChatEvent.
+                 * @param [properties] Properties to set
+                 */
+                constructor(properties?: qbychat.websocket.chat.IRemoveChatEvent);
+
+                /** RemoveChatEvent chat. */
+                public chat?: (qbychat.websocket.chat.IChat|null);
+
+                /**
+                 * Creates a new RemoveChatEvent instance using the specified properties.
+                 * @param [properties] Properties to set
+                 * @returns RemoveChatEvent instance
+                 */
+                public static create(properties?: qbychat.websocket.chat.IRemoveChatEvent): qbychat.websocket.chat.RemoveChatEvent;
+
+                /**
+                 * Encodes the specified RemoveChatEvent message. Does not implicitly {@link qbychat.websocket.chat.RemoveChatEvent.verify|verify} messages.
+                 * @param message RemoveChatEvent message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encode(message: qbychat.websocket.chat.IRemoveChatEvent, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Encodes the specified RemoveChatEvent message, length delimited. Does not implicitly {@link qbychat.websocket.chat.RemoveChatEvent.verify|verify} messages.
+                 * @param message RemoveChatEvent message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encodeDelimited(message: qbychat.websocket.chat.IRemoveChatEvent, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Decodes a RemoveChatEvent message from the specified reader or buffer.
+                 * @param reader Reader or buffer to decode from
+                 * @param [length] Message length if known beforehand
+                 * @returns RemoveChatEvent
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): qbychat.websocket.chat.RemoveChatEvent;
+
+                /**
+                 * Decodes a RemoveChatEvent message from the specified reader or buffer, length delimited.
+                 * @param reader Reader or buffer to decode from
+                 * @returns RemoveChatEvent
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): qbychat.websocket.chat.RemoveChatEvent;
+
+                /**
+                 * Verifies a RemoveChatEvent message.
+                 * @param message Plain object to verify
+                 * @returns `null` if valid, otherwise the reason why it is not
+                 */
+                public static verify(message: { [k: string]: any }): (string|null);
+
+                /**
+                 * Creates a RemoveChatEvent message from a plain object. Also converts values to their respective internal types.
+                 * @param object Plain object
+                 * @returns RemoveChatEvent
+                 */
+                public static fromObject(object: { [k: string]: any }): qbychat.websocket.chat.RemoveChatEvent;
+
+                /**
+                 * Creates a plain object from a RemoveChatEvent message. Also converts values to other types if specified.
+                 * @param message RemoveChatEvent
+                 * @param [options] Conversion options
+                 * @returns Plain object
+                 */
+                public static toObject(message: qbychat.websocket.chat.RemoveChatEvent, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                /**
+                 * Converts this RemoveChatEvent to JSON.
+                 * @returns JSON object
+                 */
+                public toJSON(): { [k: string]: any };
+
+                /**
+                 * Gets the default type url for RemoveChatEvent
                  * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
                  * @returns The default type url
                  */
