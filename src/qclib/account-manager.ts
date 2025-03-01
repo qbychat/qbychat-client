@@ -11,7 +11,11 @@ class AccountManager {
         return window.electron.saveAccountToken(this.serviceName, account, token);
     }
 
-    async switchAccount(account: string): Promise<void> {
+    async getActiveAccount(): Promise<string | null> {
+        return configManager.get(KEY_ACTIVE_ACCOUNT);
+    }
+
+    async switchAccount(account: string | null): Promise<void> {
         return configManager.set(KEY_ACTIVE_ACCOUNT, account);
     }
 
@@ -27,6 +31,17 @@ class AccountManager {
     async listAccounts(): Promise<string[]> {
         return (await window.electron.findCredentials(this.serviceName)).map(credential => credential.account);
     }
+
+    async deleteAccount(account: string) {
+        const currentAccount = await this.getActiveAccount();
+        console.log(`Deleting account ${account}`);
+        if (currentAccount === account) {
+            await this.switchAccount(null);
+        }
+        // delete from token store
+        await window.electron.deleteAccount(this.serviceName, account);
+        await eventManger.publishEvent("delete-account", null, account);
+    }
 }
 
 const accountManager = new AccountManager();
@@ -36,7 +51,7 @@ eventManger.registerEventHandler(TokenUpdateEvent.getTypeUrl(), async (account, 
     // parse payload
     const event = TokenUpdateEvent.decode(payload as Uint8Array);
     // save token
-    await accountManager.saveToken(account!, event.token)
+    await accountManager.saveToken(account!, event.token);
 })
 
 export {accountManager};

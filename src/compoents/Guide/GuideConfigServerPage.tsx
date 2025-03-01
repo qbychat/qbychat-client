@@ -69,7 +69,7 @@ function GuideConfigServerPage() {
         setTitle("Connect to a Server");
     }, []);
 
-    return (<>
+    return <>
         <div className={"flex flex-col gap-3 items-center justify-center min-h-screen select-none"}>
             <div className={"text-3xl"}>Connect to a QbyChat server</div>
             <p>Unlike other commercial chat software, QbyChat requires a self-built backend service to run.</p>
@@ -81,7 +81,7 @@ function GuideConfigServerPage() {
                 Connect & Next step
             </button>
         </div>
-    </>);
+    </>;
 }
 
 export default GuideConfigServerPage;

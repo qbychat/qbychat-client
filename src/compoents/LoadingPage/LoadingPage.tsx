@@ -24,7 +24,7 @@ function LoadingPage() {
         })
     });
 
-    return (<></>); // just return an empty page
+    return <></>; // just return an empty page
 }
 
 export default LoadingPage;

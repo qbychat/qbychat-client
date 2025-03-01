@@ -9,6 +9,7 @@ import {qbychat} from "../../proto/proto";
 import LoginStatus = qbychat.websocket.auth.LoginStatus;
 import TokenUpdateEvent = qbychat.websocket.auth.TokenUpdateEvent;
 import {eventManger} from "../../qclib/event-manager.ts";
+import {accountManager} from "../../qclib/account-manager.ts";
 
 function LoginPage() {
     const navigate = useNavigate();
@@ -36,16 +37,18 @@ function LoginPage() {
     }
 
     useEffect(() => {
-        const id = eventManger.registerEventHandler(TokenUpdateEvent.getTypeUrl(), async () => {
+        const id = eventManger.registerEventHandler(TokenUpdateEvent.getTypeUrl(), async (account) => {
+            // switch account
+            await accountManager.switchAccount(account!);
             // do navigate
-            navigate("/");
+            navigate("/chat");
         })
         return () => {
             eventManger.removeEventHandler(id)
         }
     }, []);
 
-    return (<>
+    return <>
         {!success && <BackButton/>}
         <div className={"flex flex-col gap-3 items-center justify-center min-h-screen select-none"}>
             <div className={"text-3xl"}>Login to QbyChat</div>
@@ -85,7 +88,7 @@ function LoginPage() {
                 </div>
             </form>
         </div>
-    </>);
+    </>;
 }
 
 export default LoginPage;

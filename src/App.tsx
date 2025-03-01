@@ -5,7 +5,7 @@ import ConnectionIndicator from "./compoents/ConnectionIndicator/ConnectionIndic
 import GuideConfigServerPage from "./compoents/Guide/GuideConfigServerPage.tsx";
 import {connectionManager, useConnectionStatus} from "./qclib/conn-manager.ts";
 import GuideConfigAccountPage from "./compoents/Guide/GuideConfigAccountPage.tsx";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import {configManager, KEY_CONNECTION_CONFIG_URL} from "./qclib/config-manager.ts";
 import RegisterPage from "./compoents/RegisterPage/RegisterPage.tsx";
 import LoginPage from "./compoents/LoginPage/LoginPage.tsx";
@@ -13,7 +13,8 @@ import LoadingPage from "./compoents/LoadingPage/LoadingPage.tsx";
 import ChatPage from "./compoents/ChatPage/ChatPage.tsx";
 
 function App() {
-    const connectionStatus = useConnectionStatus()
+    const connectionStatus = useConnectionStatus();
+    const [showConnectionIndicator, setShowConnectionIndicator] = useState(true);
 
     useEffect(() => {
         // auto connect
@@ -24,6 +25,7 @@ function App() {
                 // connect to websocket
                 connectionManager.receiveConfigAndConnect(configUrl).then(() => {
                     console.log("Connected.");
+                    setShowConnectionIndicator(false);
                 });
             }
         });
@@ -33,8 +35,14 @@ function App() {
         }
     }, []);
 
+    useEffect(() => {
+        setShowConnectionIndicator(connectionStatus !== 'connected' && connectionStatus !== 'unset');
+    }, [connectionStatus]);
+
     return (<>
-        {connectionStatus != "connected" && <ConnectionIndicator status={connectionStatus}/>}
+        {showConnectionIndicator && (
+            <ConnectionIndicator status={connectionStatus}/>
+        )}
         <HashRouter>
             <Routes>
                 <Route index={true}

@@ -7,6 +7,7 @@ import {qbychat} from "../../proto/proto";
 import RegisterStatus = qbychat.websocket.user.RegisterStatus;
 import TokenUpdateEvent = qbychat.websocket.auth.TokenUpdateEvent;
 import {eventManger} from "../../qclib/event-manager.ts";
+import {accountManager} from "../../qclib/account-manager.ts";
 
 function RegisterPage() {
     const navigate = useNavigate();
@@ -17,9 +18,11 @@ function RegisterPage() {
     const [success, setSuccess] = useState(false)
 
     useEffect(() => {
-        const id = eventManger.registerEventHandler(TokenUpdateEvent.getTypeUrl(), async () => {
+        const id = eventManger.registerEventHandler(TokenUpdateEvent.getTypeUrl(), async (account) => {
+            // switch account
+            await accountManager.switchAccount(account!);
             // do navigate
-            navigate("/");
+            navigate("/chat");
         })
         return () => {
             eventManger.removeEventHandler(id)
@@ -47,7 +50,7 @@ function RegisterPage() {
         }
     }
 
-    return (<>
+    return <>
         {!success && <BackButton/>}
         <div className={"flex flex-col gap-3 items-center justify-center min-h-screen select-none"}>
             <div className={"text-3xl"}>Register a QbyChat account</div>
@@ -83,7 +86,7 @@ function RegisterPage() {
                 </div>
             </form>
         </div>
-    </>);
+    </>;
 }
 
 export default RegisterPage;

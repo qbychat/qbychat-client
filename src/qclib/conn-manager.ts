@@ -18,6 +18,7 @@ import ServerboundMessage = qbychat.websocket.protocol.ServerboundMessage;
 import Request = qbychat.websocket.protocol.Request;
 import protocol = qbychat.websocket.protocol;
 import {eventManger} from "./event-manager.ts";
+import {clientMetadata} from "./client-metadata.ts";
 
 interface QbyChatConfig {
     websocketPath: string;
@@ -128,8 +129,9 @@ class ConnectionManager {
         this.ecdhSalt = generateSalt();
         const clientHandshake = qbychat.websocket.protocol.ClientHandshake.create({
             clientInfo: qbychat.websocket.protocol.ClientInfo.create({
-                name: 'QbyChat Desktop',
-                version: await window.electron.getVersion(),
+                name: await clientMetadata.getClientName(),
+                version: await clientMetadata.getClientVersion(),
+                installationId: await clientMetadata.getInstallationId()
             }),
             publicKey: await exportPublicKey(this.ecdhKeyPair.publicKey),
             aesKeySalt: this.ecdhSalt,
@@ -205,9 +207,12 @@ class ConnectionManager {
         }
     }
 
-    async request(account: string | null, service: string, method: string, payload: Uint8Array, timeout: number = 5000): Promise<Uint8Array> {
+    async request(account: string | null, service: string, method: string, payload: Uint8Array | null, timeout: number = 5000): Promise<Uint8Array> {
         // send request packet
         const ticket = uuidv4();
+        if (!payload) {
+            payload = new Uint8Array()
+        }
         const request = Request.create({
             ticket: ticket,
             method: method,

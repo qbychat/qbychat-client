@@ -10,7 +10,7 @@ function GuideConfigAccountPage() {
         setTitle("Log in to QbyChat");
     }, []);
 
-    return (<>
+    return <>
         <div className={"flex flex-col gap-3 items-center justify-center min-h-screen select-none"}>
             <div className={"text-3xl"}>Login to QbyChat</div>
             <p>Great, you have successfully connected to the QbyChat server <strong
@@ -24,7 +24,7 @@ function GuideConfigAccountPage() {
                 <Link to={"/guide/server"} className="btn btn-soft">Back to server configuration</Link>
             </div>
         </div>
-    </>);
+    </>;
 }
 
 export default GuideConfigAccountPage;

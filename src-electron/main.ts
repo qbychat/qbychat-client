@@ -53,6 +53,10 @@ app.whenReady().then(() => {
         return keytar.getPassword(serviceName, account);
     })
 
+    ipcMain.handle("delete-account", async (event, serviceName: string, account: string) => {
+        return keytar.deletePassword(serviceName, account);
+    })
+
     ipcMain.handle('find-credentials', async (event, serviceName: string) => {
         return keytar.findCredentials(serviceName);
     });

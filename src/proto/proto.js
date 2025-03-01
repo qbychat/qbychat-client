@@ -4160,6 +4160,773 @@ export const qbychat = $root.qbychat = (() => {
                 return values;
             })();
 
+            user.User = (function() {
+
+                /**
+                 * Properties of a User.
+                 * @memberof qbychat.websocket.user
+                 * @interface IUser
+                 * @property {string|null} [username] User username
+                 * @property {string|null} [nickname] User nickname
+                 * @property {string|null} [bio] User bio
+                 * @property {Array.<qbychat.websocket.user.Role>|null} [roles] User roles
+                 * @property {google.protobuf.ITimestamp|null} [createdAt] User createdAt
+                 */
+
+                /**
+                 * Constructs a new User.
+                 * @memberof qbychat.websocket.user
+                 * @classdesc Represents a User.
+                 * @implements IUser
+                 * @constructor
+                 * @param {qbychat.websocket.user.IUser=} [properties] Properties to set
+                 */
+                function User(properties) {
+                    this.roles = [];
+                    if (properties)
+                        for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                            if (properties[keys[i]] != null)
+                                this[keys[i]] = properties[keys[i]];
+                }
+
+                /**
+                 * User username.
+                 * @member {string} username
+                 * @memberof qbychat.websocket.user.User
+                 * @instance
+                 */
+                User.prototype.username = "";
+
+                /**
+                 * User nickname.
+                 * @member {string} nickname
+                 * @memberof qbychat.websocket.user.User
+                 * @instance
+                 */
+                User.prototype.nickname = "";
+
+                /**
+                 * User bio.
+                 * @member {string|null|undefined} bio
+                 * @memberof qbychat.websocket.user.User
+                 * @instance
+                 */
+                User.prototype.bio = null;
+
+                /**
+                 * User roles.
+                 * @member {Array.<qbychat.websocket.user.Role>} roles
+                 * @memberof qbychat.websocket.user.User
+                 * @instance
+                 */
+                User.prototype.roles = $util.emptyArray;
+
+                /**
+                 * User createdAt.
+                 * @member {google.protobuf.ITimestamp|null|undefined} createdAt
+                 * @memberof qbychat.websocket.user.User
+                 * @instance
+                 */
+                User.prototype.createdAt = null;
+
+                // OneOf field names bound to virtual getters and setters
+                let $oneOfFields;
+
+                // Virtual OneOf for proto3 optional field
+                Object.defineProperty(User.prototype, "_bio", {
+                    get: $util.oneOfGetter($oneOfFields = ["bio"]),
+                    set: $util.oneOfSetter($oneOfFields)
+                });
+
+                // Virtual OneOf for proto3 optional field
+                Object.defineProperty(User.prototype, "_createdAt", {
+                    get: $util.oneOfGetter($oneOfFields = ["createdAt"]),
+                    set: $util.oneOfSetter($oneOfFields)
+                });
+
+                /**
+                 * Creates a new User instance using the specified properties.
+                 * @function create
+                 * @memberof qbychat.websocket.user.User
+                 * @static
+                 * @param {qbychat.websocket.user.IUser=} [properties] Properties to set
+                 * @returns {qbychat.websocket.user.User} User instance
+                 */
+                User.create = function create(properties) {
+                    return new User(properties);
+                };
+
+                /**
+                 * Encodes the specified User message. Does not implicitly {@link qbychat.websocket.user.User.verify|verify} messages.
+                 * @function encode
+                 * @memberof qbychat.websocket.user.User
+                 * @static
+                 * @param {qbychat.websocket.user.IUser} message User message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                User.encode = function encode(message, writer) {
+                    if (!writer)
+                        writer = $Writer.create();
+                    if (message.username != null && Object.hasOwnProperty.call(message, "username"))
+                        writer.uint32(/* id 1, wireType 2 =*/10).string(message.username);
+                    if (message.nickname != null && Object.hasOwnProperty.call(message, "nickname"))
+                        writer.uint32(/* id 2, wireType 2 =*/18).string(message.nickname);
+                    if (message.bio != null && Object.hasOwnProperty.call(message, "bio"))
+                        writer.uint32(/* id 3, wireType 2 =*/26).string(message.bio);
+                    if (message.roles != null && message.roles.length) {
+                        writer.uint32(/* id 4, wireType 2 =*/34).fork();
+                        for (let i = 0; i < message.roles.length; ++i)
+                            writer.int32(message.roles[i]);
+                        writer.ldelim();
+                    }
+                    if (message.createdAt != null && Object.hasOwnProperty.call(message, "createdAt"))
+                        $root.google.protobuf.Timestamp.encode(message.createdAt, writer.uint32(/* id 5, wireType 2 =*/42).fork()).ldelim();
+                    return writer;
+                };
+
+                /**
+                 * Encodes the specified User message, length delimited. Does not implicitly {@link qbychat.websocket.user.User.verify|verify} messages.
+                 * @function encodeDelimited
+                 * @memberof qbychat.websocket.user.User
+                 * @static
+                 * @param {qbychat.websocket.user.IUser} message User message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                User.encodeDelimited = function encodeDelimited(message, writer) {
+                    return this.encode(message, writer).ldelim();
+                };
+
+                /**
+                 * Decodes a User message from the specified reader or buffer.
+                 * @function decode
+                 * @memberof qbychat.websocket.user.User
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @param {number} [length] Message length if known beforehand
+                 * @returns {qbychat.websocket.user.User} User
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                User.decode = function decode(reader, length) {
+                    if (!(reader instanceof $Reader))
+                        reader = $Reader.create(reader);
+                    let end = length === undefined ? reader.len : reader.pos + length, message = new $root.qbychat.websocket.user.User();
+                    while (reader.pos < end) {
+                        let tag = reader.uint32();
+                        switch (tag >>> 3) {
+                        case 1: {
+                                message.username = reader.string();
+                                break;
+                            }
+                        case 2: {
+                                message.nickname = reader.string();
+                                break;
+                            }
+                        case 3: {
+                                message.bio = reader.string();
+                                break;
+                            }
+                        case 4: {
+                                if (!(message.roles && message.roles.length))
+                                    message.roles = [];
+                                if ((tag & 7) === 2) {
+                                    let end2 = reader.uint32() + reader.pos;
+                                    while (reader.pos < end2)
+                                        message.roles.push(reader.int32());
+                                } else
+                                    message.roles.push(reader.int32());
+                                break;
+                            }
+                        case 5: {
+                                message.createdAt = $root.google.protobuf.Timestamp.decode(reader, reader.uint32());
+                                break;
+                            }
+                        default:
+                            reader.skipType(tag & 7);
+                            break;
+                        }
+                    }
+                    return message;
+                };
+
+                /**
+                 * Decodes a User message from the specified reader or buffer, length delimited.
+                 * @function decodeDelimited
+                 * @memberof qbychat.websocket.user.User
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @returns {qbychat.websocket.user.User} User
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                User.decodeDelimited = function decodeDelimited(reader) {
+                    if (!(reader instanceof $Reader))
+                        reader = new $Reader(reader);
+                    return this.decode(reader, reader.uint32());
+                };
+
+                /**
+                 * Verifies a User message.
+                 * @function verify
+                 * @memberof qbychat.websocket.user.User
+                 * @static
+                 * @param {Object.<string,*>} message Plain object to verify
+                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                 */
+                User.verify = function verify(message) {
+                    if (typeof message !== "object" || message === null)
+                        return "object expected";
+                    let properties = {};
+                    if (message.username != null && message.hasOwnProperty("username"))
+                        if (!$util.isString(message.username))
+                            return "username: string expected";
+                    if (message.nickname != null && message.hasOwnProperty("nickname"))
+                        if (!$util.isString(message.nickname))
+                            return "nickname: string expected";
+                    if (message.bio != null && message.hasOwnProperty("bio")) {
+                        properties._bio = 1;
+                        if (!$util.isString(message.bio))
+                            return "bio: string expected";
+                    }
+                    if (message.roles != null && message.hasOwnProperty("roles")) {
+                        if (!Array.isArray(message.roles))
+                            return "roles: array expected";
+                        for (let i = 0; i < message.roles.length; ++i)
+                            switch (message.roles[i]) {
+                            default:
+                                return "roles: enum value[] expected";
+                            case 0:
+                            case 1:
+                                break;
+                            }
+                    }
+                    if (message.createdAt != null && message.hasOwnProperty("createdAt")) {
+                        properties._createdAt = 1;
+                        {
+                            let error = $root.google.protobuf.Timestamp.verify(message.createdAt);
+                            if (error)
+                                return "createdAt." + error;
+                        }
+                    }
+                    return null;
+                };
+
+                /**
+                 * Creates a User message from a plain object. Also converts values to their respective internal types.
+                 * @function fromObject
+                 * @memberof qbychat.websocket.user.User
+                 * @static
+                 * @param {Object.<string,*>} object Plain object
+                 * @returns {qbychat.websocket.user.User} User
+                 */
+                User.fromObject = function fromObject(object) {
+                    if (object instanceof $root.qbychat.websocket.user.User)
+                        return object;
+                    let message = new $root.qbychat.websocket.user.User();
+                    if (object.username != null)
+                        message.username = String(object.username);
+                    if (object.nickname != null)
+                        message.nickname = String(object.nickname);
+                    if (object.bio != null)
+                        message.bio = String(object.bio);
+                    if (object.roles) {
+                        if (!Array.isArray(object.roles))
+                            throw TypeError(".qbychat.websocket.user.User.roles: array expected");
+                        message.roles = [];
+                        for (let i = 0; i < object.roles.length; ++i)
+                            switch (object.roles[i]) {
+                            default:
+                                if (typeof object.roles[i] === "number") {
+                                    message.roles[i] = object.roles[i];
+                                    break;
+                                }
+                            case "USER":
+                            case 0:
+                                message.roles[i] = 0;
+                                break;
+                            case "ADMIN":
+                            case 1:
+                                message.roles[i] = 1;
+                                break;
+                            }
+                    }
+                    if (object.createdAt != null) {
+                        if (typeof object.createdAt !== "object")
+                            throw TypeError(".qbychat.websocket.user.User.createdAt: object expected");
+                        message.createdAt = $root.google.protobuf.Timestamp.fromObject(object.createdAt);
+                    }
+                    return message;
+                };
+
+                /**
+                 * Creates a plain object from a User message. Also converts values to other types if specified.
+                 * @function toObject
+                 * @memberof qbychat.websocket.user.User
+                 * @static
+                 * @param {qbychat.websocket.user.User} message User
+                 * @param {$protobuf.IConversionOptions} [options] Conversion options
+                 * @returns {Object.<string,*>} Plain object
+                 */
+                User.toObject = function toObject(message, options) {
+                    if (!options)
+                        options = {};
+                    let object = {};
+                    if (options.arrays || options.defaults)
+                        object.roles = [];
+                    if (options.defaults) {
+                        object.username = "";
+                        object.nickname = "";
+                    }
+                    if (message.username != null && message.hasOwnProperty("username"))
+                        object.username = message.username;
+                    if (message.nickname != null && message.hasOwnProperty("nickname"))
+                        object.nickname = message.nickname;
+                    if (message.bio != null && message.hasOwnProperty("bio")) {
+                        object.bio = message.bio;
+                        if (options.oneofs)
+                            object._bio = "bio";
+                    }
+                    if (message.roles && message.roles.length) {
+                        object.roles = [];
+                        for (let j = 0; j < message.roles.length; ++j)
+                            object.roles[j] = options.enums === String ? $root.qbychat.websocket.user.Role[message.roles[j]] === undefined ? message.roles[j] : $root.qbychat.websocket.user.Role[message.roles[j]] : message.roles[j];
+                    }
+                    if (message.createdAt != null && message.hasOwnProperty("createdAt")) {
+                        object.createdAt = $root.google.protobuf.Timestamp.toObject(message.createdAt, options);
+                        if (options.oneofs)
+                            object._createdAt = "createdAt";
+                    }
+                    return object;
+                };
+
+                /**
+                 * Converts this User to JSON.
+                 * @function toJSON
+                 * @memberof qbychat.websocket.user.User
+                 * @instance
+                 * @returns {Object.<string,*>} JSON object
+                 */
+                User.prototype.toJSON = function toJSON() {
+                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                };
+
+                /**
+                 * Gets the default type url for User
+                 * @function getTypeUrl
+                 * @memberof qbychat.websocket.user.User
+                 * @static
+                 * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns {string} The default type url
+                 */
+                User.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                    if (typeUrlPrefix === undefined) {
+                        typeUrlPrefix = "type.googleapis.com";
+                    }
+                    return typeUrlPrefix + "/qbychat.websocket.user.User";
+                };
+
+                return User;
+            })();
+
+            /**
+             * Role enum.
+             * @name qbychat.websocket.user.Role
+             * @enum {number}
+             * @property {number} USER=0 USER value
+             * @property {number} ADMIN=1 ADMIN value
+             */
+            user.Role = (function() {
+                const valuesById = {}, values = Object.create(valuesById);
+                values[valuesById[0] = "USER"] = 0;
+                values[valuesById[1] = "ADMIN"] = 1;
+                return values;
+            })();
+
+            user.SyncRequest = (function() {
+
+                /**
+                 * Properties of a SyncRequest.
+                 * @memberof qbychat.websocket.user
+                 * @interface ISyncRequest
+                 */
+
+                /**
+                 * Constructs a new SyncRequest.
+                 * @memberof qbychat.websocket.user
+                 * @classdesc Represents a SyncRequest.
+                 * @implements ISyncRequest
+                 * @constructor
+                 * @param {qbychat.websocket.user.ISyncRequest=} [properties] Properties to set
+                 */
+                function SyncRequest(properties) {
+                    if (properties)
+                        for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                            if (properties[keys[i]] != null)
+                                this[keys[i]] = properties[keys[i]];
+                }
+
+                /**
+                 * Creates a new SyncRequest instance using the specified properties.
+                 * @function create
+                 * @memberof qbychat.websocket.user.SyncRequest
+                 * @static
+                 * @param {qbychat.websocket.user.ISyncRequest=} [properties] Properties to set
+                 * @returns {qbychat.websocket.user.SyncRequest} SyncRequest instance
+                 */
+                SyncRequest.create = function create(properties) {
+                    return new SyncRequest(properties);
+                };
+
+                /**
+                 * Encodes the specified SyncRequest message. Does not implicitly {@link qbychat.websocket.user.SyncRequest.verify|verify} messages.
+                 * @function encode
+                 * @memberof qbychat.websocket.user.SyncRequest
+                 * @static
+                 * @param {qbychat.websocket.user.ISyncRequest} message SyncRequest message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                SyncRequest.encode = function encode(message, writer) {
+                    if (!writer)
+                        writer = $Writer.create();
+                    return writer;
+                };
+
+                /**
+                 * Encodes the specified SyncRequest message, length delimited. Does not implicitly {@link qbychat.websocket.user.SyncRequest.verify|verify} messages.
+                 * @function encodeDelimited
+                 * @memberof qbychat.websocket.user.SyncRequest
+                 * @static
+                 * @param {qbychat.websocket.user.ISyncRequest} message SyncRequest message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                SyncRequest.encodeDelimited = function encodeDelimited(message, writer) {
+                    return this.encode(message, writer).ldelim();
+                };
+
+                /**
+                 * Decodes a SyncRequest message from the specified reader or buffer.
+                 * @function decode
+                 * @memberof qbychat.websocket.user.SyncRequest
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @param {number} [length] Message length if known beforehand
+                 * @returns {qbychat.websocket.user.SyncRequest} SyncRequest
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                SyncRequest.decode = function decode(reader, length) {
+                    if (!(reader instanceof $Reader))
+                        reader = $Reader.create(reader);
+                    let end = length === undefined ? reader.len : reader.pos + length, message = new $root.qbychat.websocket.user.SyncRequest();
+                    while (reader.pos < end) {
+                        let tag = reader.uint32();
+                        switch (tag >>> 3) {
+                        default:
+                            reader.skipType(tag & 7);
+                            break;
+                        }
+                    }
+                    return message;
+                };
+
+                /**
+                 * Decodes a SyncRequest message from the specified reader or buffer, length delimited.
+                 * @function decodeDelimited
+                 * @memberof qbychat.websocket.user.SyncRequest
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @returns {qbychat.websocket.user.SyncRequest} SyncRequest
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                SyncRequest.decodeDelimited = function decodeDelimited(reader) {
+                    if (!(reader instanceof $Reader))
+                        reader = new $Reader(reader);
+                    return this.decode(reader, reader.uint32());
+                };
+
+                /**
+                 * Verifies a SyncRequest message.
+                 * @function verify
+                 * @memberof qbychat.websocket.user.SyncRequest
+                 * @static
+                 * @param {Object.<string,*>} message Plain object to verify
+                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                 */
+                SyncRequest.verify = function verify(message) {
+                    if (typeof message !== "object" || message === null)
+                        return "object expected";
+                    return null;
+                };
+
+                /**
+                 * Creates a SyncRequest message from a plain object. Also converts values to their respective internal types.
+                 * @function fromObject
+                 * @memberof qbychat.websocket.user.SyncRequest
+                 * @static
+                 * @param {Object.<string,*>} object Plain object
+                 * @returns {qbychat.websocket.user.SyncRequest} SyncRequest
+                 */
+                SyncRequest.fromObject = function fromObject(object) {
+                    if (object instanceof $root.qbychat.websocket.user.SyncRequest)
+                        return object;
+                    return new $root.qbychat.websocket.user.SyncRequest();
+                };
+
+                /**
+                 * Creates a plain object from a SyncRequest message. Also converts values to other types if specified.
+                 * @function toObject
+                 * @memberof qbychat.websocket.user.SyncRequest
+                 * @static
+                 * @param {qbychat.websocket.user.SyncRequest} message SyncRequest
+                 * @param {$protobuf.IConversionOptions} [options] Conversion options
+                 * @returns {Object.<string,*>} Plain object
+                 */
+                SyncRequest.toObject = function toObject() {
+                    return {};
+                };
+
+                /**
+                 * Converts this SyncRequest to JSON.
+                 * @function toJSON
+                 * @memberof qbychat.websocket.user.SyncRequest
+                 * @instance
+                 * @returns {Object.<string,*>} JSON object
+                 */
+                SyncRequest.prototype.toJSON = function toJSON() {
+                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                };
+
+                /**
+                 * Gets the default type url for SyncRequest
+                 * @function getTypeUrl
+                 * @memberof qbychat.websocket.user.SyncRequest
+                 * @static
+                 * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns {string} The default type url
+                 */
+                SyncRequest.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                    if (typeUrlPrefix === undefined) {
+                        typeUrlPrefix = "type.googleapis.com";
+                    }
+                    return typeUrlPrefix + "/qbychat.websocket.user.SyncRequest";
+                };
+
+                return SyncRequest;
+            })();
+
+            user.SyncResponse = (function() {
+
+                /**
+                 * Properties of a SyncResponse.
+                 * @memberof qbychat.websocket.user
+                 * @interface ISyncResponse
+                 * @property {qbychat.websocket.user.IUser|null} [user] SyncResponse user
+                 */
+
+                /**
+                 * Constructs a new SyncResponse.
+                 * @memberof qbychat.websocket.user
+                 * @classdesc Represents a SyncResponse.
+                 * @implements ISyncResponse
+                 * @constructor
+                 * @param {qbychat.websocket.user.ISyncResponse=} [properties] Properties to set
+                 */
+                function SyncResponse(properties) {
+                    if (properties)
+                        for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                            if (properties[keys[i]] != null)
+                                this[keys[i]] = properties[keys[i]];
+                }
+
+                /**
+                 * SyncResponse user.
+                 * @member {qbychat.websocket.user.IUser|null|undefined} user
+                 * @memberof qbychat.websocket.user.SyncResponse
+                 * @instance
+                 */
+                SyncResponse.prototype.user = null;
+
+                /**
+                 * Creates a new SyncResponse instance using the specified properties.
+                 * @function create
+                 * @memberof qbychat.websocket.user.SyncResponse
+                 * @static
+                 * @param {qbychat.websocket.user.ISyncResponse=} [properties] Properties to set
+                 * @returns {qbychat.websocket.user.SyncResponse} SyncResponse instance
+                 */
+                SyncResponse.create = function create(properties) {
+                    return new SyncResponse(properties);
+                };
+
+                /**
+                 * Encodes the specified SyncResponse message. Does not implicitly {@link qbychat.websocket.user.SyncResponse.verify|verify} messages.
+                 * @function encode
+                 * @memberof qbychat.websocket.user.SyncResponse
+                 * @static
+                 * @param {qbychat.websocket.user.ISyncResponse} message SyncResponse message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                SyncResponse.encode = function encode(message, writer) {
+                    if (!writer)
+                        writer = $Writer.create();
+                    if (message.user != null && Object.hasOwnProperty.call(message, "user"))
+                        $root.qbychat.websocket.user.User.encode(message.user, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+                    return writer;
+                };
+
+                /**
+                 * Encodes the specified SyncResponse message, length delimited. Does not implicitly {@link qbychat.websocket.user.SyncResponse.verify|verify} messages.
+                 * @function encodeDelimited
+                 * @memberof qbychat.websocket.user.SyncResponse
+                 * @static
+                 * @param {qbychat.websocket.user.ISyncResponse} message SyncResponse message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                SyncResponse.encodeDelimited = function encodeDelimited(message, writer) {
+                    return this.encode(message, writer).ldelim();
+                };
+
+                /**
+                 * Decodes a SyncResponse message from the specified reader or buffer.
+                 * @function decode
+                 * @memberof qbychat.websocket.user.SyncResponse
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @param {number} [length] Message length if known beforehand
+                 * @returns {qbychat.websocket.user.SyncResponse} SyncResponse
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                SyncResponse.decode = function decode(reader, length) {
+                    if (!(reader instanceof $Reader))
+                        reader = $Reader.create(reader);
+                    let end = length === undefined ? reader.len : reader.pos + length, message = new $root.qbychat.websocket.user.SyncResponse();
+                    while (reader.pos < end) {
+                        let tag = reader.uint32();
+                        switch (tag >>> 3) {
+                        case 1: {
+                                message.user = $root.qbychat.websocket.user.User.decode(reader, reader.uint32());
+                                break;
+                            }
+                        default:
+                            reader.skipType(tag & 7);
+                            break;
+                        }
+                    }
+                    return message;
+                };
+
+                /**
+                 * Decodes a SyncResponse message from the specified reader or buffer, length delimited.
+                 * @function decodeDelimited
+                 * @memberof qbychat.websocket.user.SyncResponse
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @returns {qbychat.websocket.user.SyncResponse} SyncResponse
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                SyncResponse.decodeDelimited = function decodeDelimited(reader) {
+                    if (!(reader instanceof $Reader))
+                        reader = new $Reader(reader);
+                    return this.decode(reader, reader.uint32());
+                };
+
+                /**
+                 * Verifies a SyncResponse message.
+                 * @function verify
+                 * @memberof qbychat.websocket.user.SyncResponse
+                 * @static
+                 * @param {Object.<string,*>} message Plain object to verify
+                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                 */
+                SyncResponse.verify = function verify(message) {
+                    if (typeof message !== "object" || message === null)
+                        return "object expected";
+                    if (message.user != null && message.hasOwnProperty("user")) {
+                        let error = $root.qbychat.websocket.user.User.verify(message.user);
+                        if (error)
+                            return "user." + error;
+                    }
+                    return null;
+                };
+
+                /**
+                 * Creates a SyncResponse message from a plain object. Also converts values to their respective internal types.
+                 * @function fromObject
+                 * @memberof qbychat.websocket.user.SyncResponse
+                 * @static
+                 * @param {Object.<string,*>} object Plain object
+                 * @returns {qbychat.websocket.user.SyncResponse} SyncResponse
+                 */
+                SyncResponse.fromObject = function fromObject(object) {
+                    if (object instanceof $root.qbychat.websocket.user.SyncResponse)
+                        return object;
+                    let message = new $root.qbychat.websocket.user.SyncResponse();
+                    if (object.user != null) {
+                        if (typeof object.user !== "object")
+                            throw TypeError(".qbychat.websocket.user.SyncResponse.user: object expected");
+                        message.user = $root.qbychat.websocket.user.User.fromObject(object.user);
+                    }
+                    return message;
+                };
+
+                /**
+                 * Creates a plain object from a SyncResponse message. Also converts values to other types if specified.
+                 * @function toObject
+                 * @memberof qbychat.websocket.user.SyncResponse
+                 * @static
+                 * @param {qbychat.websocket.user.SyncResponse} message SyncResponse
+                 * @param {$protobuf.IConversionOptions} [options] Conversion options
+                 * @returns {Object.<string,*>} Plain object
+                 */
+                SyncResponse.toObject = function toObject(message, options) {
+                    if (!options)
+                        options = {};
+                    let object = {};
+                    if (options.defaults)
+                        object.user = null;
+                    if (message.user != null && message.hasOwnProperty("user"))
+                        object.user = $root.qbychat.websocket.user.User.toObject(message.user, options);
+                    return object;
+                };
+
+                /**
+                 * Converts this SyncResponse to JSON.
+                 * @function toJSON
+                 * @memberof qbychat.websocket.user.SyncResponse
+                 * @instance
+                 * @returns {Object.<string,*>} JSON object
+                 */
+                SyncResponse.prototype.toJSON = function toJSON() {
+                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                };
+
+                /**
+                 * Gets the default type url for SyncResponse
+                 * @function getTypeUrl
+                 * @memberof qbychat.websocket.user.SyncResponse
+                 * @static
+                 * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns {string} The default type url
+                 */
+                SyncResponse.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                    if (typeUrlPrefix === undefined) {
+                        typeUrlPrefix = "type.googleapis.com";
+                    }
+                    return typeUrlPrefix + "/qbychat.websocket.user.SyncResponse";
+                };
+
+                return SyncResponse;
+            })();
+
             return user;
         })();
 

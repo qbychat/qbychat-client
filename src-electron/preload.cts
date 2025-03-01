@@ -5,7 +5,7 @@ ipcRenderer.invoke('get-version').then(version => {
 });
 
 contextBridge.exposeInMainWorld('electron', {
-    getName: () => ipcRenderer.invoke('get-name'),
+    getClientName: () => ipcRenderer.invoke('get-name'),
     getVersion: () => ipcRenderer.invoke('get-version'),
 
     getConfig: (key: string) => ipcRenderer.invoke('get-config', key),
@@ -13,5 +13,6 @@ contextBridge.exposeInMainWorld('electron', {
 
     saveAccountToken: (serviceName: string, account: string, token: string) => ipcRenderer.invoke("save-token", serviceName, account, token),
     getAccountToken: (serviceName: string, account: string) => ipcRenderer.invoke('get-token', serviceName, account),
+    deleteAccount: (serviceName: string, account: string) => ipcRenderer.invoke('delete-account', serviceName, account),
     findCredentials: (serviceName: string) => ipcRenderer.invoke('find-credentials', serviceName),
 });

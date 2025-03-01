@@ -39,8 +39,7 @@ function ChatPage() {
         };
     }, [isDragging]);
 
-    return (
-        <div className="flex h-screen select-none">
+    return <div className="flex h-screen select-none">
             <div className={"dark:bg-base-200 rounded-r"} style={{width: leftWidth}}>
                 <TitleBar/>
             </div>
@@ -51,8 +50,7 @@ function ChatPage() {
             <div className="flex">
                 current conversation
             </div>
-        </div>
-    );
+        </div>;
 }
 
 export default ChatPage;

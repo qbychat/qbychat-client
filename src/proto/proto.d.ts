@@ -1720,6 +1720,321 @@ export namespace qbychat {
                 USERNAME_EXISTS = 1,
                 BAD_USERNAME = 2
             }
+
+            /** Properties of a User. */
+            interface IUser {
+
+                /** User username */
+                username?: (string|null);
+
+                /** User nickname */
+                nickname?: (string|null);
+
+                /** User bio */
+                bio?: (string|null);
+
+                /** User roles */
+                roles?: (qbychat.websocket.user.Role[]|null);
+
+                /** User createdAt */
+                createdAt?: (google.protobuf.ITimestamp|null);
+            }
+
+            /** Represents a User. */
+            class User implements IUser {
+
+                /**
+                 * Constructs a new User.
+                 * @param [properties] Properties to set
+                 */
+                constructor(properties?: qbychat.websocket.user.IUser);
+
+                /** User username. */
+                public username: string;
+
+                /** User nickname. */
+                public nickname: string;
+
+                /** User bio. */
+                public bio?: (string|null);
+
+                /** User roles. */
+                public roles: qbychat.websocket.user.Role[];
+
+                /** User createdAt. */
+                public createdAt?: (google.protobuf.ITimestamp|null);
+
+                /**
+                 * Creates a new User instance using the specified properties.
+                 * @param [properties] Properties to set
+                 * @returns User instance
+                 */
+                public static create(properties?: qbychat.websocket.user.IUser): qbychat.websocket.user.User;
+
+                /**
+                 * Encodes the specified User message. Does not implicitly {@link qbychat.websocket.user.User.verify|verify} messages.
+                 * @param message User message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encode(message: qbychat.websocket.user.IUser, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Encodes the specified User message, length delimited. Does not implicitly {@link qbychat.websocket.user.User.verify|verify} messages.
+                 * @param message User message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encodeDelimited(message: qbychat.websocket.user.IUser, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Decodes a User message from the specified reader or buffer.
+                 * @param reader Reader or buffer to decode from
+                 * @param [length] Message length if known beforehand
+                 * @returns User
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): qbychat.websocket.user.User;
+
+                /**
+                 * Decodes a User message from the specified reader or buffer, length delimited.
+                 * @param reader Reader or buffer to decode from
+                 * @returns User
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): qbychat.websocket.user.User;
+
+                /**
+                 * Verifies a User message.
+                 * @param message Plain object to verify
+                 * @returns `null` if valid, otherwise the reason why it is not
+                 */
+                public static verify(message: { [k: string]: any }): (string|null);
+
+                /**
+                 * Creates a User message from a plain object. Also converts values to their respective internal types.
+                 * @param object Plain object
+                 * @returns User
+                 */
+                public static fromObject(object: { [k: string]: any }): qbychat.websocket.user.User;
+
+                /**
+                 * Creates a plain object from a User message. Also converts values to other types if specified.
+                 * @param message User
+                 * @param [options] Conversion options
+                 * @returns Plain object
+                 */
+                public static toObject(message: qbychat.websocket.user.User, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                /**
+                 * Converts this User to JSON.
+                 * @returns JSON object
+                 */
+                public toJSON(): { [k: string]: any };
+
+                /**
+                 * Gets the default type url for User
+                 * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns The default type url
+                 */
+                public static getTypeUrl(typeUrlPrefix?: string): string;
+            }
+
+            /** Role enum. */
+            enum Role {
+                USER = 0,
+                ADMIN = 1
+            }
+
+            /** Properties of a SyncRequest. */
+            interface ISyncRequest {
+            }
+
+            /** Represents a SyncRequest. */
+            class SyncRequest implements ISyncRequest {
+
+                /**
+                 * Constructs a new SyncRequest.
+                 * @param [properties] Properties to set
+                 */
+                constructor(properties?: qbychat.websocket.user.ISyncRequest);
+
+                /**
+                 * Creates a new SyncRequest instance using the specified properties.
+                 * @param [properties] Properties to set
+                 * @returns SyncRequest instance
+                 */
+                public static create(properties?: qbychat.websocket.user.ISyncRequest): qbychat.websocket.user.SyncRequest;
+
+                /**
+                 * Encodes the specified SyncRequest message. Does not implicitly {@link qbychat.websocket.user.SyncRequest.verify|verify} messages.
+                 * @param message SyncRequest message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encode(message: qbychat.websocket.user.ISyncRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Encodes the specified SyncRequest message, length delimited. Does not implicitly {@link qbychat.websocket.user.SyncRequest.verify|verify} messages.
+                 * @param message SyncRequest message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encodeDelimited(message: qbychat.websocket.user.ISyncRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Decodes a SyncRequest message from the specified reader or buffer.
+                 * @param reader Reader or buffer to decode from
+                 * @param [length] Message length if known beforehand
+                 * @returns SyncRequest
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): qbychat.websocket.user.SyncRequest;
+
+                /**
+                 * Decodes a SyncRequest message from the specified reader or buffer, length delimited.
+                 * @param reader Reader or buffer to decode from
+                 * @returns SyncRequest
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): qbychat.websocket.user.SyncRequest;
+
+                /**
+                 * Verifies a SyncRequest message.
+                 * @param message Plain object to verify
+                 * @returns `null` if valid, otherwise the reason why it is not
+                 */
+                public static verify(message: { [k: string]: any }): (string|null);
+
+                /**
+                 * Creates a SyncRequest message from a plain object. Also converts values to their respective internal types.
+                 * @param object Plain object
+                 * @returns SyncRequest
+                 */
+                public static fromObject(object: { [k: string]: any }): qbychat.websocket.user.SyncRequest;
+
+                /**
+                 * Creates a plain object from a SyncRequest message. Also converts values to other types if specified.
+                 * @param message SyncRequest
+                 * @param [options] Conversion options
+                 * @returns Plain object
+                 */
+                public static toObject(message: qbychat.websocket.user.SyncRequest, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                /**
+                 * Converts this SyncRequest to JSON.
+                 * @returns JSON object
+                 */
+                public toJSON(): { [k: string]: any };
+
+                /**
+                 * Gets the default type url for SyncRequest
+                 * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns The default type url
+                 */
+                public static getTypeUrl(typeUrlPrefix?: string): string;
+            }
+
+            /** Properties of a SyncResponse. */
+            interface ISyncResponse {
+
+                /** SyncResponse user */
+                user?: (qbychat.websocket.user.IUser|null);
+            }
+
+            /** Represents a SyncResponse. */
+            class SyncResponse implements ISyncResponse {
+
+                /**
+                 * Constructs a new SyncResponse.
+                 * @param [properties] Properties to set
+                 */
+                constructor(properties?: qbychat.websocket.user.ISyncResponse);
+
+                /** SyncResponse user. */
+                public user?: (qbychat.websocket.user.IUser|null);
+
+                /**
+                 * Creates a new SyncResponse instance using the specified properties.
+                 * @param [properties] Properties to set
+                 * @returns SyncResponse instance
+                 */
+                public static create(properties?: qbychat.websocket.user.ISyncResponse): qbychat.websocket.user.SyncResponse;
+
+                /**
+                 * Encodes the specified SyncResponse message. Does not implicitly {@link qbychat.websocket.user.SyncResponse.verify|verify} messages.
+                 * @param message SyncResponse message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encode(message: qbychat.websocket.user.ISyncResponse, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Encodes the specified SyncResponse message, length delimited. Does not implicitly {@link qbychat.websocket.user.SyncResponse.verify|verify} messages.
+                 * @param message SyncResponse message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encodeDelimited(message: qbychat.websocket.user.ISyncResponse, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Decodes a SyncResponse message from the specified reader or buffer.
+                 * @param reader Reader or buffer to decode from
+                 * @param [length] Message length if known beforehand
+                 * @returns SyncResponse
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): qbychat.websocket.user.SyncResponse;
+
+                /**
+                 * Decodes a SyncResponse message from the specified reader or buffer, length delimited.
+                 * @param reader Reader or buffer to decode from
+                 * @returns SyncResponse
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): qbychat.websocket.user.SyncResponse;
+
+                /**
+                 * Verifies a SyncResponse message.
+                 * @param message Plain object to verify
+                 * @returns `null` if valid, otherwise the reason why it is not
+                 */
+                public static verify(message: { [k: string]: any }): (string|null);
+
+                /**
+                 * Creates a SyncResponse message from a plain object. Also converts values to their respective internal types.
+                 * @param object Plain object
+                 * @returns SyncResponse
+                 */
+                public static fromObject(object: { [k: string]: any }): qbychat.websocket.user.SyncResponse;
+
+                /**
+                 * Creates a plain object from a SyncResponse message. Also converts values to other types if specified.
+                 * @param message SyncResponse
+                 * @param [options] Conversion options
+                 * @returns Plain object
+                 */
+                public static toObject(message: qbychat.websocket.user.SyncResponse, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                /**
+                 * Converts this SyncResponse to JSON.
+                 * @returns JSON object
+                 */
+                public toJSON(): { [k: string]: any };
+
+                /**
+                 * Gets the default type url for SyncResponse
+                 * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns The default type url
+                 */
+                public static getTypeUrl(typeUrlPrefix?: string): string;
+            }
         }
     }
 }

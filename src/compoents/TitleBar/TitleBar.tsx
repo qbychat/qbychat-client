@@ -1,6 +1,7 @@
 import {GiHamburgerMenu} from "react-icons/gi";
 import SearchBar from "../SearchBar/SearchBar.tsx";
 import {useState} from "react";
+import Sidebar from "../Sidebar/Sidebar.tsx";
 
 function TitleBar() {
     const [searchValue, setSearchValue] = useState("")
@@ -43,9 +44,8 @@ function TitleBar() {
             <div className="drawer-side">
                 {/*drawer*/}
                 <label htmlFor="my-drawer" aria-label="close sidebar" className="drawer-overlay"></label>
-                <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4">
-                    <li><a>Sidebar Item 1</a></li>
-                    <li><a>Sidebar Item 2</a></li>
+                <ul className="menu bg-base-200 text-base-content min-h-full w-72 p-4">
+                    <Sidebar/>
                 </ul>
             </div>
         </div>

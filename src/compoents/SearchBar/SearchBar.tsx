@@ -36,7 +36,7 @@ function SearchBar(props: Props) {
 
     useHotkeys('ctrl+k', makeFocus, [])
 
-    return (<label ref={labelRef} className="input shadow rounded-full w-full">
+    return <label ref={labelRef} className="input shadow rounded-full w-full">
         <input ref={inputRef} type="search" className="grow" placeholder="Search"
                onFocus={onFocus}
                onBlur={onBlur}
@@ -57,7 +57,7 @@ function SearchBar(props: Props) {
                 </motion.div>
             )}
         </AnimatePresence>
-    </label>);
+    </label>;
 }
 
 export default SearchBar;
