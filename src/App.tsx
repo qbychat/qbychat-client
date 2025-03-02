@@ -39,7 +39,7 @@ function App() {
         setShowConnectionIndicator(connectionStatus !== 'connected' && connectionStatus !== 'unset');
     }, [connectionStatus]);
 
-    return (<>
+    return (<div className={"h-screen w-full"}>
         {showConnectionIndicator && (
             <ConnectionIndicator status={connectionStatus}/>
         )}
@@ -57,7 +57,7 @@ function App() {
                 <Route path={"/guide/account"} element={<GuideConfigAccountPage/>}/>
             </Routes>
         </HashRouter>
-    </>);
+    </div>);
 }
 
 export default App

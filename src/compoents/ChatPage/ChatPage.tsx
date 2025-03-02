@@ -1,63 +1,41 @@
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import TitleBar from "../TitleBar/TitleBar.tsx";
 import ChatList from "../ChatList/ChatList.tsx";
 import {useUser} from "../../qclib/react-hooks.ts";
+import {Panel, PanelGroup, PanelResizeHandle} from "react-resizable-panels";
+import Chat from "../Chat/Chat.tsx";
 
 function ChatPage() {
     // const [searchParams] = useSearchParams();
 
     const user = useUser();
 
-    const [leftWidth, setLeftWidth] = useState(300);
-    const [isDragging, setIsDragging] = useState(false);
+    const [currentChat, setCurrentChat] = useState("")
 
-    const handleMouseDown = () => {
-        setIsDragging(true);
-    };
+    const handleSwitchChat = (chat: string) => {
+        setCurrentChat(chat);
+    }
 
-    const handleMouseMove = (e: MouseEvent) => {
-        if (isDragging) {
-            const newWidth = e.clientX;
-            if (window.innerWidth / 4 < newWidth && newWidth < window.innerWidth / 2) {
-                setLeftWidth(newWidth);
-            }
-        }
-    };
-
-    const handleMouseUp = () => {
-        setIsDragging(false);
-    };
-
-    useEffect(() => {
-        if (isDragging) {
-            document.addEventListener('mousemove', handleMouseMove);
-            document.addEventListener('mouseup', handleMouseUp);
-        } else {
-            document.removeEventListener('mousemove', handleMouseMove);
-            document.removeEventListener('mouseup', handleMouseUp);
-        }
-
-        return () => {
-            document.removeEventListener('mousemove', handleMouseMove);
-            document.removeEventListener('mouseup', handleMouseUp);
-        };
-    }, [isDragging]);
-
-    return <div className="flex h-screen select-none">
-            <div className={"flex flex-col dark:bg-base-200 rounded-r"} style={{width: leftWidth}}>
+    return <PanelGroup autoSaveId="chat-main" direction="horizontal">
+        <Panel defaultSize={25} maxSize={50} minSize={25} className={"h-full"}>
+            <div className={"h-full flex flex-col dark:bg-base-200 rounded-r select-none"}>
                 <TitleBar user={user}/>
                 <div className={"h-full mx-2 overflow-y-auto"}>
-                    <ChatList/>
+                    <ChatList onSwitchChat={handleSwitchChat} currentChat={currentChat}/>
                 </div>
             </div>
-            <div
-                className="cursor-e-resize w-1 shadow-xl rounded-r rounded-l"
-                onMouseDown={handleMouseDown}
-            />
-            <div className="flex">
-                current conversation
+        </Panel>
+        <PanelResizeHandle/>
+        <Panel>
+            <div>
+                {!currentChat ? <div className={"min-h-screen flex items-center justify-center select-none"}>
+                    <div className={"rounded-full py-1 px-2 dark:bg-gray-700 bg-gray-400 backdrop-shadow-xl shadow-xl"}>
+                        Select a chat to start
+                    </div>
+                </div> : <Chat chatId={currentChat}/>}
             </div>
-        </div>;
+        </Panel>
+    </PanelGroup>;
 }
 
 export default ChatPage;

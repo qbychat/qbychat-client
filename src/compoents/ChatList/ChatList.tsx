@@ -4,11 +4,12 @@ import {useEffect, useState} from "react";
 import WelcomeTip from "../WelcomeTip/WelcomeTip.tsx";
 import {useChats} from "../../qclib/react-hooks.ts";
 
-// interface Props {
-//     user: Account | null | undefined
-// }
+interface Props {
+    onSwitchChat: (chatId: string) => void;
+    currentChat: string;
+}
 
-function ChatList() {
+function ChatList(props: Props) {
     const chats = useChats();
     const [showWelcomeTip, setShowWelcomeTip] = useState(false);
 
@@ -19,7 +20,7 @@ function ChatList() {
     return <div className={showWelcomeTip ? "flex justify-center items-center h-full" : ""}>
         {(showWelcomeTip || !chats) ? <WelcomeTip/> : <ul role={"list"}>
             {chats.map((chat: Chat) => {
-                return <ChatListItem chat={chat} key={chat.id}/>
+                return <ChatListItem chat={chat} key={chat.id} current={props.currentChat === chat.remoteId} onClick={props.onSwitchChat}/>
             })}
         </ul>}
     </div>;
