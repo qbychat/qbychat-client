@@ -7,6 +7,7 @@ import chat = qbychat.websocket.chat;
 import {eventManger} from "../event-manager.ts";
 import AddChatEvent = qbychat.websocket.chat.AddChatEvent;
 import IChat = qbychat.websocket.chat.IChat;
+import _ from "lodash";
 
 class ChatService extends Service {
     serviceName: string = "org.cubewhy.qbychat.service.ChatService";
@@ -28,6 +29,18 @@ class ChatService extends Service {
         for (const remoteChat of response.chats) {
             await this.updateChat(account, remoteChat);
         }
+        // compare & remove deleted chats
+        const chats = await db.chats
+            .where('account')
+            .equals(account)
+            .toArray();
+        const chatIds = response.chats.map((chat) => chat.chatId)
+        for (const chat1 of chats) {
+            if (!chatIds.includes(chat1.remoteId)) {
+                // remove from chats
+                await db.chats.delete(chat1.id);
+            }
+        }
     }
 
     async updateChat(account: string, chat: IChat) {
@@ -42,12 +55,20 @@ class ChatService extends Service {
             type: chat.type!,
         };
 
-        const existingUser = await db.chats
-            .where('remoteId')
-            .equals(chat.chatId!)
+        const existingChat = await db.chats
+            .where('account')
+            .equals(account)
+            .and((localChat) => localChat.remoteId === chat.chatId!)
             .first();
 
-        if (existingUser) {
+        // compare difference
+        const remoteChatWithoutId = _.omit(chatData, 'id');
+        const localChatWithoutId = _.omit(existingChat, 'id');
+
+        const hasDifferences = !_.isEqual(remoteChatWithoutId, localChatWithoutId);
+        if (!hasDifferences) return;
+
+        if (existingChat) {
             // exist, update
             await db.chats
                 .where('remoteId')
