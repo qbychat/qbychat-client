@@ -33,7 +33,7 @@ function ConnectionIndicator(props: Props) {
 
     return (
         <motion.div
-            className="fixed flex flex-row left-0 bottom-0 rounded-full m-2 p-1 bg-primary cursor-pointer overflow-hidden"
+            className="fixed flex flex-row z-40 left-0 bottom-0 rounded-full m-2 p-1 bg-primary cursor-pointer overflow-hidden"
             initial="rest"
             whileHover="hover"
             animate="rest"

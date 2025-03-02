@@ -37,3 +37,11 @@ export function useChats() {
         return db.chats.where('account').equals(accountId).toArray();
     }, [accountId]);
 }
+
+export function useChat(chatId: string) {
+    const accountId = useActiveAccountId();
+    return useLiveQuery(async () => {
+        if (!accountId) return null;
+        return db.chats.where('account').equals(accountId).and(chat => chat.remoteId === chatId).first();
+    }, [accountId, chatId]);
+}

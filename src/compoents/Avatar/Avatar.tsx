@@ -2,12 +2,14 @@ interface Props {
     chatId?: string;
     username?: string;
     showName: string;
-    size?: number;
+    size?: number | string;
 }
 
 function Avatar(props: Props) {
     // todo load avatar from websocket
     const initial = props.showName.charAt(0).toUpperCase();
+
+    const size = props.size || '3rem';
 
     const hashCode = (str: string): number => {
         let hash = 0;
@@ -28,10 +30,10 @@ function Avatar(props: Props) {
 
     return (
         <div
-            className="flex items-center justify-center rounded-full text-white font-bold size-12"
+            className={`flex items-center justify-center rounded-full text-white select-none font-bold`}
             style={{
-                // width: props.size,
-                // height: props.size,
+                width: size,
+                height: size,
                 background: `linear-gradient(135deg, ${color1}, ${color2})`,
             }}
         >
