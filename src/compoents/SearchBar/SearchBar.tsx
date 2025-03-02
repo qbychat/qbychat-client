@@ -52,7 +52,7 @@ function SearchBar(props: Props) {
                     transition={{duration: 0.3}}
                     // className={"overflow-hidden"}
                 >
-                    <kbd className="kbd kbd-sm">⌘</kbd>
+                    <kbd className="kbd kbd-sm">CTRL</kbd>
                     <kbd className="kbd kbd-sm">K</kbd>
                 </motion.div>
             )}
